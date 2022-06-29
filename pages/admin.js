@@ -9,7 +9,7 @@ export default function Admin() {
         <AdminNav />
       </div>
       <div className={styles.contents}>
-        <p>כאן יופיע התוכן של אדמין</p>
+        <h1>בעעעעעעעעעעעעעעעעעעע</h1>
         {/* {noHideExplanationTeachers && <ExplanationTeachers />} */}
         {/* <Routes> */}
         {/* <Route path="/uploading-questions" element={<UploadingQuestions />} /> */}

@@ -18,21 +18,21 @@ export default function LeftMainNav() {
         key="student-login"
         // onClick={handleClickOpenStudentsLogin}
       >
-        Student login
+        Student login (google)
       </Button>
       <Button
         sx={{ marginBottom: "10px" }}
         key="teachers-registr"
         // onClick={handleClickOpenTeachersRegister}
       >
-        Teachers register
+        Teachers register (Canceled)
       </Button>
       <Button
         sx={{ marginBottom: "10px" }}
         key="teachers-login"
         // onClick={handleClickOpenTeachersLogin}
       >
-        Teachers login
+        Teachers login (google)
       </Button>
     </div>
   );
