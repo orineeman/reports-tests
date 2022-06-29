@@ -1,0 +1,24 @@
+.container {
+  margin: -8px auto;
+  width: 75%;
+  height: 100%;
+  /* border: 1px solid red; */
+  /* background-color: rgb(253, 192, 192); */
+  padding: 8px;
+  display: flex;
+}
+.nav {
+  padding: 8px;
+  /* border: 1px solSid red; */
+  width: 250px;
+  min-height: 420px;
+  background-color: rgb(240, 240, 240);
+  box-shadow: 3px 3px 3px 3px;
+  margin-top: 5px;
+}
+.contents {
+  padding: 30px;
+  /* border: 1px solid rgb(123, 255, 0); */
+  width: 700px;
+  min-height: 420px;
+}

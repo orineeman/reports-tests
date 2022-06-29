@@ -1,0 +1,14 @@
+.header {
+  width: 85%;
+  height: 80px;
+  /* border: 1px solid black; */
+  margin: -8px auto 0 auto;
+
+  padding: 8px;
+  /* padding-left: 50px; */
+  /* padding-right: 50px; */
+  background-color: rgb(240, 240, 240);
+  box-shadow: 3px 3px 3px 3px;
+  justify-content: space-around;
+  display: flex;
+}
