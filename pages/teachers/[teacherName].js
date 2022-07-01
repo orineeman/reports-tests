@@ -3,8 +3,8 @@
 // import StudentRegistration from "../StudentRegistration/StudentRegistration";
 // import "./Teachers.css";
 // import CreateTests from "../CreateTests/CreateTests";
+import { useRouter } from "next/router";
 import TeachersNav from "../components/TeachersNav/TeachersNav";
-import UploadingQuestions from "../components/UploadingQuestions/UploadingQuestions";
 import styles from "../styles/Home.module.css";
 
 // import { Route, Routes } from "react-router-dom";
@@ -12,6 +12,9 @@ import styles from "../styles/Home.module.css";
 // import functionsContext from "../../functionsContext/functionsContext";
 
 export default function Teachers() {
+  const router = useRouter();
+  const { name } = router.query;
+  console.log(name);
   // const { noHideExplanationTeachers } = useContext(functionsContext);
   return (
     <div className={styles.container}>
@@ -19,7 +22,7 @@ export default function Teachers() {
         <TeachersNav />
       </div>
       <div className={styles.contents}>
-        <UploadingQuestions />
+        {/* <UploadingQuestions /> */}
         {/* <StudentRegistration /> */}
         {/* <CreateTests /> */}
         {/* {noHideExplanationTeachers && <ExplanationTeachers />} */}

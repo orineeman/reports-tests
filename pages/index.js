@@ -1,10 +1,8 @@
 import Head from "next/head";
-import { useState } from "react";
 import LeftMainNav from "../components/LeftMainNav/LeftMainNav";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const [userName, setUserName] = useState("Guest");
   return (
     <div>
       <Head>
@@ -16,19 +14,7 @@ export default function Home() {
         <div className={styles.nav}>
           <LeftMainNav />
         </div>
-        <div className={styles.contents}>
-          <p>Welcome!</p>
-          <p>
-            <br />
-            <br />
-            {/* <Image
-              src="https://sites.google.com/site/orahhayeem/_/rsrc/1498688775191/home/skbh-z/cropped-newsletter_image_small.jpg"
-              alt="students"
-              width={700}
-              height={150}
-            /> */}
-          </p>
-        </div>
+        <div className={styles.contents}></div>
       </div>
     </div>
   );

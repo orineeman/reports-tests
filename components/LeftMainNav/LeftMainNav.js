@@ -1,7 +1,6 @@
 import Button from "@mui/material/Button";
 import styles from "./LeftMainNav.module.css";
-// import functionsContext from "../../functionsContext/functionsContext";
-import { useContext } from "react";
+
 export default function LeftMainNav() {
   // const {
   //   handleClickOpenStudentsLogin,
