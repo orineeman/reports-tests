@@ -11,40 +11,75 @@ import { useState } from "react";
 import styles from "./UploadingQuestions.module.css";
 import Checkbox from "@mui/material/Checkbox";
 
+const filedsValue = {};
 export default function UploadingQuestions() {
   const [typeQuestion, setTypeQuestion] = useState(true);
-  function testSubmit(e) {
-    console.log(e);
+  function sendQuestionToServer(filedsValue) {
+    if (
+      filedsValue.Firstanswer &&
+      filedsValue.Secondanswer &&
+      filedsValue.Thirdanswer &&
+      filedsValue.Fourthanswer &&
+      filedsValue.age &&
+      filedsValue.content &&
+      filedsValue.subject
+    ) {
+      // console.log(filedsValue);
+      fetch("/api/question", {
+        method: "POST",
+        body: JSON.stringify(filedsValue),
+      })
+        .then((res) => res.json())
+        .then((question) => {
+          console.log("the client side", question);
+          alert("Your question has been sent successfully");
+        })
+        .catch(() => console.log("error"));
+    } else {
+      console.log(filedsValue);
+      alert("Please fill all fields");
+    }
+    // שליחה לשרת
+  }
+  function handleFieldContent() {
+    filedsValue.content = event.target.value;
   }
   return (
     <>
-      <form action="/teachers" method="GET" onSubmit={(e) => testSubmit(e)}>
-        <h2>Uploading questions</h2>
-        <div className={styles.flex}>
-          <SelectAge />
-          <SelectSubject />
-        </div>
-        <TextField
-          sx={{ width: "650px", marginTop: "20px" }}
-          id="outlined-basic"
-          label="Write here the question"
-          variant="outlined"
-          name="question"
-        />
-        <QuestionTypeRadioButtons setTypeQuestion={setTypeQuestion} />
-        {typeQuestion ? <MultipleChoiceFields /> : <OpenQuestion />}
-        <div className={styles.submitButton}>
-          <Button
-            variant="contained"
-            sx={{ margin: "15px", width: "150px" }}
-            key="submit"
-            type="submit"
-            onClick={() => alert("Your question has been sent successfully")}
-          >
-            Submit
-          </Button>
-        </div>
-      </form>
+      {/* <form
+        action="/about"
+        method="GET"
+        target="hiddenFrame"
+        onSubmit={(e) => testSubmit(e)}
+     >  */}
+      <h2>Uploading questions</h2>
+      <div className={styles.flex}>
+        <SelectAge />
+        <SelectSubject />
+      </div>
+      <TextField
+        sx={{ width: "650px", marginTop: "20px" }}
+        id="field-question"
+        label="Write here the question"
+        variant="outlined"
+        name="content"
+        required
+        onChange={handleFieldContent}
+      />
+      <QuestionTypeRadioButtons setTypeQuestion={setTypeQuestion} />
+      {typeQuestion ? <MultipleChoiceFields /> : <OpenQuestion />}
+      <div className={styles.submitButton}>
+        <Button
+          variant="contained"
+          sx={{ margin: "15px", width: "150px" }}
+          key="submit"
+          type="submit"
+          onClick={() => sendQuestionToServer(filedsValue)}
+        >
+          Submit
+        </Button>
+      </div>
+      {/* </form> */}
     </>
   );
 }
@@ -54,6 +89,8 @@ function SelectAge() {
 
   const handleSelectAge = (event) => {
     setAge(event.target.value);
+    filedsValue.age = event.target.value;
+    console.log(event.target.value);
   };
 
   return (
@@ -68,12 +105,12 @@ function SelectAge() {
         onChange={handleSelectAge}
         name="age"
       >
-        <MenuItem value={6}>6</MenuItem>
-        <MenuItem value={7}>7</MenuItem>
-        <MenuItem value={8}>8</MenuItem>
-        <MenuItem value={9}>9</MenuItem>
-        <MenuItem value={10}>10</MenuItem>
-        <MenuItem value={11}>11</MenuItem>
+        <MenuItem value={"6"}>6</MenuItem>
+        <MenuItem value={"7"}>7</MenuItem>
+        <MenuItem value={"8"}>8</MenuItem>
+        <MenuItem value={"9"}>9</MenuItem>
+        <MenuItem value={"10"}>10</MenuItem>
+        <MenuItem value={"11"}>11</MenuItem>
       </Select>
     </FormControl>
   );
@@ -83,6 +120,8 @@ function SelectSubject() {
 
   const handleSelectSubject = (event) => {
     setSubject(event.target.value);
+    filedsValue.subject = event.target.value;
+    console.log(event.target.value);
   };
 
   return (
@@ -138,14 +177,11 @@ function QuestionTypeRadioButtons({ setTypeQuestion }) {
 }
 function QuestionTypeRadio(event, setTypeQuestion) {
   if (event.target.value === "multiple-choice-question") {
-    // console.log("the value is",value);
     setTypeQuestion(true);
   } else {
     setTypeQuestion(false);
   }
 }
-
-// export default function ControlledCheckbox() {
 
 function MultipleChoiceFields() {
   const filedAnswers = [
@@ -158,6 +194,12 @@ function MultipleChoiceFields() {
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
+  const handleAnswerChange = (event, answerField) => {
+    const answer = answerField.replace("-", "");
+    filedsValue[answer] = event.target.value;
+    console.log(event.target.value);
+  };
+
   return (
     <div>
       <p style={{ fontSize: "15px", color: "#666666" }}>
@@ -171,6 +213,7 @@ function MultipleChoiceFields() {
             label={answerField}
             variant="outlined"
             name={answerField}
+            onChange={() => handleAnswerChange(event, answerField)}
           />
           <Checkbox
             value={answerField}

@@ -1,22 +1,24 @@
 import mongoose from "mongoose";
+// import Age from "./age";
+import Answer from "./answer";
+import Difficulty from "./difficulty";
+import Subject from "./subject";
 const Schema = mongoose.Schema;
 
 const question = new Schema({
-  // typeQuestion: String,
-  age: Number,
-  subject: String,
-  difficulty: Number,
+  // age: { type: Schema.Types.ObjectId, ref: Age },
+  age: String,
+  subject: { type: Schema.Types.ObjectId, ref: Subject },
+  difficulty: { type: Schema.Types.ObjectId, ref: Difficulty },
   statistics: {
-    numberOfRespondents: Number,
+    numberOfResponses: Number,
     amountOfRight: Number,
     amountOfMistakes: Number,
     averageResponseTimeSec: Number,
   },
-  question: String,
-  answer1: { answer: Number, isCorrect: Boolean },
-  answer2: { answer: Number, isCorrect: Boolean },
-  answer3: { answer: Number, isCorrect: Boolean },
-  answer4: { answer: Number, isCorrect: Boolean },
+  content: String,
+  answers: [{ type: Schema.Types.ObjectId, ref: Answer }],
+  confirmed: Boolean,
 });
 
 mongoose.models = {};

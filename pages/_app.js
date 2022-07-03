@@ -8,7 +8,6 @@ import styles from "../styles/globals.css";
 // import { Link } from "@mui/material";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  console.log("Component", Component);
   console.log("auth", Component.auth);
   const adminPassword = "ori";
   const [disableButton, setDisableButton] = useState(true);

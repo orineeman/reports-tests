@@ -1,0 +1,12 @@
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
+
+const subject = new Schema({
+  subject: String,
+});
+
+mongoose.models = {};
+
+const Subject = mongoose.model("answer", subject);
+
+export default Subject;
