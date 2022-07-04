@@ -7,7 +7,6 @@ const Schema = mongoose.Schema;
 
 const question = new Schema({
   age: { type: Schema.Types.ObjectId, ref: Age },
-  // age: String,
   subject: { type: Schema.Types.ObjectId, ref: Subject },
   difficulty: { type: Schema.Types.ObjectId, ref: Difficulty },
   statistics: {

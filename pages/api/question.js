@@ -11,14 +11,14 @@ const handler = async (req, res) => {
     ]);
     res.send(questions);
   } else if (req.method === "POST") {
-    const question = JSON.parse(req.body); //To postman//
-    // const question = req.body;
-    console.log("req.body", req.body);
-    // if (typeof req.body === "string") {
-    //   console.log("req.body is string");
-    // } else {
-    //   console.log("req.body is json");
-    // }
+    const question = JSON.parse(req.body);
+    // const question = req.body; //postman
+    console.log("question", question);
+    if (typeof question === "string") {
+      console.log("question is string");
+    } else {
+      console.log("question is json");
+    }
     const {
       //   typeQuestion,
       age,

@@ -3,6 +3,7 @@
 // import StudentRegistration from "../StudentRegistration/StudentRegistration";
 // import "./Teachers.css";
 // import CreateTests from "../CreateTests/CreateTests";
+import CreateTests from "../components/CreateTests/CreateTests";
 import TeachersNav from "../components/TeachersNav/TeachersNav";
 import UploadingQuestions from "../components/UploadingQuestions/UploadingQuestions";
 import styles from "../styles/Home.module.css";
@@ -21,7 +22,7 @@ export default function Teachers() {
       <div className={styles.contents}>
         <UploadingQuestions />
         {/* <StudentRegistration /> */}
-        {/* <CreateTests /> */}
+        <CreateTests />
         {/* {noHideExplanationTeachers && <ExplanationTeachers />} */}
         {/* <Routes> */}
         {/* <Route path="/uploading-questions" element={<UploadingQuestions />} /> */}

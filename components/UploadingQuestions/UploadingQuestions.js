@@ -52,12 +52,16 @@ export default function UploadingQuestions() {
 
   function sendQuestionToServer(filedsValue) {
     console.log(filedsValue);
+    let checkboxValidation = false;
+    for (let answer of filedsValue.answers) {
+      checkboxValidation = answer.isCorrect ? true : false;
+    }
     if (
       filedsValue.difficulty &&
       filedsValue.age &&
       filedsValue.content &&
-      filedsValue.subject &&
-      filedsValue.answers
+      filedsValue.subject
+      // checkboxValidation
     ) {
       fetch("/api/question", {
         method: "POST",
@@ -105,6 +109,8 @@ export default function UploadingQuestions() {
         required
         onChange={handleFieldContent}
       />
+
+      <h6>Please mark the correct answer</h6>
       <AnswersFields />
       {/* <QuestionTypeRadioButtons setTypeQuestion={setTypeQuestion} /> */}
       {/* {typeQuestion ? <MultipleChoiceFields /> : <OpenQuestion />} */}
