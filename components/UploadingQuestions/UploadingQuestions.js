@@ -218,11 +218,13 @@ function SelectDifficulty({ difficultiesArr }) {
 
 function AnswersFields() {
   let [newAnswerField, setNewAnswerField] = useState([1]);
-  const [checked, setChecked] = useState(false);
   const [disabledAddButton, setDisabledAddButton] = useState(true);
+  const [checked, setChecked] = useState([]);
+  // const checkboxObj = {};
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
+  const handleChange = (event, answerField, index) => {
+    setChecked[index] = event.target.checked;
+    filedsValue.answers[index].isCorrect = event.target.checked;
   };
 
   const handleAnswerChange = (answerField, index) => {
@@ -245,10 +247,7 @@ function AnswersFields() {
       newAnswerField = newAnswerField.filter(
         (answerField) => answerField !== answerFieldId
       );
-      console.log(index);
       filedsValue.answers.splice(index, 1);
-      console.log(newAnswerField);
-      console.log(filedsValue);
     }
     setNewAnswerField([...newAnswerField]);
   }
@@ -270,8 +269,8 @@ function AnswersFields() {
               <Checkbox
                 value={answerField}
                 id={index + 100}
-                checked={checked}
-                onChange={handleChange}
+                checked={checked[index]}
+                onChange={() => handleChange(event, answerField, index)}
                 inputProps={{ "aria-label": "controlled" }}
                 name={answerField}
               />
