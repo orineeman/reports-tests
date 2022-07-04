@@ -7,6 +7,6 @@ const subject = new Schema({
 
 mongoose.models = {};
 
-const Subject = mongoose.model("answer", subject);
+const Subject = mongoose.model("subject", subject);
 
 export default Subject;

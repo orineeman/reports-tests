@@ -2,12 +2,17 @@ import connectDB from "../../middleware/mongodb";
 import Question from "../../models/question";
 
 const handler = async (req, res) => {
-  console.log(req.method);
+  // console.log(req.method);
   if (req.method === "GET") {
-    const questions = await Question.find();
+    const questions = await Question.find().populate([
+      "age",
+      "subject",
+      "difficulty",
+    ]);
     res.send(questions);
   } else if (req.method === "POST") {
-    const question = JSON.parse(req.body);
+    const question = JSON.parse(req.body); //To postman//
+    // const question = req.body;
     console.log("req.body", req.body);
     // if (typeof req.body === "string") {
     //   console.log("req.body is string");
@@ -18,35 +23,35 @@ const handler = async (req, res) => {
       //   typeQuestion,
       age,
       subject,
-      // difficulty,
+      difficulty,
       content,
-      // answers,
+      answers,
     } = question;
     console.log(age, subject, content);
     if (
       //   typeQuestion &&
       age &&
       subject &&
-      // difficulty &&
-      content
-      //  && answers
+      difficulty &&
+      content &&
+      answers
     ) {
       try {
         console.log("I'm in try");
         const newQuestion = new Question({
           //   typeQuestion,
           age,
-          // subject,
-          // difficulty: "1",
+          subject,
+          difficulty,
           content,
-          // answers,
-          // confirmed: false,
-          // statistics: {
-          // numberOfResponses: 0,
-          // amountOfRight: 0,
-          // amountOfMistakes: 0,
-          // averageResponseTimeSec: 0,
-          // },
+          answers,
+          confirmed: false,
+          statistics: {
+            numberOfResponses: 0,
+            amountOfRight: 0,
+            amountOfMistakes: 0,
+            averageResponseTimeSec: 0,
+          },
         });
         const questionCreated = await newQuestion.save();
         return res.status(200).send(questionCreated);

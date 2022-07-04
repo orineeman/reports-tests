@@ -2,7 +2,10 @@ import connectDB from "../../middleware/mongodb";
 import Difficulty from "../../models/difficulty";
 
 const handler = async (req, res) => {
-  if (req.method === "POST") {
+  if (req.method === "GET") {
+    const difficulties = await Difficulty.find().populate("difficulty");
+    res.send(difficulties);
+  } else if (req.method === "POST") {
     const { difficulty } = req.body;
     if (difficulty) {
       try {

@@ -11,6 +11,6 @@ const student = new Schema({
 
 mongoose.models = {};
 
-const Student = mongoose.model("Teacher", student);
+const Student = mongoose.model("student", student);
 
 export default Student;

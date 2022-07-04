@@ -8,6 +8,6 @@ const test = new Schema({
 
 mongoose.models = {};
 
-const Test = mongoose.model("Teacher", test);
+const Test = mongoose.model("test", test);
 
 export default Test;

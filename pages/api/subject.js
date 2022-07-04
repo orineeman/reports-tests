@@ -3,7 +3,7 @@ import Subject from "../../models/subject";
 
 const handler = async (req, res) => {
   if (req.method === "GET") {
-    const subjects = await Subject.find();
+    const subjects = await Subject.find().populate("subject");
     res.send(subjects);
   } else if (req.method === "POST") {
     const { subject } = req.body;

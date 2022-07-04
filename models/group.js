@@ -10,6 +10,6 @@ const group = new Schema({
 
 mongoose.models = {};
 
-const Group = mongoose.model("answer", group);
+const Group = mongoose.model("group", group);
 
 export default Group;

@@ -7,6 +7,6 @@ const age = new Schema({
 
 mongoose.models = {};
 
-const Age = mongoose.model("answer", age);
+const Age = mongoose.model("age", age);
 
 export default Age;

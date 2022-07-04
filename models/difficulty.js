@@ -7,6 +7,6 @@ const difficulty = new Schema({
 
 mongoose.models = {};
 
-const Difficulty = mongoose.model("answer", difficulty);
+const Difficulty = mongoose.model("difficulty", difficulty);
 
 export default Difficulty;
