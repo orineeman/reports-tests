@@ -1,9 +1,9 @@
 // import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-// import { questionsData } from "../json-questions";
-// import { test1, questionsData } from "../../../Test-reports/src/json-questions";
+import { useSession } from "next-auth/react";
+// import styles from "./createTests.module";
 
 function getDataFromServer(setShowTest) {
   fetch("/api/question", {
@@ -11,35 +11,53 @@ function getDataFromServer(setShowTest) {
   })
     .then((res) => res.json())
     .then((questions) => {
-      console.log(questions);
       setShowTest(questions);
     })
     .catch(() => console.log("error"));
 }
 
-function submitTest(QuestionsIdForTest) {
+const submitTest = async (QuestionsIdForTest, email) => {
+  let testIdAndEmail = {};
   console.log(QuestionsIdForTest);
-  fetch("/api/test", {
-    method: "POST",
-    body: JSON.stringify(QuestionsIdForTest),
-  })
-    .then((res) => res.json())
-    .then((test) => {
-      console.log("the client side give test:", test);
-      alert("The test was saved successfully");
+  if (QuestionsIdForTest.questions && QuestionsIdForTest.testName) {
+    await fetch("/api/test", {
+      method: "POST",
+      body: JSON.stringify(QuestionsIdForTest),
     })
-    .catch(() => console.log("error"));
-}
+      .then((res) => res.json())
+      .then((test) => {
+        console.log(test._id);
+        testIdAndEmail.testId = test._id;
+        console.log("the client side give test:", test);
+        // alert("The test was saved successfully");
+      })
+      .catch(() => console.log("error"));
 
-// function showTestInTable(test1) {
-//   // console.log(test1);
-//   const test = questionsData.filter(
-//     (question) => question.id === test1[0] || question.id === test1[1]
-//   );
-//   console.log(test);
-// }
+    testIdAndEmail.email = email;
+    console.log(testIdAndEmail);
+
+    fetch("/api/teacher", {
+      method: "PATCH",
+      body: JSON.stringify(testIdAndEmail),
+    })
+      .then((res) => res.json())
+      .then((teacerUpdate) => {
+        console.log("the client side give-teacerUpdate:", teacerUpdate);
+        alert("The test was saved successfully");
+      })
+      .catch(() => console.log("error"));
+  } else {
+    alert("Please fill all fields");
+  }
+};
+
 export default function CreateTests() {
-  const questionsIdForTest = { questions: [] };
+  const { data: session } = useSession();
+  let email = "";
+  if (session) {
+    email = session.user.email;
+  }
+  const questionsIdForTest = { questions: [], testName: "" };
   const [showTest, setShowTest] = useState([]);
   useEffect(() => {
     getDataFromServer(setShowTest);
@@ -69,109 +87,48 @@ export default function CreateTests() {
   //   );
   // }
 
+  function handleFieldTestName() {
+    questionsIdForTest.testName = event.target.value;
+  }
   return (
     <>
-      {/* <SelectExistingTest /> */}
-      {/* {showTest && showTestInTable(test1)} */}
-      {/* <form action="/teachers" method="GET" onSubmit={(e) => testSubmit(e)}> */}
-      <h2>Tests - Create & Edit </h2>
-      {/* <h6>Filter questions by age and subject </h6>
-      <div className="flex-div">
-        <SelectAge />
-        <SelectSubject />
-      </div>
+      <h2>Create Tests</h2>
       <TextField
         sx={{ width: "650px", marginTop: "20px" }}
         id="Test-name-field"
         label="Test name"
         variant="outlined"
-        name="test-name"
+        name="testName"
         title="Name the test (for your use)"
-      /> */}
+        onChange={handleFieldTestName}
+      />
 
-      <DataTable questions={showTest} questionsIdForTest={questionsIdForTest} />
+      <DataTable
+        questions={showTest}
+        questionsIdForTest={questionsIdForTest}
+        email={email}
+      />
       <div className="flex-div submit-button">
         <Button
           variant="contained"
           sx={{ margin: "15px", width: "150px" }}
           key="submit"
           type="submit"
-          onClick={() => submitTest(questionsIdForTest)}
+          onClick={() => submitTest(questionsIdForTest, email)}
         >
           Submit
         </Button>
       </div>
-      {/* </form> */}
     </>
   );
 }
 
-// function SelectAge() {
-//   const [age, setAge] = useState("");
-
-//   const handleSelectAge = (event) => {
-//     setAge(event.target.value);
-//   };
-
-//   return (
-//     <FormControl>
-//       <InputLabel id="age-select">Age</InputLabel>
-//       <Select
-//         sx={{ width: "100px", marginRight: "20px" }}
-//         labelId="demo-simple-select-label"
-//         id="demo-simple-select"
-//         value={age}
-//         label="Age"
-//         onChange={handleSelectAge}
-//         name="age"
-//       >
-//         <MenuItem value={6}>6</MenuItem>
-//         <MenuItem value={7}>7</MenuItem>
-//         <MenuItem value={8}>8</MenuItem>
-//         <MenuItem value={9}>9</MenuItem>
-//         <MenuItem value={10}>10</MenuItem>
-//         <MenuItem value={11}>11</MenuItem>
-//       </Select>
-//     </FormControl>
-//   );
-// }
-// function SelectSubject() {
-//   const [subject, setSubject] = useState("");
-
-//   const handleSelectSubject = (event) => {
-//     setSubject(event.target.value);
-//   };
-
-//   return (
-//     <FormControl fullWidth>
-//       <InputLabel id="subject-select">Subject</InputLabel>
-//       <Select
-//         sx={{ width: "300px" }}
-//         labelId="subject_select_label"
-//         id="subject_select"
-//         value={subject}
-//         label="subject"
-//         name="subject"
-//         onChange={handleSelectSubject}
-//       >
-//         <MenuItem value={"Simple fractions"}>Simple fractions</MenuItem>
-//         <MenuItem value={"Decimal fractions"}>Decimal fractions</MenuItem>
-//         <MenuItem value={"Polygons"}>Polygons</MenuItem>
-//         <MenuItem value={"Multiply vertically"}>Multiply vertically</MenuItem>
-//         <MenuItem value={"Measurements"}>Measurements</MenuItem>
-//       </Select>
-//     </FormControl>
-//   );
-// }
-
 function DataTable({ questions, questionsIdForTest }) {
-  console.log(questionsIdForTest);
   const columns = [
     { field: "age", headerName: "Age", width: 60 },
     { field: "subject", headerName: "Subject", width: 150 },
     { field: "difficulty", headerName: "Difficulty", width: 110 },
     { field: "question", headerName: "Question", width: 130 },
-
     // {
     //   field: "fullName",
     //   headerName: "Full name",
@@ -183,7 +140,6 @@ function DataTable({ questions, questionsIdForTest }) {
     // },
   ];
   const rows = [];
-  console.log(questions);
   questions.map((question) => {
     const questionToRows = {
       subject: question.subject.subject,
@@ -208,7 +164,6 @@ function DataTable({ questions, questionsIdForTest }) {
           checkboxSelection
           onSelectionModelChange={(newSelectionModel) => {
             questionsIdForTest.questions = newSelectionModel;
-            console.log(questionsIdForTest.questions);
           }}
         />
       </div>

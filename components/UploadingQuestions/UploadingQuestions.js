@@ -52,10 +52,10 @@ export default function UploadingQuestions() {
 
   function sendQuestionToServer(filedsValue) {
     console.log(filedsValue);
-    let checkboxValidation = false;
-    for (let answer of filedsValue.answers) {
-      checkboxValidation = answer.isCorrect ? true : false;
-    }
+    // let checkboxValidation = false;
+    // for (let answer of filedsValue.answers) {
+    //   checkboxValidation = answer.isCorrect ? true : false;
+    // }
     if (
       filedsValue.difficulty &&
       filedsValue.age &&
@@ -82,12 +82,6 @@ export default function UploadingQuestions() {
   }
   return (
     <>
-      {/* <form
-        action="/about"
-        method="GET"
-        target="hiddenFrame"
-        onSubmit={(e) => testSubmit(e)}
-     >  */}
       <h2>Uploading questions</h2>
       <div className={styles.flex}>
         <div>
@@ -112,8 +106,6 @@ export default function UploadingQuestions() {
 
       <h6>Please mark the correct answer</h6>
       <AnswersFields />
-      {/* <QuestionTypeRadioButtons setTypeQuestion={setTypeQuestion} /> */}
-      {/* {typeQuestion ? <MultipleChoiceFields /> : <OpenQuestion />} */}
       <div className={styles.submitButton}>
         <Button
           variant="contained"
@@ -125,7 +117,6 @@ export default function UploadingQuestions() {
           Submit
         </Button>
       </div>
-      {/* </form> */}
     </>
   );
 }
@@ -226,7 +217,6 @@ function AnswersFields() {
   let [newAnswerField, setNewAnswerField] = useState([1]);
   const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [checked, setChecked] = useState([]);
-  // const checkboxObj = {};
 
   const handleChange = (event, answerField, index) => {
     setChecked[index] = event.target.checked;
@@ -236,7 +226,6 @@ function AnswersFields() {
   const handleAnswerChange = (answerField, index) => {
     console.log("index", index);
     filedsValue.answers[index] = { content: "", isCorrect: false };
-    // .content for the object
     filedsValue.answers[index].content = event.target.value;
     console.log(filedsValue);
 
@@ -267,24 +256,21 @@ function AnswersFields() {
               <TextField
                 autoFocus
                 sx={{ width: "300px", margin: "10px" }}
-                id={index + 300}
                 label="answer"
                 variant="outlined"
                 onChange={() => handleAnswerChange(answerField, index)}
               />
               <Checkbox
                 value={answerField}
-                id={index + 100}
                 checked={checked[index]}
                 onChange={() => handleChange(event, answerField, index)}
                 inputProps={{ "aria-label": "controlled" }}
-                name={answerField}
+                // name={answerField}
               />
               <Button
                 variant="outlined"
                 sx={{ height: "40px", margin: "10px", width: "40px" }}
-                key="addAnswer"
-                id={answerField}
+                key="removeAnswerField"
                 onClick={() => removeAnswerField(answerField, index)}
               >
                 -
@@ -296,7 +282,7 @@ function AnswersFields() {
           variant="outlined"
           sx={{ margin: "15px", width: "200px" }}
           disabled={disabledAddButton}
-          key="addAnswer"
+          key="addAnswerField"
           onClick={addAnswerField}
         >
           Add answer

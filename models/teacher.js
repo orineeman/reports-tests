@@ -4,17 +4,20 @@ import Student from "./student";
 import Test from "./test";
 import Group from "./group";
 const Schema = mongoose.Schema;
+// import Map from "mongoose";
 
 const teacher = new Schema({
-  email: {
-    type: String,
-  },
-  classes: [{ type: Schema.Types.ObjectId, ref: Group }],
-  tests: [
+  name: String,
+  email: String,
+  image: String,
+  groups: [{ type: Schema.Types.ObjectId, ref: Group }],
+  tests: [{ type: Schema.Types.ObjectId, ref: Test }],
+  sendTests: [
     {
+      date: String,
       test: { type: Schema.Types.ObjectId, ref: Test },
-      students: [{ type: Schema.Types.ObjectId, ref: Student }],
-      classId: { type: Schema.Types.ObjectId, ref: Group },
+      // students: [{ type: Schema.Types.ObjectId, ref: Student }],
+      groupId: { type: Schema.Types.ObjectId, ref: Group },
       report: [
         {
           question: { type: Schema.Types.ObjectId, ref: Question },

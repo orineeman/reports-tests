@@ -19,27 +19,11 @@ const handler = async (req, res) => {
     } else {
       console.log("question is json");
     }
-    const {
-      //   typeQuestion,
-      age,
-      subject,
-      difficulty,
-      content,
-      answers,
-    } = question;
-    console.log(age, subject, content);
-    if (
-      //   typeQuestion &&
-      age &&
-      subject &&
-      difficulty &&
-      content &&
-      answers
-    ) {
+    const { age, subject, difficulty, content, answers } = question;
+    if (age && subject && difficulty && content && answers) {
       try {
         console.log("I'm in try");
         const newQuestion = new Question({
-          //   typeQuestion,
           age,
           subject,
           difficulty,

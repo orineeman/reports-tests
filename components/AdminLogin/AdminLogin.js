@@ -2,11 +2,9 @@ import Button from "@mui/material/Button";
 import AdminLoginDialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
-import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import adminContext from "../../Context/adminContext";
 import { useRouter } from "next/router";
 

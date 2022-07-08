@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { connectDBOnly } from "../../../middleware/mongodb";
+import Teacher from "../../../models/teacher";
 export default NextAuth({
   providers: [
     GoogleProvider({
@@ -7,4 +9,21 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    async signIn(user /*account, profile*/) {
+      console.log("user:", user);
+      await connectDBOnly();
+      await Teacher.findOneAndUpdate(
+        {
+          email: user.user.email,
+        },
+        {
+          name: user.user.name,
+          image: user.user.image,
+        },
+        { upsert: true }
+      );
+      return true;
+    },
+  },
 });

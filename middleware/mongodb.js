@@ -12,4 +12,15 @@ const connectDB = (handler) => async (req, res) => {
   return handler(req, res);
 };
 
+export const connectDBOnly = () => {
+  if (mongoose.connections[0].readyState) {
+    // Use current db connection
+    return mongoose.connection.db;
+  }
+  // Use new db connection
+  return mongoose.connect(
+    `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}`
+  );
+};
+
 export default connectDB;

@@ -6,6 +6,11 @@ const {
   DB_NAME,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
+  AD_PASS,
+  EMAIL,
+  EMAIL_PASSWORD,
+  NEXTAUTH_SECRET,
+  // NEXTAUTH_URL,
 } = process.env;
 const nextConfig = {
   reactStrictMode: false,
@@ -16,6 +21,11 @@ const nextConfig = {
     DB_NAME,
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
+    AD_PASS,
+    EMAIL,
+    EMAIL_PASSWORD,
+    NEXTAUTH_SECRET,
+    // NEXTAUTH_URL,
   },
 };
 

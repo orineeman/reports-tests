@@ -5,11 +5,12 @@ import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import adminContext from "../Context/adminContext";
 import styles from "../styles/globals.css";
-// import { Link } from "@mui/material";
+
+const { AD_PASS } = process.env;
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  console.log("auth", Component.auth);
-  const adminPassword = "ori";
+  // console.log("auth", Component.auth);
+  const adminPassword = AD_PASS;
   const [disableButton, setDisableButton] = useState(true);
   const [openAdminLoginDialog, setOpenAdminLoginDialog] = useState(false);
   const handleClickOpenAdminLogin = () => {
@@ -37,13 +38,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           }}
         >
           <Header />
-          {Component.auth ? (
-            // <Auth>
-            <Component {...pageProps} />
-          ) : (
-            // </Auth>
-            <Component {...pageProps} />
-          )}
+          {/* {Component.auth ? ( */}
+          {/* // <Auth> */}
+          {/* <Component {...pageProps} /> */}
+          {/* ) : ( */}
+          {/* // </Auth> */}
+          <Component {...pageProps} />
+          {/* )} */}
           <AdminLogin />
           <Footer />
         </adminContext.Provider>
