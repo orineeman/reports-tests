@@ -6,6 +6,8 @@ function filterOfIsCorrect(questions) {
   for (let question of questions) {
     const filteredQuestion = { content: "", answers: [] };
     filteredQuestion.content = question.content;
+    filteredQuestion.questionId = question._id;
+
     const filteredAnswers = [];
     for (let answer of question.answers) {
       const filteredAnswer = {};
@@ -22,6 +24,7 @@ function filterOfIsCorrect(questions) {
 const handler = async (req, res) => {
   if (req.method === "GET" && req.headers.pleasegettestid) {
     const testId = req.headers.pleasegettestid;
+    console.log("testId", testId);
     const { questions } = await Test.findById(testId).populate([
       "questions",
       "questions.answers",

@@ -10,7 +10,7 @@ const student = new Schema({
   tests: [
     {
       test: { type: Schema.Types.ObjectId, ref: Test },
-      currentQuestion: 0,
+      currentQuestion: Number,
       report: {
         questions: [
           {

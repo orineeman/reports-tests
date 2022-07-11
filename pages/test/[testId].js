@@ -1,17 +1,93 @@
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import styles from "./testId.module.css";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-
 import TeachersNav from "../../components/TeachersNav/TeachersNav";
-// import UploadingQuestions from "../components/UploadingQuestions/UploadingQuestions";
+
+async function getTestFromServer(
+  testId,
+  setNextQuestion,
+  currentQuestion,
+  setNumOfQuestion,
+  setTest
+) {
+  try {
+    const json = await fetch("/api/test", {
+      method: "GET",
+      headers: { pleaseGetTestId: testId },
+    });
+    const test = await json.json();
+
+    setTest(test);
+    console.log(test);
+    setNextQuestion(test[currentQuestion]);
+    setNumOfQuestion(test.length);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function sendDataToServer(dataToServer, nextQuestion) {
+  dataToServer.questionId = nextQuestion._id;
+  console.log(dataToServer);
+  fetch("/api/student", {
+    method: "PATCH",
+    headers: { answer: "answer" },
+    body: JSON.stringify({
+      dataToServer,
+    }),
+  })
+    // .then((res) => res.json())
+    .then(() => {
+      console.log("save on DB");
+    })
+    .catch(() => console.log("error"));
+}
+
+function answerTimeCount(
+  intervalId,
+  setIntervalId,
+  answerTime,
+  dataToServer,
+  nextQuestion
+) {
+  if (intervalId) {
+    clearInterval(intervalId);
+    setIntervalId(0);
+  }
+  const newIntervalId = setInterval(() => {
+    answerTime++;
+    dataToServer.time = answerTime;
+    dataToServer.questionId = nextQuestion.questionId;
+    console.log(dataToServer);
+  }, 1000);
+  setIntervalId(newIntervalId);
+}
+
+function startTest(
+  setShowQuestions,
+  intervalId,
+  setIntervalId,
+  answerTime,
+  dataToServer,
+  nextQuestion
+) {
+  setShowQuestions(true);
+  answerTimeCount(
+    intervalId,
+    setIntervalId,
+    answerTime,
+    dataToServer,
+    nextQuestion
+  );
+}
 
 export default function TestLobby() {
   const router = useRouter();
   const { testId } = router.query;
+  console.log("testId", testId);
 
   return (
     <div className={styles.container}>
@@ -24,88 +100,68 @@ export default function TestLobby() {
     </div>
   );
 }
-function getTestFromServer(
-  testId,
-  setNextQuestion,
-  currentQuestion,
-  // questions,
-  setNumOfQuestion,
-  setTest
-) {
-  fetch("/api/test", {
-    method: "GET",
-    headers: { pleaseGetTestId: testId },
-  })
-    .then((res) => res.json())
-    .then((test) => {
-      setTest(test);
-      setNextQuestion(test[currentQuestion]);
-      setNumOfQuestion(test.length);
-      console.log(test);
-    })
-    .catch(() => console.log("error"));
-}
 
 function TestQuestions({ testId }) {
+  let answerTime = 0;
   let email = "";
-  // let questions = [];
   let currentQuestion = 0;
   const [showQuestions, setShowQuestions] = useState(false);
-  const [nextQuestion, setNextQuestion] = useState();
+  const [nextQuestion, setNextQuestion] = useState({});
   const [test, setTest] = useState();
-  const [numOfQuestion, setNumOfQuestion] = useState(0);
+  const [numOfQuestions, setNumOfQuestions] = useState(0);
   const [questionNum, setQuestionNum] = useState(currentQuestion + 1);
-
+  const [intervalId, setIntervalId] = useState(0);
+  const dataToServer = {
+    markedAnswer: "",
+    time: 0,
+    currentQuestion: questionNum,
+    email: "",
+    testId,
+    // questionId: nextQuestion.questionId,
+  };
   const { data: session } = useSession();
   if (session) {
     email = session.user.email;
+    dataToServer.email = email;
   }
 
   useEffect(() => {
-    if (email) {
+    if (email && testId) {
       getTestFromServer(
         testId,
         setNextQuestion,
         currentQuestion,
-        // questions,
-        setNumOfQuestion,
+        setNumOfQuestions,
         setTest
       );
     }
-  }, [email]);
+  }, [email, testId]);
 
-  function goOn(test) {
-    // fetch("/api/student", {
-    //   method: "PATCH",
-    //   body: {
-    //     email,
-    //     testId,
-    //     // questionId,
-    //     // markedAnswer,
-    //     // responseTime,
-    //     currentQuestion,
-    //   },
-    // })
-    //   // .then((res) => res.json())
-    //   .then(() => {
-    //     console.log("save  on DB");
-    //   })
-    //   .catch(() => console.log("error"));
+  function goOn(test, intervalId, setIntervalId, answerTime, dataToServer) {
     console.log(test);
-    // console.log(questions[currentQuestion + 1]);
     setNextQuestion(test[questionNum + 1]);
     setQuestionNum(questionNum + 1);
+    answerTimeCount(
+      intervalId,
+      setIntervalId,
+      answerTime,
+      dataToServer,
+      nextQuestion
+    );
+    sendDataToServer(dataToServer, nextQuestion);
   }
-
+  const handleChange = (event, answer) => {
+    dataToServer.markedAnswer = answer.content;
+    console.log("dataToServer", dataToServer);
+  };
   return (
     <div>
       {!showQuestions && (
         <div className={styles.container}>
-          {/* <div className={styles.nav}></div> */}
           <div className={styles.contents}>
             <h1>Instructions:</h1>
             <h3>
-              In this test you have {numOfQuestion} questions. Be sure to read
+              In this test you have {numOfQuestions} questions. Be sure to read
               the questions and answer them correctly, as it is not possible to
               return to the questions you have already answered.
             </h3>
@@ -116,7 +172,16 @@ function TestQuestions({ testId }) {
                 sx={{ marginBottom: "15px" }}
                 title="click to start the test"
                 variant="contained"
-                onClick={() => setShowQuestions(true)}
+                onClick={() =>
+                  startTest(
+                    setShowQuestions,
+                    intervalId,
+                    setIntervalId,
+                    answerTime,
+                    dataToServer,
+                    nextQuestion
+                  )
+                }
               >
                 Start the test
               </Button>
@@ -130,12 +195,12 @@ function TestQuestions({ testId }) {
             <h6>Question: {questionNum}</h6>
             <h2>{nextQuestion?.content}</h2>
             {nextQuestion?.answers.map((answer) => (
-              <div key={`div${answer}`}>
-                <FormControlLabel
-                  key={answer}
-                  control={<Checkbox />}
-                  label={answer.content}
+              <div key={answer}>
+                <Checkbox
+                  value={answer}
+                  onChange={() => handleChange(event, answer)}
                 />
+                {answer.content}
               </div>
             ))}
             <div>
@@ -144,10 +209,14 @@ function TestQuestions({ testId }) {
                 key="goOn"
                 title="Go to the next question"
                 variant="contained"
-                onClick={
-                  () => goOn(test)
-                  // markedAnswer
-                  // questionNum - 1
+                onClick={() =>
+                  goOn(
+                    test,
+                    intervalId,
+                    setIntervalId,
+                    answerTime,
+                    dataToServer
+                  )
                 }
               >
                 Go on

@@ -1,5 +1,6 @@
 import connectDB from "../../middleware/mongodb";
 import Group from "../../models/group";
+import Student from "../../models/student";
 import Teacher from "../../models/teacher";
 import sendEmail from "../../utils/mail";
 
@@ -10,12 +11,10 @@ const handler = async (req, res) => {
     const { message, testId, groupId, email, teacherName, date } = testAndGroup;
     if (testId && groupId && email && teacherName && date) {
       try {
-        console.log("I'm in try");
         const groupDetails = await Group.findOne({ groupId }).populate(
           "students"
         );
-        console.log(groupDetails);
-        // console.log("groupDetails:", groupDetails);
+        console.log("groupDetails:", groupDetails);
 
         const teacher = await Teacher.findOneAndUpdate(
           { email },
@@ -23,6 +22,10 @@ const handler = async (req, res) => {
         );
         console.log("teacher", teacher);
         for (let student of groupDetails.students) {
+          await Student.findOneAndUpdate(
+            { email: student.email },
+            { $push: { tests: { test: testId, currentQuestion: 0 } } }
+          );
           console.log(student.fullName, student.email);
           await sendEmail(
             `Hi ${student.fullName}, `,
