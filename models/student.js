@@ -1,11 +1,34 @@
 import mongoose from "mongoose";
-// import Test from "./test";
+import Answer from "./answer";
+import Question from "./question";
+import Test from "./test";
 const Schema = mongoose.Schema;
 
 const student = new Schema({
   fullName: String,
   email: String,
-  // tests: [{ test: { type: Schema.Types.ObjectId, ref: Test }, grade: Number }],
+  tests: [
+    {
+      test: { type: Schema.Types.ObjectId, ref: Test },
+      currentQuestion: 0,
+      report: {
+        questions: [
+          {
+            questionId: { type: Schema.Types.ObjectId, ref: Question },
+            responseTime: Number,
+            answers: [
+              {
+                answer: { type: Schema.Types.ObjectId, ref: Answer },
+                markAsCorrectAnswer: Boolean,
+                answerCorrectly: Boolean,
+              },
+            ],
+          },
+        ],
+        grade: Number,
+      },
+    },
+  ],
 });
 
 mongoose.models = {};

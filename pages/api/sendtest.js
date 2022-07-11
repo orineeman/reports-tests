@@ -25,18 +25,13 @@ const handler = async (req, res) => {
         for (let student of groupDetails.students) {
           console.log(student.fullName, student.email);
           await sendEmail(
-            `Hi ${student.fullName}`,
-            `The teacher ${teacherName} sent you a test, to start clicking on the attached link And he added the following message:${message}`,
+            `Hi ${student.fullName}, `,
+            `The teacher ${teacherName} sent you a test, to start clicking on the attached link And he added the following message:${message}. http://localhost:3000/test/${testId}`,
             student.email
           );
         }
 
         await Group.findOneAndUpdate({ groupId }, { haveTest: true });
-        // להוסיף כאן קישור למייל
-        // וליצור קישור ביצירת המבחן
-        // ושליחת המייל עם קישור דינמי
-        // ויצירת הדף הדינמי
-        // הסבגקט לא מוצג
 
         return res.status(200).send(teacher);
       } catch (error) {

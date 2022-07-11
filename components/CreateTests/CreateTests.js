@@ -41,8 +41,8 @@ const submitTest = async (QuestionsIdForTest, email) => {
       body: JSON.stringify(testIdAndEmail),
     })
       .then((res) => res.json())
-      .then((teacerUpdate) => {
-        console.log("the client side give-teacerUpdate:", teacerUpdate);
+      .then((teacherUpdate) => {
+        console.log("the client side give-teacherUpdate:", teacherUpdate);
         alert("The test was saved successfully");
       })
       .catch(() => console.log("error"));

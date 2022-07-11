@@ -1,8 +1,34 @@
 import connectDB from "../../middleware/mongodb";
 import Test from "../../models/test";
 
+function filterOfIsCorrect(questions) {
+  const filteredQuestions = [];
+  for (let question of questions) {
+    const filteredQuestion = { content: "", answers: [] };
+    filteredQuestion.content = question.content;
+    const filteredAnswers = [];
+    for (let answer of question.answers) {
+      const filteredAnswer = {};
+      filteredAnswer.content = answer.content;
+      filteredAnswers.push(filteredAnswer);
+    }
+    filteredQuestion.answers = filteredAnswers;
+    filteredQuestions.push(filteredQuestion);
+  }
+
+  return filteredQuestions;
+}
+
 const handler = async (req, res) => {
-  if (req.method === "GET") {
+  if (req.method === "GET" && req.headers.pleasegettestid) {
+    const testId = req.headers.pleasegettestid;
+    const { questions } = await Test.findById(testId).populate([
+      "questions",
+      "questions.answers",
+    ]);
+    const filterdData = filterOfIsCorrect(questions);
+    res.send(filterdData);
+  } else if (req.method === "GET") {
     const tests = await Test.find().populate(["questions", "questions.age"]);
     res.send(tests);
   } else if (req.method === "POST") {

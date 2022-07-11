@@ -40,8 +40,8 @@ export default function CreateGroup() {
         body: JSON.stringify(groupIdAndEmail),
       })
         .then((res) => res.json())
-        .then((teacerUpdate) => {
-          console.log("the client side give-teacerUpdate:", teacerUpdate);
+        .then((teacherUpdate) => {
+          console.log("the client side give-teacherUpdate:", teacherUpdate);
           alert("Your group has been save successfully");
         })
         .catch(() => console.log("error"));
