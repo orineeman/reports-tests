@@ -14,14 +14,10 @@ import styles from "./Header.module.css";
 //   .catch(() => console.log("error"));
 // }
 
-// import GradingIcon from "@mui/icons-material/Grading";
 export default function Header() {
   const { data: session } = useSession();
   if (session?.user?.name) {
-    // const nameForDynamicRoute = session.user.name.replaceAll(" ", "-");
-    // console.log(nameForDynamicRoute);
-    console.log(session.user);
-    // createTeacher(session.user);
+    // console.log(session.user);
   }
   return (
     <div className={styles.header}>
