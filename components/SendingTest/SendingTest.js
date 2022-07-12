@@ -62,12 +62,12 @@ export default function SendingTest() {
     teacherName = session.user.name;
   }
   useEffect(() => {
-    console.log("email", email);
+    // console.log("email", email);
     if (email) {
       getDataFromServer(groupsArr, setGroupsArr, testsArr, setTestsArr, email);
       filedsValue.email = email;
       filedsValue.teacherName = teacherName;
-      filedsValue.date = "today";
+      filedsValue.date = Date();
     }
   }, [email]);
 

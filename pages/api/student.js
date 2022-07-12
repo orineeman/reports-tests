@@ -3,7 +3,13 @@ import Student from "../../models/student";
 
 const handler = async (req, res) => {
   if (req.method === "GET") {
-    console.log("get");
+    if (req.headers.pleaseget === "tests") {
+      const studentTests = await Student.findOne({
+        email: req.headers.email,
+      }).populate(["tests.test"]);
+      console.log("studentTests", studentTests);
+      res.send(studentTests);
+    }
   } else if (req.method === "PATCH" && req.headers.answer === "answer") {
     const data = JSON.parse(req.body);
     console.log("data:", data);
@@ -11,7 +17,6 @@ const handler = async (req, res) => {
     const { markedAnswer, time, currentQuestion, email, testId, questionId } =
       data.dataToServer;
     if (markedAnswer && currentQuestion && email && testId && questionId) {
-      console.log("ooooooooooooooooooooooo");
       //  עדכון התלמיד בשאלה הספציפית שעומד
       const updateTestOfStudent = await Student.findOneAndUpdate(
         { email, "tests.test": testId },

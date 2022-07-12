@@ -1,4 +1,4 @@
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { useState } from "react";
 import AdminLogin from "../components/AdminLogin/AdminLogin";
 import Footer from "../components/Footer/Footer";
@@ -38,13 +38,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           }}
         >
           <Header />
-          {/* {Component.auth ? ( */}
-          {/* // <Auth> */}
-          {/* <Component {...pageProps} /> */}
-          {/* ) : ( */}
-          {/* // </Auth> */}
-          <Component {...pageProps} />
-          {/* )} */}
+          {Component.auth ? (
+            <Auth>
+              <Component {...pageProps} />
+            </Auth>
+          ) : (
+            <Component {...pageProps} />
+          )}
           <AdminLogin />
           <Footer />
         </adminContext.Provider>
@@ -53,3 +53,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   );
 }
 export default MyApp;
+
+function Auth({ children }) {
+  const { status } = useSession({ required: true });
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  return children;
+}

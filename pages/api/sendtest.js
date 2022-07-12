@@ -29,7 +29,8 @@ const handler = async (req, res) => {
           console.log(student.fullName, student.email);
           await sendEmail(
             `Hi ${student.fullName}, `,
-            `The teacher ${teacherName} sent you a test, to start clicking on the attached link And he added the following message:${message}. http://localhost:3000/test/${testId}`,
+            `The teacher ${teacherName} sent you a test, to start clicking on the attached link And he added the following message:${message}.
+             http://localhost:3000/test/${testId}`,
             student.email
           );
         }

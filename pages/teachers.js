@@ -1,8 +1,23 @@
+import { useSession } from "next-auth/react";
 import TeachersNav from "../components/TeachersNav/TeachersNav";
-// import UploadingQuestions from "../components/UploadingQuestions/UploadingQuestions";
 import styles from "../styles/Home.module.css";
 
 export default function Teachers() {
+  function validationPermissionUser() {
+    const { status } = useSession({
+      required: true,
+      onUnauthenticated() {
+        console.log("lo mehubar");
+      },
+    });
+
+    if (status === "loading") {
+      console.log("Loading or not authenticated...");
+    }
+    console.log("User is logged in");
+  }
+
+  validationPermissionUser();
   return (
     <div className={styles.container}>
       <div className={styles.nav}>

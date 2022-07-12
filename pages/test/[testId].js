@@ -4,7 +4,6 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import TeachersNav from "../../components/TeachersNav/TeachersNav";
 
 async function getTestFromServer(
   testId,
@@ -92,7 +91,7 @@ export default function TestLobby() {
   return (
     <div className={styles.container}>
       <div className={styles.nav}>
-        <TeachersNav />
+        <h2>Goodluck!</h2>
       </div>
       <div className={styles.contents}>
         <TestQuestions testId={testId} />

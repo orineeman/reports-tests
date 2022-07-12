@@ -63,30 +63,6 @@ export default function CreateTests() {
     getDataFromServer(setShowTest);
   }, []);
 
-  // function SelectExistingTest() {
-  //   const handleSelectExistingTest = (event) => {
-  //     console.log(event.target.value);
-  //     setShowTest(true);
-  //   };
-  //   return (
-  //     <FormControl fullWidth>
-  //       <InputLabel id="existingTest-select">Existing test</InputLabel>
-  //       <Select
-  //         sx={{ width: "300px" }}
-  //         labelId="existingTest_select_label"
-  //         id="existingTest_select"
-  //         value="existingTest"
-  //         label="existingTest"
-  //         name="existingTest"
-  //         onChange={handleSelectExistingTest}
-  //       >
-  //         <MenuItem value={"test1"}>Test1</MenuItem>
-  //         <MenuItem value={"test2"}>Test2</MenuItem>
-  //       </Select>
-  //     </FormControl>
-  //   );
-  // }
-
   function handleFieldTestName() {
     questionsIdForTest.testName = event.target.value;
   }

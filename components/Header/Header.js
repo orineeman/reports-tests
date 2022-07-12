@@ -1,4 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 
 // function createTeacher(userDetails) {
@@ -13,37 +14,71 @@ import styles from "./Header.module.css";
 //   })
 //   .catch(() => console.log("error"));
 // }
+function validationPermissionUser(session) {
+  fetch("/api/", {
+    method: "GET",
+    headers: { pleaseGet: "newQuestions" },
+  })
+    .then((res) => res.json())
+    .then((newQuestions) => {
+      setShowQuestions(newQuestions);
+    })
+    .catch(() => console.log("error"));
+}
 
+async function userConnection(user) {
+  console.log("user", user);
+  user ? true : false;
+}
+
+async function logIn(setSignIn, session) {
+  await signIn("google", {
+    redirect: false,
+    callbackUrl: `http://localhost:3000/`,
+  });
+  setSignIn(true);
+  validationPermissionUser(session);
+}
+async function logOut(setSignIn) {
+  await signOut({
+    redirect: true,
+    callbackUrl: "http://localhost:3000/",
+  });
+  setSignIn(false);
+}
 export default function Header() {
   const { data: session } = useSession();
-  if (session?.user?.name) {
-    // console.log(session.user);
-  }
+  const [signIn, setSignIn] = useState(userConnection(session?.user));
+  useEffect(() => {
+    if (session?.user) {
+      setSignIn(true);
+    } else {
+      setSignIn(false);
+    }
+  }, [session]);
   return (
     <div className={styles.header}>
       <h3>Test-reports</h3>
       <h5>Hello {session?.user?.name || `guest`}</h5>
       <div>
-        <button
-          className={styles.signIn}
-          onClick={() =>
-            signIn("google", {
-              redirect: false,
-              // callbackUrl: {`http://localhost:3000/teachers/${nameForDynamicRoute}`},
-              callbackUrl: `http://localhost:3000/teachers`,
-            })
-          }
-        >
-          Sign in with Google
-        </button>
-        <button
-          className={styles.signOut}
-          onClick={() =>
-            signOut({ redirect: false, callbackUrl: "http://localhost:3000/" })
-          }
-        >
-          Sign out
-        </button>
+        {!signIn && (
+          <button
+            className={styles.signIn}
+            onClick={() => logIn(setSignIn, session)}
+          >
+            Sign in with Google
+          </button>
+        )}
+        {signIn && (
+          <button
+            className={styles.signOut}
+            onClick={() => {
+              logOut(setSignIn);
+            }}
+          >
+            Sign out
+          </button>
+        )}
       </div>
     </div>
   );
