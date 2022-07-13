@@ -60,7 +60,8 @@ export default function UploadingQuestions() {
       filedsValue.difficulty &&
       filedsValue.age &&
       filedsValue.content &&
-      filedsValue.subject
+      filedsValue.subject &&
+      filedsValue.answers[0]
       // checkboxValidation
     ) {
       fetch("/api/question", {
@@ -70,7 +71,9 @@ export default function UploadingQuestions() {
         .then((res) => res.json())
         .then((question) => {
           console.log("the client side", question);
-          alert("Your question has been sent successfully");
+          alert(
+            "Your question has been sent successfully, It will be checked soon by the webmaster, and then uploaded to the database"
+          );
         })
         .catch(() => console.log("error"));
     } else {

@@ -12,25 +12,31 @@ async function getTestFromServer(
   setNumOfQuestion,
   setTest
 ) {
+  console.log("currentQuestion", currentQuestion);
   try {
     const json = await fetch("/api/test", {
       method: "GET",
       headers: { pleaseGetTestId: testId },
     });
     const test = await json.json();
-
     setTest(test);
     console.log(test);
-    setNextQuestion(test[currentQuestion]);
+    setNextQuestion(test[currentQuestion - 1]);
     setNumOfQuestion(test.length);
   } catch (err) {
     console.log(err);
   }
 }
 
-function sendDataToServer(dataToServer, nextQuestion) {
-  dataToServer.questionId = nextQuestion._id;
-  console.log(dataToServer);
+function sendDataToServer(dataToServer, nextQuestion, answerTime) {
+  dataToServer.questionId = nextQuestion.questionId;
+  console.log("nextQuestion", nextQuestion);
+  const restAnswers = nextQuestion.answers.filter(
+    (answer) => answer.answerId !== dataToServer.markedAnswerId
+  );
+  dataToServer.restAnswers = restAnswers;
+  console.log("restAnswers", restAnswers);
+  dataToServer.time = 5;
   fetch("/api/student", {
     method: "PATCH",
     headers: { answer: "answer" },
@@ -45,13 +51,7 @@ function sendDataToServer(dataToServer, nextQuestion) {
     .catch(() => console.log("error"));
 }
 
-function answerTimeCount(
-  intervalId,
-  setIntervalId,
-  answerTime,
-  dataToServer,
-  nextQuestion
-) {
+function answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer) {
   if (intervalId) {
     clearInterval(intervalId);
     setIntervalId(0);
@@ -59,8 +59,7 @@ function answerTimeCount(
   const newIntervalId = setInterval(() => {
     answerTime++;
     dataToServer.time = answerTime;
-    dataToServer.questionId = nextQuestion.questionId;
-    console.log(dataToServer);
+    console.log(answerTime);
   }, 1000);
   setIntervalId(newIntervalId);
 }
@@ -70,17 +69,10 @@ function startTest(
   intervalId,
   setIntervalId,
   answerTime,
-  dataToServer,
-  nextQuestion
+  dataToServer
 ) {
   setShowQuestions(true);
-  answerTimeCount(
-    intervalId,
-    setIntervalId,
-    answerTime,
-    dataToServer,
-    nextQuestion
-  );
+  answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer);
 }
 
 export default function TestLobby() {
@@ -103,20 +95,23 @@ export default function TestLobby() {
 function TestQuestions({ testId }) {
   let answerTime = 0;
   let email = "";
-  let currentQuestion = 0;
+  let currentQuestion = 1;
   const [showQuestions, setShowQuestions] = useState(false);
   const [nextQuestion, setNextQuestion] = useState({});
   const [test, setTest] = useState();
   const [numOfQuestions, setNumOfQuestions] = useState(0);
-  const [questionNum, setQuestionNum] = useState(currentQuestion + 1);
+  const [questionNum, setQuestionNum] = useState(currentQuestion);
   const [intervalId, setIntervalId] = useState(0);
+  const router = useRouter();
   const dataToServer = {
-    markedAnswer: "",
+    // markedAnswer: "",
+    markedAnswerId: "",
     time: 0,
     currentQuestion: questionNum,
     email: "",
     testId,
-    // questionId: nextQuestion.questionId,
+    questionId: "",
+    restAnswers: [],
   };
   const { data: session } = useSession();
   if (session) {
@@ -136,21 +131,30 @@ function TestQuestions({ testId }) {
     }
   }, [email, testId]);
 
-  function goOn(test, intervalId, setIntervalId, answerTime, dataToServer) {
-    console.log(test);
-    setNextQuestion(test[questionNum + 1]);
-    setQuestionNum(questionNum + 1);
-    answerTimeCount(
-      intervalId,
-      setIntervalId,
-      answerTime,
-      dataToServer,
-      nextQuestion
-    );
-    sendDataToServer(dataToServer, nextQuestion);
+  async function goOn(
+    test,
+    intervalId,
+    setIntervalId,
+    answerTime,
+    dataToServer
+  ) {
+    if (questionNum < test.length - 1) {
+      // dataToServer.time = answerTime;
+      console.log("dataToServer", dataToServer);
+
+      await sendDataToServer(dataToServer, nextQuestion, answerTime);
+      setNextQuestion(test[questionNum + 1]);
+      setQuestionNum(questionNum + 1);
+      answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer);
+    } else {
+      alert("Well done");
+      router.push("/students");
+    }
   }
   const handleChange = (event, answer) => {
-    dataToServer.markedAnswer = answer.content;
+    if (event.target.checked) {
+      dataToServer.markedAnswerId = answer.answerId;
+    }
     console.log("dataToServer", dataToServer);
   };
   return (
@@ -177,8 +181,7 @@ function TestQuestions({ testId }) {
                     intervalId,
                     setIntervalId,
                     answerTime,
-                    dataToServer,
-                    nextQuestion
+                    dataToServer
                   )
                 }
               >

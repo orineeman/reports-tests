@@ -15,13 +15,13 @@ import styles from "./Header.module.css";
 //   .catch(() => console.log("error"));
 // }
 function validationPermissionUser(session) {
-  fetch("/api/", {
+  fetch("/api/permissions", {
     method: "GET",
-    headers: { pleaseGet: "newQuestions" },
+    headers: { please: "valid", email: session?.user?.email },
   })
     .then((res) => res.json())
-    .then((newQuestions) => {
-      setShowQuestions(newQuestions);
+    .then((confirm) => {
+      setConfirm(confirm);
     })
     .catch(() => console.log("error"));
 }
@@ -36,7 +36,7 @@ async function logIn(setSignIn, session) {
     redirect: false,
     callbackUrl: `http://localhost:3000/`,
   });
-  setSignIn(true);
+  // setSignIn(true);
   validationPermissionUser(session);
 }
 async function logOut(setSignIn) {
@@ -44,7 +44,7 @@ async function logOut(setSignIn) {
     redirect: true,
     callbackUrl: "http://localhost:3000/",
   });
-  setSignIn(false);
+  // setSignIn(false);
 }
 export default function Header() {
   const { data: session } = useSession();

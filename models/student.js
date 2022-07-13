@@ -11,6 +11,7 @@ const student = new Schema({
     {
       test: { type: Schema.Types.ObjectId, ref: Test },
       currentQuestion: Number,
+      done: Boolean,
       report: {
         questions: [
           {

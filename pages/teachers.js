@@ -7,7 +7,7 @@ export default function Teachers() {
     const { status } = useSession({
       required: true,
       onUnauthenticated() {
-        console.log("lo mehubar");
+        console.log("not connected");
       },
     });
 

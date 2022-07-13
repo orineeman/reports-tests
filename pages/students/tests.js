@@ -12,7 +12,6 @@ import styles from "../../styles/Home.module.css";
 import { useRouter } from "next/router";
 
 function getDataFromServer(setTestsArr, email) {
-  console.log(44444);
   fetch("/api/student", {
     method: "GET",
     headers: { pleaseGet: "tests", email },

@@ -12,6 +12,7 @@ function filterOfIsCorrect(questions) {
     for (let answer of question.answers) {
       const filteredAnswer = {};
       filteredAnswer.content = answer.content;
+      filteredAnswer.answerId = answer._id;
       filteredAnswers.push(filteredAnswer);
     }
     filteredQuestion.answers = filteredAnswers;

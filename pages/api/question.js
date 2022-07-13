@@ -1,4 +1,5 @@
 import connectDB from "../../middleware/mongodb";
+import Answer from "../../models/answer";
 import Question from "../../models/question";
 
 const handler = async (req, res) => {
@@ -44,13 +45,22 @@ const handler = async (req, res) => {
     const { age, subject, difficulty, content, answers } = question;
     if (age && subject && difficulty && content && answers) {
       try {
-        console.log("I'm in try");
+        const answersToDB = [];
+        for (let answer of answers) {
+          const newAnswer = new Answer({
+            content: answer.content,
+            isCorrect: answer.isCorrect,
+          });
+          const createdAnswer = await newAnswer.save();
+          answersToDB.push(createdAnswer);
+        }
+
         const newQuestion = new Question({
           age,
           subject,
           difficulty,
           content,
-          answers,
+          answers: answersToDB,
           confirmed: false,
           statistics: {
             numberOfResponses: 0,

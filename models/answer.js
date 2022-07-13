@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const answer = new Schema({
   content: String,
   isCorrect: Boolean,
-  // statistics: {
-  //   numberOfResponses: Number,
-  //   amountOfRight: Number,
-  //   amountOfMistakes: Number,
-  //   averageResponseTimeSec: Number,
-  // },
+  statistics: {
+    numberOfResponses: Number,
+    amountOfRight: Number,
+    amountOfMistakes: Number,
+    averageResponseTimeSec: Number,
+  },
 });
 
 mongoose.models = {};
