@@ -8,21 +8,25 @@ import { useRouter } from "next/router";
 async function getTestFromServer(
   testId,
   setNextQuestion,
-  currentQuestion,
+  setQuestionNum,
   setNumOfQuestion,
-  setTest
+  setTest,
+  email,
+  setDoneTest
 ) {
-  console.log("currentQuestion", currentQuestion);
   try {
     const json = await fetch("/api/test", {
       method: "GET",
-      headers: { pleaseGetTestId: testId },
+      headers: { pleaseGetTestId: testId, email },
     });
-    const test = await json.json();
+    const data = await json.json();
+    const test = data.filterdData;
+    const currentQuestion = data.currentQuestion;
+    setDoneTest(data.done);
     setTest(test);
-    console.log(test);
     setNextQuestion(test[currentQuestion - 1]);
     setNumOfQuestion(test.length);
+    setQuestionNum(currentQuestion);
   } catch (err) {
     console.log(err);
   }
@@ -30,28 +34,22 @@ async function getTestFromServer(
 
 function sendDataToServer(dataToServer, nextQuestion, answerTime) {
   dataToServer.questionId = nextQuestion.questionId;
-  console.log("nextQuestion", nextQuestion);
   const restAnswers = nextQuestion.answers.filter(
     (answer) => answer.answerId !== dataToServer.markedAnswerId
   );
   dataToServer.restAnswers = restAnswers;
-  console.log("restAnswers", restAnswers);
-  dataToServer.time = 5;
+  dataToServer.time = answerTime;
   fetch("/api/student", {
     method: "PATCH",
     headers: { answer: "answer" },
     body: JSON.stringify({
       dataToServer,
     }),
-  })
-    // .then((res) => res.json())
-    .then(() => {
-      console.log("save on DB");
-    })
-    .catch(() => console.log("error"));
+  }).catch(() => console.log("error"));
 }
 
 function answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer) {
+  // dataToServer.time = answerTime;
   if (intervalId) {
     clearInterval(intervalId);
     setIntervalId(0);
@@ -78,7 +76,7 @@ function startTest(
 export default function TestLobby() {
   const router = useRouter();
   const { testId } = router.query;
-  console.log("testId", testId);
+  const [doneTest, setDoneTest] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -86,25 +84,26 @@ export default function TestLobby() {
         <h2>Goodluck!</h2>
       </div>
       <div className={styles.contents}>
-        <TestQuestions testId={testId} />
+        {!doneTest && (
+          <TestQuestions testId={testId} setDoneTest={setDoneTest} />
+        )}
+        {doneTest && <h2>You have completed this test before</h2>}
       </div>
     </div>
   );
 }
 
-function TestQuestions({ testId }) {
+function TestQuestions({ testId, setDoneTest }) {
   let answerTime = 0;
   let email = "";
-  let currentQuestion = 1;
   const [showQuestions, setShowQuestions] = useState(false);
   const [nextQuestion, setNextQuestion] = useState({});
   const [test, setTest] = useState();
   const [numOfQuestions, setNumOfQuestions] = useState(0);
-  const [questionNum, setQuestionNum] = useState(currentQuestion);
+  const [questionNum, setQuestionNum] = useState(0);
   const [intervalId, setIntervalId] = useState(0);
   const router = useRouter();
   const dataToServer = {
-    // markedAnswer: "",
     markedAnswerId: "",
     time: 0,
     currentQuestion: questionNum,
@@ -124,9 +123,11 @@ function TestQuestions({ testId }) {
       getTestFromServer(
         testId,
         setNextQuestion,
-        currentQuestion,
+        setQuestionNum,
         setNumOfQuestions,
-        setTest
+        setTest,
+        email,
+        setDoneTest
       );
     }
   }, [email, testId]);
@@ -135,27 +136,27 @@ function TestQuestions({ testId }) {
     test,
     intervalId,
     setIntervalId,
-    answerTime,
+    // answerTime,
     dataToServer
   ) {
-    if (questionNum < test.length - 1) {
+    console.log("answerTime", answerTime);
+    if (questionNum <= test.length) {
       // dataToServer.time = answerTime;
-      console.log("dataToServer", dataToServer);
 
       await sendDataToServer(dataToServer, nextQuestion, answerTime);
-      setNextQuestion(test[questionNum + 1]);
+      setNextQuestion(test[questionNum]);
       setQuestionNum(questionNum + 1);
       answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer);
-    } else {
-      alert("Well done");
-      router.push("/students");
+      if (questionNum === test.length) {
+        alert("Well done");
+        router.push("/students");
+      }
     }
   }
   const handleChange = (event, answer) => {
     if (event.target.checked) {
       dataToServer.markedAnswerId = answer.answerId;
     }
-    console.log("dataToServer", dataToServer);
   };
   return (
     <div>
@@ -216,7 +217,7 @@ function TestQuestions({ testId }) {
                     test,
                     intervalId,
                     setIntervalId,
-                    answerTime,
+                    // answerTime,
                     dataToServer
                   )
                 }

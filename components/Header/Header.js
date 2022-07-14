@@ -27,7 +27,7 @@ function validationPermissionUser(session) {
 }
 
 async function userConnection(user) {
-  console.log("user", user);
+  // console.log("user", user);
   user ? true : false;
 }
 

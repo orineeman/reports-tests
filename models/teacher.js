@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-// import Question from "./question";
-// import Student from "./student";
+import Question from "./question";
+import Student from "./student";
 import Test from "./test";
 import Group from "./group";
 const Schema = mongoose.Schema;
@@ -18,10 +18,10 @@ const teacher = new Schema({
       test: { type: Schema.Types.ObjectId, ref: Test },
       groupId: { type: Schema.Types.ObjectId, ref: Group },
       report: [
-        // {
-        // question: { type: Schema.Types.ObjectId, ref: Question },
-        // studentsRight: [{ type: Schema.Types.ObjectId, ref: Student }],
-        // },
+        {
+          question: { type: Schema.Types.ObjectId, ref: Question },
+          studentsRight: [{ type: Schema.Types.ObjectId, ref: Student }],
+        },
       ],
     },
   ],

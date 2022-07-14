@@ -8,12 +8,12 @@ export default function LeftMainNav() {
       className={styles.navButton}
       style={{ display: "flex", flexDirection: "column" }}
     >
-      <Link href="/students">
+      <Link href="/students" className={styles.Link}>
         <Button sx={{ marginBottom: "10px" }} key="student-login">
           Students
         </Button>
       </Link>
-      <Link href="/teachers">
+      <Link href="/teachers" className={styles.Link}>
         <Button sx={{ marginBottom: "10px" }} key="teachers-registr">
           Teachers
         </Button>

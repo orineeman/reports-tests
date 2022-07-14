@@ -1,5 +1,7 @@
 import connectDB from "../../middleware/mongodb";
+import Answer from "../../models/answer";
 import Student from "../../models/student";
+import Test from "../../models/test";
 
 const handler = async (req, res) => {
   if (req.method === "GET") {
@@ -7,7 +9,6 @@ const handler = async (req, res) => {
       const studentTests = await Student.findOne({
         email: req.headers.email,
       }).populate(["tests.test"]);
-      console.log("studentTests", studentTests);
       res.send(studentTests);
     }
   } else if (req.method === "PATCH" && req.headers.answer === "answer") {
@@ -22,8 +23,7 @@ const handler = async (req, res) => {
       questionId,
       restAnswers,
     } = data.dataToServer;
-
-    // console.log("data.dataToServer", data.dataToServer);
+    console.log("time", time);
     if (
       markedAnswerId &&
       currentQuestion &&
@@ -32,50 +32,95 @@ const handler = async (req, res) => {
       questionId &&
       restAnswers
     ) {
-      //  עדכון התלמיד בשאלה הספציפית שעומד
-      // const p = await Student.findOne({ email })
-      // .where("tests.test")
-      // .equals(testId);
-      // console.log("p############3:", p);
-      // for (let test of p.tests) {
-      // test.currentQuestion = currentQuestion;
-      // test.done = false;
-      const p = await Student.findOneAndUpdate(
-        { email, "tests.test": testId },
-        {
-          $set: {
-            "tests.$.done": true,
-            "tests.$.currentQuestion": currentQuestion,
-            "tests.report.questions": 70,
-            $push: { "tests.report.questions": { test: testId } },
+      let done = false;
+      const test = await Test.findById(testId);
+      if (currentQuestion >= test.questions.length) {
+        done = true;
+      }
+      const answers = [];
+      let answerCorrectly = null;
+      const markedAnswer = await Answer.findByIdAndUpdate(markedAnswerId, {
+        $inc: {
+          "statistics.numberOfResponses": 1,
+        },
+      });
+      if (markedAnswer.isCorrect) {
+        answerCorrectly = true;
+        await Answer.findByIdAndUpdate(markedAnswerId, {
+          $inc: {
+            "statistics.amountOfRight": 1,
           },
+        });
+      } else {
+        answerCorrectly = false;
+        await Answer.findByIdAndUpdate(markedAnswerId, {
+          $inc: {
+            "statistics.amountOfMistakes": 1,
+          },
+        });
+      }
+
+      const markedAnswerToDB = {
+        answer: markedAnswer.answerId,
+        markAsCorrectAnswer: true,
+      };
+      answers.push(markedAnswerToDB);
+      for (let answer of restAnswers) {
+        const restAnswerToDB = {
+          answer: answer.answerId,
+          markAsCorrectAnswer: false,
+        };
+        answers.push(restAnswerToDB);
+      }
+      for (let answer of restAnswers) {
+        const restAnswerToDB = {
+          answer: answer.answerId,
+          markAsCorrectAnswer: false,
+        };
+        answers.push(restAnswerToDB);
+      }
+      try {
+        await Student.findOneAndUpdate(
+          { email, "tests.test": testId },
+          {
+            $set: {
+              "tests.$.done": done,
+              "tests.$.currentQuestion": currentQuestion + 1,
+            },
+            $push: {
+              "tests.$.questions": {
+                questionId,
+                responseTime: time,
+                answerCorrectly,
+                answers,
+              },
+            },
+          }
+        );
+      } catch (e) {
+        console.log("ERROR", e);
+      }
+      // Update the rest of the answers in a database
+      for (let answer of restAnswers) {
+        const ans = await Answer.findById(answer.answerId);
+        if (ans.isCorrect) {
+          await Answer.findByIdAndUpdate(ans._id, {
+            $inc: {
+              "statistics.amountOfMistakes": 1,
+              "statistics.numberOfResponses": 1,
+            },
+          });
+        } else {
+          await Answer.findByIdAndUpdate(ans._id, {
+            $inc: {
+              "statistics.amountOfRight": 1,
+              "statistics.numberOfResponses": 1,
+            },
+          });
         }
-      );
+      }
     }
 
-    // currentQuestion,
-    // const reportQuestion = {
-    //   questionId,
-    //   responseTime: time,
-    //   answers: [
-    //     {
-    //       answer: { type: Schema.Types.ObjectId, ref: Answer },
-    //       markAsCorrectAnswer: Boolean,
-    //       answerCorrectly: Boolean,
-    //     },
-    //   ],
-    // };
-
-    // const updateTestOfStudent = await Student.findOneAndUpdate(
-    // { email, "tests.test": testId },
-    // {
-    // "tests.report.questions": reportQuestion,
-    // "tests.report.questions.questionId": questionId,
-    // "tests.report.currentQuestion": questionId,
-    // "tests.report.questions.responseTime": time,
-    // "tests.report.questions.answers.answer": markedAnswer,
-    // }
-    // );
     res.send("updateTestOfStudent");
   } else {
     res.status(422).send("req_method_not_supported");

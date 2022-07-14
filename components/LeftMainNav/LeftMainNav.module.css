@@ -1,4 +1,8 @@
 .navButton {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+.Link {
+  text-decoration: none;
 }

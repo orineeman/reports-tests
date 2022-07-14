@@ -1,5 +1,6 @@
 import connectDB from "../../middleware/mongodb";
 import Test from "../../models/test";
+import Student from "../../models/student";
 
 function filterOfIsCorrect(questions) {
   const filteredQuestions = [];
@@ -25,13 +26,31 @@ function filterOfIsCorrect(questions) {
 const handler = async (req, res) => {
   if (req.method === "GET" && req.headers.pleasegettestid) {
     const testId = req.headers.pleasegettestid;
-    console.log("testId", testId);
     const { questions } = await Test.findById(testId).populate([
       "questions",
       "questions.answers",
     ]);
-    const filterdData = filterOfIsCorrect(questions);
-    res.send(filterdData);
+    const student = await Student.findOne({ email: req.headers.email });
+    let currentQuestion = 1;
+    let done = false;
+    for (let test of student.tests) {
+      if (test.test == testId) {
+        if (test.done) {
+          done = true;
+        }
+        console.log("test.test", test.test);
+        console.log("testId", testId);
+        if (test.currentQuestion !== 1) {
+          currentQuestion = test.currentQuestion;
+        }
+      }
+    }
+    const data = {
+      filterdData: filterOfIsCorrect(questions),
+      currentQuestion,
+      done,
+    };
+    res.send(data);
   } else if (req.method === "GET") {
     const tests = await Test.find().populate(["questions", "questions.age"]);
     res.send(tests);

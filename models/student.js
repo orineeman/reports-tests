@@ -10,24 +10,24 @@ const student = new Schema({
   tests: [
     {
       test: { type: Schema.Types.ObjectId, ref: Test },
-      currentQuestion: Number,
+      currentQuestion: { type: Number, default: 1 },
       done: Boolean,
-      report: {
-        questions: [
-          {
-            questionId: { type: Schema.Types.ObjectId, ref: Question },
-            responseTime: Number,
-            answers: [
-              {
-                answer: { type: Schema.Types.ObjectId, ref: Answer },
-                markAsCorrectAnswer: Boolean,
-                answerCorrectly: Boolean,
-              },
-            ],
-          },
-        ],
-        grade: Number,
-      },
+      // report: {
+      questions: [
+        {
+          questionId: { type: Schema.Types.ObjectId, ref: Question },
+          responseTime: Number,
+          answerCorrectly: Boolean,
+          answers: [
+            {
+              answer: { type: Schema.Types.ObjectId, ref: Answer },
+              markAsCorrectAnswer: Boolean,
+            },
+          ],
+        },
+      ],
+      grade: Number,
+      // },
     },
   ],
 });

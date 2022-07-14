@@ -5,10 +5,9 @@ const answer = new Schema({
   content: String,
   isCorrect: Boolean,
   statistics: {
-    numberOfResponses: Number,
-    amountOfRight: Number,
-    amountOfMistakes: Number,
-    averageResponseTimeSec: Number,
+    numberOfResponses: { type: Number, default: 0 },
+    amountOfRight: { type: Number, default: 0 },
+    amountOfMistakes: { type: Number, default: 0 },
   },
 });
 
