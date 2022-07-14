@@ -5,7 +5,7 @@ import styles from "./TeachersNav.module.css";
 export default function TeachersNav() {
   return (
     <div className={styles.navButton}>
-      <Link href="/teachers/sending-test">
+      <Link href="/teachers/sending-test" className={styles.link}>
         <Button
           sx={{ marginBottom: "15px" }}
           key="Tests"
@@ -14,7 +14,7 @@ export default function TeachersNav() {
           Sending test
         </Button>
       </Link>
-      <Link href="/teachers/create-tests">
+      <Link href="/teachers/create-tests" className={styles.link}>
         <Button
           sx={{ marginBottom: "15px" }}
           key="Tests"
@@ -23,7 +23,7 @@ export default function TeachersNav() {
           Create tests
         </Button>
       </Link>
-      <Link href="/teachers/create-group">
+      <Link href="/teachers/create-group" className={styles.link}>
         <Button
           sx={{ marginBottom: "15px" }}
           key="classes"
@@ -32,10 +32,12 @@ export default function TeachersNav() {
           create group
         </Button>
       </Link>
-      <Button sx={{ marginBottom: "15px" }} key="Reports" title="Reports">
-        Reports
-      </Button>
-      <Link href="/teachers/uploading-questions">
+      <Link href="/teachers/reports" className={styles.link}>
+        <Button sx={{ marginBottom: "15px" }} key="Reports" title="Reports">
+          Reports
+        </Button>
+      </Link>
+      <Link href="/teachers/uploading-questions" className={styles.link}>
         <Button
           sx={{ marginBottom: "15px" }}
           key="Uploading questions"

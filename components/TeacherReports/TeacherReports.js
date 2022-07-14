@@ -1,7 +1,9 @@
+// import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button, TextField } from "@mui/material";
+import { Autocomplete, Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+// import styles from "./createTests.module";
 
 function getDataFromServer(setShowTest) {
   fetch("/api/question", {
@@ -49,7 +51,7 @@ const submitTest = async (QuestionsIdForTest, email) => {
   }
 };
 
-export default function CreateTests() {
+export default function TeacherReports() {
   const { data: session } = useSession();
   let email = "";
   if (session) {
@@ -64,16 +66,35 @@ export default function CreateTests() {
   function handleFieldTestName() {
     questionsIdForTest.testName = event.target.value;
   }
+  const dataTests = [
+    { label: "Pulp Fiction", year: 1994 },
+    { label: "12 Angry Men", year: 1957 },
+  ];
   return (
     <>
-      <h2>Create Tests</h2>
-      <TextField
-        sx={{ width: "650px", marginTop: "20px" }}
-        id="Test-name-field"
-        label="Test name"
-        variant="outlined"
-        name="testName"
-        title="Name the test (for your use)"
+      <h2>Reports</h2>
+      <h6>Select a test for his report view:</h6>
+
+      <h6>Free search of your choice:</h6>
+
+      <Autocomplete
+        disablePortal
+        id="test-name-field"
+        options={dataTests}
+        sx={{ width: 400, marginTop: "20px" }}
+        renderInput={(params) => (
+          <TextField {...params} label="Search by test name" />
+        )}
+        onChange={handleFieldTestName}
+      />
+      <Autocomplete
+        disablePortal
+        id="student-name-field"
+        options={dataTests}
+        sx={{ width: 400, marginTop: "20px" }}
+        renderInput={(params) => (
+          <TextField {...params} label="Search by student name" />
+        )}
         onChange={handleFieldTestName}
       />
 
@@ -126,9 +147,6 @@ function DataTable({ questions, questionsIdForTest }) {
   });
   return (
     <>
-      <h6>
-        Select the questions you want and click Submit to create the test:
-      </h6>
       <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
         <DataGrid
           rows={rows}

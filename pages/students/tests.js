@@ -18,8 +18,8 @@ function getDataFromServer(setTestsArr, email) {
   })
     .then((res) => res.json())
     .then((studentsTests) => {
-      console.log(studentsTests.tests);
-      setTestsArr(studentsTests.tests);
+      console.log("studentsTests.tests", studentsTests);
+      setTestsArr(studentsTests);
     })
     .catch(() => setTestsArr(["error"]));
 }
@@ -91,7 +91,7 @@ function SelectTest({ testsArr, setDisabled }) {
         onChange={handleSelectTest}
       >
         {testsArr.map((test) => (
-          <MenuItem key={test._id} value={test._id}>
+          <MenuItem key={test.test.testName} value={test.test._id}>
             {test.test.testName}
           </MenuItem>
         ))}

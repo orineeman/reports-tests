@@ -19,7 +19,7 @@ const teacher = new Schema({
       groupId: { type: Schema.Types.ObjectId, ref: Group },
       report: [
         {
-          question: { type: Schema.Types.ObjectId, ref: Question },
+          questionId: { type: Schema.Types.ObjectId, ref: Question },
           studentsRight: [{ type: Schema.Types.ObjectId, ref: Student }],
         },
       ],

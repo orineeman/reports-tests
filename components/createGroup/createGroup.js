@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
-import styles from "./createGroup.module.css";
+import styles from "./CreateGroup.module.css";
 import { useSession } from "next-auth/react";
 
 const filedsValue = {

@@ -1,7 +1,7 @@
 import StudentNav from "../components/StudentsNav/StudentsNav";
 import styles from "../styles/Home.module.css";
 
-export default function Admin() {
+export default function Students() {
   return (
     <div className={styles.container}>
       <div className={styles.nav}>

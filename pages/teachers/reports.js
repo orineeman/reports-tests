@@ -1,4 +1,4 @@
-import CreateGroup from "../../components/CreateGroup/CreateGroup";
+import TeacherReports from "../../components/TeacherReports/TeacherReports";
 import TeachersNav from "../../components/TeachersNav/TeachersNav";
 import styles from "../../styles/Home.module.css";
 
@@ -9,7 +9,7 @@ export default function Teachers() {
         <TeachersNav />
       </div>
       <div className={styles.contents}>
-        <CreateGroup />
+        <TeacherReports />
       </div>
     </div>
   );

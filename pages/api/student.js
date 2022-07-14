@@ -6,10 +6,18 @@ import Test from "../../models/test";
 const handler = async (req, res) => {
   if (req.method === "GET") {
     if (req.headers.pleaseget === "tests") {
-      const studentTests = await Student.findOne({
+      const student = await Student.findOne({
         email: req.headers.email,
       }).populate(["tests.test"]);
-      res.send(studentTests);
+
+      const testsNoDode = [];
+      for (let test of student.tests) {
+        if (!test.done) {
+          testsNoDode.push(test);
+        }
+      }
+      console.log("testsNoDode", testsNoDode);
+      res.send(testsNoDode);
     }
   } else if (req.method === "PATCH" && req.headers.answer === "answer") {
     const data = JSON.parse(req.body);

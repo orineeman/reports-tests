@@ -24,7 +24,11 @@ const handler = async (req, res) => {
         for (let student of groupDetails.students) {
           await Student.findOneAndUpdate(
             { email: student.email },
-            { $push: { tests: { test: testId, currentQuestion: 0 } } }
+            {
+              $push: {
+                tests: { test: testId, currentQuestion: 1, done: false },
+              },
+            }
           );
           console.log(student.fullName, student.email);
           await sendEmail(
