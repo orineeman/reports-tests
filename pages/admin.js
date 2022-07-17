@@ -26,7 +26,7 @@ export default function Admin() {
         })
         .catch(() => console.log("error"));
     }
-  }, [email]);
+  }, [email, router]);
   return (
     <div className={styles.container}>
       <div className={styles.nav}>
@@ -38,3 +38,5 @@ export default function Admin() {
     </div>
   );
 }
+
+Admin.authAdmin = true;

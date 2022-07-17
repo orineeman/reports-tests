@@ -3,7 +3,7 @@ import Question from "./question";
 const Schema = mongoose.Schema;
 
 const test = new Schema({
-  testName: String,
+  label: String,
   questions: [{ type: Schema.Types.ObjectId, ref: Question }],
 });
 

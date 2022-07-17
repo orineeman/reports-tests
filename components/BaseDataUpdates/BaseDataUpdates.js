@@ -1,6 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
+import styles from "./BaseDataUpdates.module.css";
 
 function getDataFromServer(setShowQuestions) {
   fetch("/api/question", {
@@ -9,7 +10,6 @@ function getDataFromServer(setShowQuestions) {
   })
     .then((res) => res.json())
     .then((newQuestions) => {
-      console.log(newQuestions);
       setShowQuestions(newQuestions);
     })
     .catch(() => console.log("error"));
@@ -34,7 +34,7 @@ const confirmQuestions = async (QuestionsIdForUpdate) => {
   }
 };
 
-export default function CheckNewQuestions() {
+export default function BaseDataUpdates() {
   const QuestionsIdForUpdate = { questions: [] };
   const [showQuestions, setShowQuestions] = useState([]);
   useEffect(() => {
@@ -43,7 +43,46 @@ export default function CheckNewQuestions() {
 
   return (
     <>
-      <h2>Check new questions</h2>
+      <h2>Base data updates</h2>
+      <h4>Select the data you want to update</h4>
+      <div className={styles.flex}>
+        <Button
+          variant="outlined"
+          sx={{ margin: "15px", width: "150px" }}
+          key="permissions"
+          type="permissions"
+          onClick={() => showUpdatePermissions(QuestionsIdForUpdate)}
+        >
+          Permissions
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ margin: "15px", width: "150px" }}
+          key="ages"
+          type="ages"
+          onClick={() => showUpdateAges(QuestionsIdForUpdate)}
+        >
+          Ages
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ margin: "15px", width: "150px" }}
+          key="subjects"
+          type="subjects"
+          onClick={() => showUpdateSubjects(QuestionsIdForUpdate)}
+        >
+          Subjects
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ margin: "15px", width: "150px" }}
+          key="difficulties"
+          type="difficulties"
+          onClick={() => showUpdateDifficulties(QuestionsIdForUpdate)}
+        >
+          Difficulties
+        </Button>
+      </div>
 
       <DataTable
         questions={showQuestions}
@@ -54,12 +93,12 @@ export default function CheckNewQuestions() {
       >
         <Button
           variant="contained"
-          sx={{ margin: "15px", width: "150px" }}
-          key="confirm"
-          type="confirm"
-          onClick={() => confirmQuestions(QuestionsIdForUpdate)}
+          sx={{ margin: "15px", width: "200px" }}
+          key="save changes"
+          type="save changes"
+          onClick={() => saveChanges(QuestionsIdForUpdate)}
         >
-          confirm
+          Save changes
         </Button>
       </div>
     </>
@@ -72,12 +111,7 @@ function DataTable({ questions, QuestionsIdForUpdate }) {
     { field: "subject", headerName: "Subject", width: 150 },
     { field: "difficulty", headerName: "Difficulty", width: 110 },
     { field: "question", headerName: "Question", width: 130 },
-    {
-      field: "answers",
-      headerName: "Answers",
-      width: 130,
-      height: 100,
-    },
+    { field: "answers", headerName: "Answers", width: 130, height: 100 },
   ];
 
   const rows = [];
@@ -92,16 +126,13 @@ function DataTable({ questions, QuestionsIdForUpdate }) {
       difficulty: question.difficulty.difficulty,
       question: question.content,
       answers: answers,
+
       id: question._id,
     };
     rows.push(questionToRows);
   });
   return (
     <>
-      <h6>
-        Highlight the questions you want to approve for teachers to use, and
-        click on confirm button
-      </h6>
       <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
         <DataGrid
           rows={rows}
@@ -109,7 +140,6 @@ function DataTable({ questions, QuestionsIdForUpdate }) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           checkboxSelection
-          // sx={{ color: "red" }}
           onSelectionModelChange={(newSelectionModel) => {
             QuestionsIdForUpdate.questions = newSelectionModel;
           }}

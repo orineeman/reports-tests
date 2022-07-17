@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
+let answerTime = 0;
+
 async function getTestFromServer(
   testId,
   setNextQuestion,
@@ -48,7 +50,11 @@ function sendDataToServer(dataToServer, nextQuestion, answerTime) {
   }).catch(() => console.log("error"));
 }
 
-function answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer) {
+function answerTimeCount(
+  intervalId,
+  setIntervalId
+  //  answerTime, dataToServer
+) {
   // dataToServer.time = answerTime;
   if (intervalId) {
     clearInterval(intervalId);
@@ -56,8 +62,8 @@ function answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer) {
   }
   const newIntervalId = setInterval(() => {
     answerTime++;
-    dataToServer.time = answerTime;
-    console.log(answerTime);
+    // dataToServer.time = answerTime;
+    // console.log(answerTime);
   }, 1000);
   setIntervalId(newIntervalId);
 }
@@ -65,12 +71,12 @@ function answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer) {
 function startTest(
   setShowQuestions,
   intervalId,
-  setIntervalId,
-  answerTime,
-  dataToServer
+  setIntervalId
+  // answerTime,
+  // dataToServer
 ) {
   setShowQuestions(true);
-  answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer);
+  answerTimeCount(intervalId, setIntervalId);
 }
 
 export default function TestLobby() {
@@ -94,7 +100,6 @@ export default function TestLobby() {
 }
 
 function TestQuestions({ testId, setDoneTest }) {
-  let answerTime = 0;
   let email = "";
   const [showQuestions, setShowQuestions] = useState(false);
   const [nextQuestion, setNextQuestion] = useState({});
@@ -135,17 +140,18 @@ function TestQuestions({ testId, setDoneTest }) {
   async function goOn(
     test,
     intervalId,
-    setIntervalId,
+    setIntervalId
     // answerTime,
-    dataToServer
+    // dataToServer
   ) {
-    console.log("answerTime", answerTime);
     if (questionNum <= test.length) {
       // dataToServer.time = answerTime;
 
+      console.log("answerTime before sendDataToServer", answerTime);
       await sendDataToServer(dataToServer, nextQuestion, answerTime);
       setNextQuestion(test[questionNum]);
       setQuestionNum(questionNum + 1);
+      answerTime = 0;
       answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer);
       if (questionNum === test.length) {
         alert("Well done");
@@ -181,7 +187,7 @@ function TestQuestions({ testId, setDoneTest }) {
                     setShowQuestions,
                     intervalId,
                     setIntervalId,
-                    answerTime,
+                    // answerTime,
                     dataToServer
                   )
                 }

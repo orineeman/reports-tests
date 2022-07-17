@@ -2,49 +2,21 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 
-// function createTeacher(userDetails) {
-// console.log(userDetails);
-// fetch("/api/teacher", {
-//   method: "POST",
-//   body: JSON.stringify(userDetails),
-// })
-//   .then((res) => res.json())
-//   .then(() => {
-//     console.log("the client register in the DB");
-//   })
-//   .catch(() => console.log("error"));
-// }
-function validationPermissionUser(session) {
-  fetch("/api/permissions", {
-    method: "GET",
-    headers: { please: "valid", email: session?.user?.email },
-  })
-    .then((res) => res.json())
-    .then((confirm) => {
-      setConfirm(confirm);
-    })
-    .catch(() => console.log("error"));
-}
-
 async function userConnection(user) {
-  // console.log("user", user);
   user ? true : false;
 }
 
-async function logIn(setSignIn, session) {
+async function logIn() {
   await signIn("google", {
     redirect: false,
     callbackUrl: `http://localhost:3000/`,
   });
-  // setSignIn(true);
-  validationPermissionUser(session);
 }
-async function logOut(setSignIn) {
+async function logOut() {
   await signOut({
     redirect: true,
     callbackUrl: "http://localhost:3000/",
   });
-  // setSignIn(false);
 }
 export default function Header() {
   const { data: session } = useSession();

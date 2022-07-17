@@ -9,8 +9,9 @@ export default function Students() {
       </div>
       <div className={styles.contents}>
         <h1>welcome mr. student</h1>
-        <h4>Sign in with Google to continue</h4>
       </div>
     </div>
   );
 }
+
+Students.authStudents = true;

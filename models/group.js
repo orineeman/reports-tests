@@ -7,7 +7,7 @@ const group = new Schema({
   students: [{ type: Schema.Types.ObjectId, ref: Student }],
   // tests: [{ type: Schema.Types.ObjectId, ref: Test }],
   haveTest: Boolean,
-  groupName: String,
+  label: String,
 });
 
 mongoose.models = {};

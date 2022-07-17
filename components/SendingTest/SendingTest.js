@@ -157,7 +157,7 @@ function SelectTest({ testsArr }) {
       >
         {testsArr.map((test) => (
           <MenuItem key={test._id} value={test._id}>
-            {test.testName}
+            {test.label}
           </MenuItem>
         ))}
       </Select>
@@ -189,7 +189,7 @@ function SelectGroup({ groupsArr }) {
       >
         {groupsArr.map((group) => (
           <MenuItem key={group._id} value={group._id}>
-            {group.groupName}
+            {group.label}
           </MenuItem>
         ))}
       </Select>

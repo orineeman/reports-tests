@@ -17,7 +17,7 @@ function getDataFromServer(setShowTest) {
 const submitTest = async (QuestionsIdForTest, email) => {
   let testIdAndEmail = {};
   console.log(QuestionsIdForTest);
-  if (QuestionsIdForTest.questions && QuestionsIdForTest.testName) {
+  if (QuestionsIdForTest.questions && QuestionsIdForTest.label) {
     await fetch("/api/test", {
       method: "POST",
       body: JSON.stringify(QuestionsIdForTest),
@@ -55,14 +55,14 @@ export default function CreateTests() {
   if (session) {
     email = session.user.email;
   }
-  const questionsIdForTest = { questions: [], testName: "" };
+  const questionsIdForTest = { questions: [], label: "" };
   const [showTest, setShowTest] = useState([]);
   useEffect(() => {
     getDataFromServer(setShowTest);
   }, []);
 
   function handleFieldTestName() {
-    questionsIdForTest.testName = event.target.value;
+    questionsIdForTest.label = event.target.value;
   }
   return (
     <>
@@ -72,7 +72,7 @@ export default function CreateTests() {
         id="Test-name-field"
         label="Test name"
         variant="outlined"
-        name="testName"
+        name="label"
         title="Name the test (for your use)"
         onChange={handleFieldTestName}
       />

@@ -53,18 +53,18 @@ export default function TestsOfStudents() {
       <div className={styles.contents}>
         <h4>Select a test</h4>
         <SelectTest testsArr={testsArr} setDisabled={setDisabled} />
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          sx={{ margin: "15px", width: "150px" }}
-          key="submit"
-          type="submit"
-          disabled={disabled}
-          onClick={() => router.push(`/test/${filedsValue.testId}`)}
-        >
-          Start test
-        </Button>
+        <div style={{ marginTop: "30px" }}>
+          <Button
+            variant="contained"
+            sx={{ margin: "15px", width: "150px" }}
+            key="submit"
+            type="submit"
+            disabled={disabled}
+            onClick={() => router.push(`/test/${filedsValue.testId}`)}
+          >
+            Start test
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -90,11 +90,14 @@ function SelectTest({ testsArr, setDisabled }) {
         key="test"
         onChange={handleSelectTest}
       >
-        {testsArr.map((test) => (
-          <MenuItem key={test.test.testName} value={test.test._id}>
-            {test.test.testName}
-          </MenuItem>
-        ))}
+        {testsArr.map(
+          (test) =>
+            test.test && (
+              <MenuItem key={test.test.label} value={test.test._id}>
+                {test.test.label}
+              </MenuItem>
+            )
+        )}
       </Select>
     </FormControl>
   );

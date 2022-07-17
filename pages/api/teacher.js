@@ -10,7 +10,6 @@ const handler = async (req, res) => {
       const teacherDetails = await Teacher.findOne({
         email: req.headers.email,
       }).populate(["groups", "tests"]);
-      console.log("teacherDetails:", teacherDetails);
       res.send(teacherDetails);
     }
   } else if (req.body.pleaseGet === "get all teachers to admin") {
@@ -50,18 +49,17 @@ const handler = async (req, res) => {
     const teacher = JSON.parse(req.body);
     // const teacher = req.body; //postman
     if (teacher.testId) {
-      const { teacherName, email, testId } = teacher;
+      console.log("teacher", teacher);
+      const { email, testId } = teacher;
       // const test = { test: testId };
       const updateTestsTeacher = await Teacher.findOneAndUpdate(
         { email },
         { $push: { tests: testId } }
       );
       res.send(updateTestsTeacher);
-      sendEmail(`hi ${teacherName}`, "your test saved", email);
     }
 
     if (teacher.groupId) {
-      console.log("teacher", teacher);
       const { teacherName, email, groupId } = teacher;
       // const group = { group: groupId };
       const updateGroupsTeacher = await Teacher.findOneAndUpdate(

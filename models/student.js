@@ -5,7 +5,7 @@ import Test from "./test";
 const Schema = mongoose.Schema;
 
 const student = new Schema({
-  fullName: String,
+  label: String,
   email: String,
   tests: [
     {

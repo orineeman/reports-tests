@@ -10,10 +10,10 @@ const handler = async (req, res) => {
     // const testAndGroup = req.body; //postman
     const { message, testId, groupId, email, teacherName, date } = testAndGroup;
     if (testId && groupId && email && teacherName && date) {
+      console.log("groupId:", groupId);
+
       try {
-        const groupDetails = await Group.findOne({ groupId }).populate(
-          "students"
-        );
+        const groupDetails = await Group.findById(groupId).populate("students");
         console.log("groupDetails:", groupDetails);
 
         const teacher = await Teacher.findOneAndUpdate(
@@ -30,9 +30,9 @@ const handler = async (req, res) => {
               },
             }
           );
-          console.log(student.fullName, student.email);
+          console.log(student.label, student.email);
           await sendEmail(
-            `Hi ${student.fullName}, `,
+            `Hi ${student.label}, `,
             `The teacher ${teacherName} sent you a test, to start clicking on the attached link And he added the following message:${message}.
              http://localhost:3000/test/${testId}`,
             student.email

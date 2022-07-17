@@ -28,11 +28,11 @@ const handler = async (req, res) => {
           });
           console.log("validationOfPermissions:", validationOfPermissions);
           if (!validationOfPermissions) {
-            const newStudent = new Permission({
+            const newPermission = new Permission({
               fullName,
               email,
             });
-            await newStudent.save();
+            await newPermission.save();
             await sendEmail(
               `Hi ${fullName}, `,
               "In good time you received permission to the site, to start working a conference here: http://localhost:3000/teachers",

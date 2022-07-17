@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 const filedsValue = {
   students: [],
   tests: [],
-  groupName: "",
+  label: "",
 };
 export default function CreateGroup() {
   const { data: session } = useSession();
@@ -19,7 +19,7 @@ export default function CreateGroup() {
 
   const sendGroupToServer = async (filedsValue, email, teacherName) => {
     let groupIdAndEmail = {};
-    if (filedsValue.students && filedsValue.groupName) {
+    if (filedsValue.students && filedsValue.label) {
       await fetch("/api/group", {
         method: "POST",
         body: JSON.stringify(filedsValue),
@@ -52,7 +52,7 @@ export default function CreateGroup() {
   };
 
   function handleGroupNameField(event) {
-    filedsValue.groupName = event.target.value;
+    filedsValue.label = event.target.value;
     console.log(filedsValue);
   }
   return (
@@ -91,8 +91,8 @@ function StudentsFields({ filedsValue }) {
   const [disabledEmailField, setDisabledEmailField] = useState(true);
 
   const handleStudentNameChange = (studentField, index) => {
-    filedsValue.students[index] = { fullName: "" };
-    filedsValue.students[index].fullName = event.target.value;
+    filedsValue.students[index] = { label: "" };
+    filedsValue.students[index].label = event.target.value;
     console.log(filedsValue);
     setDisabledAddButton(false);
     setDisabledEmailField(false);

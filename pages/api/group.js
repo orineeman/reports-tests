@@ -16,15 +16,15 @@ const handler = async (req, res) => {
     } else {
       console.log("group is json");
     }
-    const { students, tests, groupName } = group;
+    const { students, tests, label } = group;
     if (students) {
       try {
         for (let i = 0; i < students.length; i++) {
-          const { fullName, email } = students[i];
+          const { label, email } = students[i];
           // console.log();
-          console.log("fullName", fullName, "email", email);
+          console.log("label", label, "email", email);
           const newStudent = new Student({
-            fullName,
+            label,
             email,
           });
           const newSt = await newStudent.save();
@@ -39,16 +39,16 @@ const handler = async (req, res) => {
       res.status(422).send("Fill in the student fields");
     }
     // ------------------------------------
-    console.log("students && groupName", students, groupName);
+    console.log("students && label", students, label);
 
-    if (students && groupName) {
+    if (students && label) {
       //לולידציה להוסיף במקום 0 גם לסטודנטים
       try {
         console.log("studentsId", studentsId);
         const newGroup = new Group({
           students: studentsId,
           tests,
-          groupName,
+          label,
           haveTest: false,
         });
         const groupCreated = await newGroup.save();
