@@ -20,7 +20,7 @@ function ExplanationTeachers() {
       A. Uploading questions to the database - fields to fill in - approximate
       age for the question, the question, 4 American answers or a standard
       answer, send button. Will send an email thanking the teacher for the
-      question, and response time X days if the question was received.
+      question, and response time 14 days if the question was received.
       <br />
       <br />
       B. In pulling a test by age and by subject - filtering by age and subject

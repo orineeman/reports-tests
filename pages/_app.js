@@ -13,11 +13,9 @@ const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
   const [permissions, setPermissions] = useState({});
 
   const email = data?.user?.email;
-  console.log("data", email);
 
   useEffect(() => {
     if (email && (authStudents || authAdmin || authTeachers)) {
-      console.log("/api/permissions", email);
       fetch(`/api/permissions/${email}`)
         .then((res) => res.json())
         .then((permission) => {

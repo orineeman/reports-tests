@@ -49,9 +49,7 @@ const handler = async (req, res) => {
     const teacher = JSON.parse(req.body);
     // const teacher = req.body; //postman
     if (teacher.testId) {
-      console.log("teacher", teacher);
       const { email, testId } = teacher;
-      // const test = { test: testId };
       const updateTestsTeacher = await Teacher.findOneAndUpdate(
         { email },
         { $push: { tests: testId } }

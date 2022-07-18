@@ -1,7 +1,6 @@
 .header {
   width: 85%;
   height: 80px;
-  /* border: 1px solid black; */
   margin: -8px auto 0 auto;
 
   padding: 8px;
@@ -12,6 +11,13 @@
   justify-content: space-around;
   display: flex;
   align-items: center;
+}
+.flex {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  justify-content: space-around;
+  /* border: 1px solid black; */
 }
 .signIn {
   background-color: transparent;

@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import styles from "./TeacherReports.module.css";
+import styles from "./AdminReports.module.css";
 import DataTableReportQuestion from "../DataTableReportQuestion/DataTableReportQuestion";
 
 const valueToSearch = {};
@@ -92,7 +92,7 @@ const Search = async (
   }
 };
 
-export default function TeacherReports() {
+export default function AdminReports() {
   const [data, setData] = useState([]);
   const [testsList, setTestsList] = useState([]);
   const [groupsList, setGroupsList] = useState([]);

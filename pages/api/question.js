@@ -24,7 +24,6 @@ const handler = async (req, res) => {
     req.headers.pleaseget === "newQuestions"
   ) {
     const questionsIdToUpdate = JSON.parse(req.body);
-    console.log("questionsIdToUpdate", questionsIdToUpdate);
     for (let questionId of questionsIdToUpdate) {
       const update = await Question.findByIdAndUpdate(questionId, {
         confirmed: true,
@@ -36,12 +35,7 @@ const handler = async (req, res) => {
   } else if (req.method === "POST") {
     const question = JSON.parse(req.body);
     // const question = req.body; //postman
-    console.log("question", question);
-    if (typeof question === "string") {
-      console.log("question is string");
-    } else {
-      console.log("question is json");
-    }
+
     const { age, subject, difficulty, content, answers } = question;
     if (age && subject && difficulty && content && answers) {
       try {
@@ -75,7 +69,6 @@ const handler = async (req, res) => {
         return res.status(500).send(error.message);
       }
     } else {
-      console.log("I'm here");
       res.status(422).send("data_incomplete");
     }
   } else {

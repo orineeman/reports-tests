@@ -10,14 +10,13 @@ const handler = async (req, res) => {
         email: req.headers.email,
       }).populate(["tests.test"]);
 
-      const testsNoDode = [];
+      const testsNoDone = [];
       for (let test of student.tests) {
         if (!test.done) {
-          testsNoDode.push(test);
+          testsNoDone.push(test);
         }
       }
-      console.log("testsNoDode", testsNoDode);
-      res.send(testsNoDode);
+      res.send(testsNoDone);
     }
   } else if (req.method === "PATCH" && req.headers.answer === "answer") {
     const data = JSON.parse(req.body);
@@ -31,7 +30,6 @@ const handler = async (req, res) => {
       questionId,
       restAnswers,
     } = data.dataToServer;
-    console.log("time", time);
     if (
       markedAnswerId &&
       currentQuestion &&
@@ -40,10 +38,13 @@ const handler = async (req, res) => {
       questionId &&
       restAnswers
     ) {
+      // let numOfQuestions = 0;
       let done = false;
       const test = await Test.findById(testId);
       if (currentQuestion >= test.questions.length) {
         done = true;
+        // const numOfQuestions = test.questions.length;
+        // gradeCalculation(email, testId, numOfQuestions);
       }
       const answers = [];
       let answerCorrectly = null;
@@ -127,6 +128,10 @@ const handler = async (req, res) => {
           });
         }
       }
+      if (done) {
+        const numOfQuestions = test.questions.length;
+        gradeCalculation(email, testId, numOfQuestions);
+      }
     }
 
     res.send("updateTestOfStudent");
@@ -136,3 +141,34 @@ const handler = async (req, res) => {
 };
 
 export default connectDB(handler);
+
+async function gradeCalculation(email, testId, numOfQuestions) {
+  console.log("bobobo");
+  console.log("numOfQuestions", numOfQuestions);
+  try {
+    let numOfCorrectAnswers = 0;
+    const student = await Student.findOne({ email });
+    console.log("testId", testId);
+    for (let test of student.tests) {
+      if (test.test == testId) {
+        console.log("toto");
+        for (let question of test.questions) {
+          if (question.answerCorrectly) numOfCorrectAnswers++;
+        }
+      }
+    }
+    const percentage = numOfQuestions / numOfCorrectAnswers;
+    const grade = 100 / percentage;
+    console.log("grade", grade);
+    await Student.findOneAndUpdate(
+      { email, "tests.test": testId },
+      {
+        $set: {
+          "tests.$.grade": grade,
+        },
+      }
+    );
+  } catch (e) {
+    console.log("ERROR", e);
+  }
+}

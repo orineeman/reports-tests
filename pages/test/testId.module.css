@@ -15,6 +15,7 @@
   background-color: rgb(240, 240, 240);
   box-shadow: 3px 3px 3px 3px;
   margin-top: 5px;
+  text-align: center;
 }
 .contents {
   padding: 30px;

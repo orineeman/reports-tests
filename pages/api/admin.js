@@ -22,11 +22,9 @@ const handler = async (req, res) => {
       try {
         for (let i = 0; i < permissions.length; i++) {
           const { fullName, email } = permissions[i];
-          console.log("fullName", fullName, "email", email);
           const validationOfPermissions = await Permission.findOne({
             email,
           });
-          console.log("validationOfPermissions:", validationOfPermissions);
           if (!validationOfPermissions) {
             const newPermission = new Permission({
               fullName,

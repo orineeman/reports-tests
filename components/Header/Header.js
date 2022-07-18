@@ -1,6 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
+import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 
 async function userConnection(user) {
   user ? true : false;
@@ -30,7 +31,10 @@ export default function Header() {
   }, [session]);
   return (
     <div className={styles.header}>
-      <h3>Test-reports</h3>
+      <div className={styles.flex}>
+        <CreateOutlinedIcon />
+        <h3>Test-reports</h3>
+      </div>
       <h5>Hello {session?.user?.name || `guest`}</h5>
       <div>
         {!signIn && (

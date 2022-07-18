@@ -20,7 +20,8 @@ const handler = async (req, res) => {
       })
         .populate(["groups", "tests"])
         .populate("sendTests.groupId")
-        .populate({ path: "groups", populate: { path: "students" } });
+        .populate({ path: "groups", populate: { path: "students" } })
+        .populate({ path: "tests", populate: { path: "questions" } });
     }
     // studentsOfTeacher = await Teacher.findOne({
     //     email,

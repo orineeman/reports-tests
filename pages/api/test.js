@@ -38,8 +38,6 @@ const handler = async (req, res) => {
         if (test.done) {
           done = true;
         }
-        console.log("test.test", test.test);
-        console.log("testId", testId);
         if (test.currentQuestion !== 1) {
           currentQuestion = test.currentQuestion;
         }

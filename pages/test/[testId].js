@@ -50,31 +50,18 @@ function sendDataToServer(dataToServer, nextQuestion, answerTime) {
   }).catch(() => console.log("error"));
 }
 
-function answerTimeCount(
-  intervalId,
-  setIntervalId
-  //  answerTime, dataToServer
-) {
-  // dataToServer.time = answerTime;
+function answerTimeCount(intervalId, setIntervalId) {
   if (intervalId) {
     clearInterval(intervalId);
     setIntervalId(0);
   }
   const newIntervalId = setInterval(() => {
     answerTime++;
-    // dataToServer.time = answerTime;
-    // console.log(answerTime);
   }, 1000);
   setIntervalId(newIntervalId);
 }
 
-function startTest(
-  setShowQuestions,
-  intervalId,
-  setIntervalId
-  // answerTime,
-  // dataToServer
-) {
+function startTest(setShowQuestions, intervalId, setIntervalId) {
   setShowQuestions(true);
   answerTimeCount(intervalId, setIntervalId);
 }
@@ -135,19 +122,10 @@ function TestQuestions({ testId, setDoneTest }) {
         setDoneTest
       );
     }
-  }, [email, testId]);
+  }, [email, setDoneTest, testId]);
 
-  async function goOn(
-    test,
-    intervalId,
-    setIntervalId
-    // answerTime,
-    // dataToServer
-  ) {
+  async function goOn(test, intervalId, setIntervalId) {
     if (questionNum <= test.length) {
-      // dataToServer.time = answerTime;
-
-      console.log("answerTime before sendDataToServer", answerTime);
       await sendDataToServer(dataToServer, nextQuestion, answerTime);
       setNextQuestion(test[questionNum]);
       setQuestionNum(questionNum + 1);
@@ -183,13 +161,7 @@ function TestQuestions({ testId, setDoneTest }) {
                 title="click to start the test"
                 variant="contained"
                 onClick={() =>
-                  startTest(
-                    setShowQuestions,
-                    intervalId,
-                    setIntervalId,
-                    // answerTime,
-                    dataToServer
-                  )
+                  startTest(setShowQuestions, intervalId, setIntervalId)
                 }
               >
                 Start the test
@@ -218,15 +190,7 @@ function TestQuestions({ testId, setDoneTest }) {
                 key="goOn"
                 title="Go to the next question"
                 variant="contained"
-                onClick={() =>
-                  goOn(
-                    test,
-                    intervalId,
-                    setIntervalId,
-                    // answerTime,
-                    dataToServer
-                  )
-                }
+                onClick={() => goOn(test, intervalId, setIntervalId)}
               >
                 Go on
               </Button>

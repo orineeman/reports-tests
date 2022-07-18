@@ -6,7 +6,6 @@ const handler = async (req, res) => {
   if (req.method === "GET") {
     const { email } = req.query;
     let permissions = {};
-    console.log("email", email);
     if (email === process.env.EMAIL) {
       permissions.adminPermission = true;
     }

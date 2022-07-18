@@ -10,17 +10,13 @@ const handler = async (req, res) => {
     // const testAndGroup = req.body; //postman
     const { message, testId, groupId, email, teacherName, date } = testAndGroup;
     if (testId && groupId && email && teacherName && date) {
-      console.log("groupId:", groupId);
-
       try {
         const groupDetails = await Group.findById(groupId).populate("students");
-        console.log("groupDetails:", groupDetails);
 
         const teacher = await Teacher.findOneAndUpdate(
           { email },
           { $push: { sendTests: { test: testId, groupId, date } } }
         );
-        console.log("teacher", teacher);
         for (let student of groupDetails.students) {
           await Student.findOneAndUpdate(
             { email: student.email },
