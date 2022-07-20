@@ -34,20 +34,25 @@ async function getTestFromServer(
   }
 }
 
-function sendDataToServer(dataToServer, nextQuestion, answerTime) {
+async function sendDataToServer(dataToServer, nextQuestion, answerTime) {
   dataToServer.questionId = nextQuestion.questionId;
   const restAnswers = nextQuestion.answers.filter(
     (answer) => answer.answerId !== dataToServer.markedAnswerId
   );
   dataToServer.restAnswers = restAnswers;
   dataToServer.time = answerTime;
-  fetch("/api/student", {
-    method: "PATCH",
-    headers: { answer: "answer" },
-    body: JSON.stringify({
-      dataToServer,
-    }),
-  }).catch(() => console.log("error"));
+
+  try {
+    await fetch("/api/student", {
+      method: "PATCH",
+      headers: { answer: "answer" },
+      body: JSON.stringify({
+        dataToServer,
+      }),
+    });
+  } catch (e) {
+    console.log("error");
+  }
 }
 
 function answerTimeCount(intervalId, setIntervalId) {
@@ -94,6 +99,8 @@ function TestQuestions({ testId, setDoneTest }) {
   const [numOfQuestions, setNumOfQuestions] = useState(0);
   const [questionNum, setQuestionNum] = useState(0);
   const [intervalId, setIntervalId] = useState(0);
+  const [checked, setChecked] = useState([]);
+
   const router = useRouter();
   const dataToServer = {
     markedAnswerId: "",
@@ -131,6 +138,7 @@ function TestQuestions({ testId, setDoneTest }) {
       setQuestionNum(questionNum + 1);
       answerTime = 0;
       answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer);
+      setChecked([]);
       if (questionNum === test.length) {
         alert("Well done");
         router.push("/students");
@@ -175,11 +183,13 @@ function TestQuestions({ testId, setDoneTest }) {
           <div className={styles.contents}>
             <h6>Question: {questionNum}</h6>
             <h2>{nextQuestion?.content}</h2>
-            {nextQuestion?.answers.map((answer) => (
-              <div key={answer}>
+            {nextQuestion?.answers.map((answer, index) => (
+              <div key={answer.answerId}>
                 <Checkbox
+                  checked={checked[index]}
                   value={answer}
                   onChange={() => handleChange(event, answer)}
+                  inputProps={{ "aria-label": "controlled" }}
                 />
                 {answer.content}
               </div>

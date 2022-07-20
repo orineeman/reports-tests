@@ -47,7 +47,6 @@ const handler = async (req, res) => {
             isCorrect: answer.isCorrect,
           });
           const createdAnswer = await newAnswer.save();
-          // console.log("newAnswer._id", newAnswer._id);
           answersToDB.push(createdAnswer);
         }
 

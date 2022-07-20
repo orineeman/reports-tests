@@ -18,6 +18,7 @@ function getQuesionFromServer(questionIdToUpdate, setQuestionData) {
   })
     .then((res) => res.json())
     .then((questionAndAnswers) => {
+      console.log("questionAndAnswers", questionAndAnswers);
       setQuestionData(questionAndAnswers);
     })
     .catch(() => console.log("error"));
@@ -63,13 +64,14 @@ export default function UploadingQuestions({
   const [agesArr, setAgesArr] = useState([]);
   const [subjectsArr, setSubjectsArr] = useState([]);
   const [difficultiesArr, setDifficultiesArr] = useState([]);
-  const [questionData, setQuestionData] = useState();
-
+  const [questionData, setQuestionData] = useState({});
   changesToUpdate.questionId = questionIdToUpdate;
 
   useEffect(() => {
-    getQuesionFromServer(questionIdToUpdate, setQuestionData);
-    getDataFromServer(setAgesArr, setSubjectsArr, setDifficultiesArr);
+    if (questionIdToUpdate) {
+      getQuesionFromServer(questionIdToUpdate, setQuestionData);
+      getDataFromServer(setAgesArr, setSubjectsArr, setDifficultiesArr);
+    }
   }, [questionIdToUpdate]);
 
   const handleCloseDialog = () => {
@@ -145,17 +147,27 @@ function TextFields({ questionData, difficultiesArr, agesArr, subjectsArr }) {
   const [currentAge, setCurrentAge] = useState("");
   const [currentSubject, setCurrentSubject] = useState("");
   const [currentDifficulty, setCurrentDifficulty] = useState("");
-  const [currentQuestion, setCurrentQuestion] = useState(
-    questionData?.question?.content
-  );
+  let questionContent = "";
+  if (questionData?.question?.content) {
+    questionContent = questionData?.question?.content;
+  }
+  const [currentQuestion, setCurrentQuestion] = useState(questionContent);
   useEffect(() => {
-    setCurrentQuestion(questionData?.question?.content);
+    if (questionData?.question?.content) {
+      setCurrentQuestion(questionData.question.content);
+    }
   }, [questionData?.question?.content]);
 
   useEffect(() => {
-    setCurrentAge(questionData?.question.age._id);
-    setCurrentSubject(questionData?.question.subject._id);
-    setCurrentDifficulty(questionData?.question.difficulty._id);
+    if (
+      questionData?.question?.age?._id &&
+      questionData?.question?.subject?._id &&
+      questionData?.question?.difficulty?._id
+    ) {
+      setCurrentAge(questionData.question.age._id);
+      setCurrentSubject(questionData.question.subject._id);
+      setCurrentDifficulty(questionData.question.difficulty._id);
+    }
   }, [difficultiesArr, subjectsArr, agesArr, questionData]);
   const handleChangeAge = (event) => {
     const indexOfAge = agesArr.findIndex(
@@ -263,7 +275,7 @@ function AnswersFields({ questionData }) {
   };
   return (
     <>
-      {questionData?.answers.map((answer, i) => (
+      {questionData?.answers?.map((answer, i) => (
         <div
           key={answer._id}
           style={{
@@ -292,7 +304,7 @@ function AnswersFields({ questionData }) {
 function DataTable({ questionData }) {
   const columns = [
     { field: "content", headerName: "answer content", width: 110 },
-    { field: "responses", headerName: "Responses", width: 80 },
+    // { field: "responses", headerName: "Responses", width: 80 },
     { field: "right", headerName: "Right", width: 50 },
     { field: "mistakes", headerName: "Mistakes", width: 70 },
     {
@@ -303,10 +315,10 @@ function DataTable({ questionData }) {
   ];
 
   const rows = [];
-  questionData?.answers.map((answer) => {
+  questionData?.answers?.map((answer) => {
     const answersToRows = {
       content: answer.content,
-      responses: answer.statistics.numberOfResponses,
+      // responses: answer.statistics.numberOfResponses,
       right: answer.statistics.amountOfRight,
       mistakes: answer.statistics.amountOfMistakes,
       misleadingPercentages: `${
@@ -320,6 +332,29 @@ function DataTable({ questionData }) {
   return (
     <>
       <div style={{ width: "100%", marginTop: "20px" }}>
+        <div
+          style={{
+            color: "rgb(65, 135, 170)",
+            textAlign: "center",
+            fontSize: 30,
+          }}
+        >
+          statistics:
+        </div>
+        <div>
+          <div style={{ color: "rgb(70, 145, 219)", display: "flex" }}>
+            Average response time (Seconds):
+            <div style={{ color: "rgb(65, 135, 170)", marginLeft: 10 }}>
+              {Math.round(questionData.averageResponsesTime * 10) / 10}
+            </div>
+          </div>
+          <div style={{ color: "rgb(70, 145, 219)", display: "flex" }}>
+            The number of times we answered the answer:
+            <div style={{ color: "rgb(65, 135, 170)", marginLeft: 10 }}>
+              {questionData.numberOfResponses}
+            </div>
+          </div>
+        </div>
         <DataGrid
           rows={rows}
           columns={columns}

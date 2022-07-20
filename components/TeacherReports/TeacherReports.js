@@ -47,6 +47,7 @@ const Search = async (
 ) => {
   if (valueToSearch.test && valueToSearch.group) {
     const { test, group } = valueToSearch;
+    // console.log("test", test, "group", group);
     const students = [];
     const questions = [];
     for (let student of group.students) {
@@ -63,20 +64,18 @@ const Search = async (
             _id: student._id,
           };
           students.push(studentDetails);
+          console.log("students", students);
           setStudentsToReportQuestion(students);
         }
       }
     }
-    for (let student of students) {
-      if (student.done) {
-        for (let tes of data.tests) {
-          if (tes._id === test._id) {
-            questions.push(tes.questions);
-          }
-        }
+    for (let tes of data.tests) {
+      if (tes._id === test._id) {
+        questions.push(tes.questions);
       }
     }
     const [q] = questions;
+    console.log("questions", questions);
     setQuestionsOfTest(q);
     setShowValueSearched(students);
     setDisabledReportQuestions(false);
@@ -94,8 +93,6 @@ export default function TeacherReports() {
   const [disabledReportQuestions, setDisabledReportQuestions] = useState(true);
   const [showReportQuestion, setShowReportQuestion] = useState([]);
   const [studentsToReportQuestion, setStudentsToReportQuestion] = useState([]);
-  // const [studentsList, setStudentsList] = useState([]);
-  // const [showStudentsOfGroup, setShowStudentsOfGroup] = useState([]);
 
   const { data: session } = useSession();
   let email = "";
@@ -265,7 +262,25 @@ function SelectQuestion({
   };
   return (
     <>
-      <h6>Select a question to view its report</h6>
+      <div className={styles.contentFlex}>
+        <h6>Select a question to view its report</h6>
+        <div
+          style={{
+            width: 200,
+            background: "rgb(235,235,235)",
+            padding: 10,
+            borderRadius: 15,
+            display: "flex",
+            fontSize: 12,
+          }}
+        >
+          <InfoOutlinedIcon sx={{ fontSize: 18, px: 0.5 }} />
+          <div>
+            Students who did not answer the question are not presented in its
+            report
+          </div>
+        </div>
+      </div>
       <Select
         disabled={disabledReportQuestions}
         sx={{ width: "300px" }}
@@ -275,7 +290,7 @@ function SelectQuestion({
         key="question"
         onChange={handleSelectQuestion}
       >
-        {questionsOfTest.map((question) => (
+        {questionsOfTest?.map((question) => (
           <MenuItem key={question._id} value={question._id}>
             {question.content}
           </MenuItem>

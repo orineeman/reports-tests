@@ -1,6 +1,7 @@
 import Question from "../../../models/question";
 import connectDB from "../../../middleware/mongodb";
 import Answer from "../../../models/answer";
+import Student from "../../../models/student";
 
 const handler = async (req, res) => {
   if (req.method === "GET") {
@@ -16,7 +17,25 @@ const handler = async (req, res) => {
       const ans = await Answer.findById(answer._id);
       answers.push(ans);
     }
-    const resData = { question, answers };
+    const responsesTime = await Student.find({
+      "tests.questions.questionId": questionId,
+    }).select("tests.questions.responseTime");
+
+    const allResponsesTimes = [];
+    for (let question of responsesTime[0].tests) {
+      for (let responses of question.questions) {
+        allResponsesTimes.push(responses.responseTime);
+      }
+    }
+    const averageResponsesTime =
+      allResponsesTimes.reduce((a, b) => a + b, 0) / allResponsesTimes.length;
+    const numberOfResponses = answers[0].statistics.numberOfResponses;
+    const resData = {
+      question,
+      answers,
+      averageResponsesTime,
+      numberOfResponses,
+    };
 
     res.send(resData);
   } else if (req.method === "PATCH") {
@@ -44,17 +63,24 @@ const handler = async (req, res) => {
         content: questionContent,
       });
     }
-    // if (answerContent) {
-    //   console.log("answerContent", answerContent);
-    //   const answersId = Object.keys(answerContent);
-    //   console.log("answersId", answersId);
-
-    //   for (let answerId of answersId) {
-    //     await Question.findByIdAndUpdate(answerId, {
-    //       content: answerContent.answerId,
-    //     });
-    //   }
-    // }
+    if (answerContent) {
+      console.log("answerContent", answerContent);
+      const answersId = Object.keys(answerContent);
+      console.log("answersId", answersId);
+      for (let answerId of answersId) {
+        await Question.findByIdAndUpdate(
+          { questionId, "answers._id": answerId },
+          {
+            $set: {
+              "answers.$.content": answerContent.answerId,
+            },
+          }
+        );
+        await Answer.findByIdAndUpdate(answerId, {
+          content: answerContent.answerId,
+        });
+      }
+    }
     res.send(dataToUpdate);
   } else if (req.method === "DELETE") {
     const dataToDelete = JSON.parse(req.body);

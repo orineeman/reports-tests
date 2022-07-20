@@ -12,7 +12,6 @@ const student = new Schema({
       test: { type: Schema.Types.ObjectId, ref: Test },
       currentQuestion: { type: Number, default: 1 },
       done: Boolean,
-      // report: {
       questions: [
         {
           questionId: { type: Schema.Types.ObjectId, ref: Question },
@@ -27,7 +26,6 @@ const student = new Schema({
         },
       ],
       grade: Number,
-      // },
     },
   ],
 });
