@@ -27,22 +27,18 @@ export default function CreateGroup() {
         .then((res) => res.json())
         .then((group) => {
           groupIdAndEmail.groupId = group._id;
-          console.log("From client side", group);
         })
         .catch(() => console.log("error"));
 
       groupIdAndEmail.email = email;
       groupIdAndEmail.teacherName = teacherName;
-      console.log(groupIdAndEmail);
-      console.log(filedsValue);
 
       fetch("/api/teacher", {
         method: "PATCH",
         body: JSON.stringify(groupIdAndEmail),
       })
         .then((res) => res.json())
-        .then((teacherUpdate) => {
-          console.log("the client side give-teacherUpdate:", teacherUpdate);
+        .then(() => {
           alert("Your group has been save successfully");
         })
         .catch(() => console.log("error"));
@@ -53,7 +49,6 @@ export default function CreateGroup() {
 
   function handleGroupNameField(event) {
     filedsValue.label = event.target.value;
-    console.log(filedsValue);
   }
   return (
     <>
@@ -93,14 +88,11 @@ function StudentsFields({ filedsValue }) {
   const handleStudentNameChange = (studentField, index) => {
     filedsValue.students[index] = { label: "" };
     filedsValue.students[index].label = event.target.value;
-    console.log(filedsValue);
     setDisabledAddButton(false);
     setDisabledEmailField(false);
   };
   const handleStudentEmailChange = (studentField, index) => {
     filedsValue.students[index].email = event.target.value;
-    console.log(filedsValue);
-    // setDisabledAddButton(false);
   };
 
   function addStudentField() {

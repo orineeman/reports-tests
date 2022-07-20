@@ -15,8 +15,7 @@ function getDataFromServer(setShowQuestions) {
     .catch(() => console.log("error"));
 }
 
-const confirmQuestions = async (QuestionsIdForUpdate) => {
-  console.log(QuestionsIdForUpdate);
+const confirmQuestions = (QuestionsIdForUpdate) => {
   if (QuestionsIdForUpdate.questions[0]) {
     fetch("/api/question", {
       method: "PATCH",

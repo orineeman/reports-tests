@@ -5,35 +5,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useEffect, useState } from "react";
 import styles from "./UploadingQuestions.module.css";
-
-function getDataFromServer(setAgesArr, setSubjectsArr, setDifficultiesArr) {
-  fetch("/api/age", {
-    method: "GET",
-  })
-    .then((res) => res.json())
-    .then((ages) => {
-      setAgesArr(ages);
-    })
-    .catch(() => setAgesArr(["error"]));
-
-  fetch("/api/subject", {
-    method: "GET",
-  })
-    .then((res) => res.json())
-    .then((subjects) => {
-      setSubjectsArr(subjects);
-    })
-    .catch(() => setSubjectsArr(["error"]));
-
-  fetch("/api/difficulty", {
-    method: "GET",
-  })
-    .then((res) => res.json())
-    .then((difficulties) => {
-      setDifficultiesArr(difficulties);
-    })
-    .catch(() => setDifficultiesArr(["error"]));
-}
+import getDataFromServer from "../../utils/getAgeSubjectDif";
+import { useSession } from "next-auth/react";
 
 const filedsValue = {
   difficulty: "",
@@ -41,21 +14,26 @@ const filedsValue = {
   subject: "",
   content: "",
   answers: [],
+  email: "",
 };
 export default function UploadingQuestions() {
   const [agesArr, setAgesArr] = useState([]);
   const [subjectsArr, setSubjectsArr] = useState([]);
   const [difficultiesArr, setDifficultiesArr] = useState([]);
+
   useEffect(() => {
     getDataFromServer(setAgesArr, setSubjectsArr, setDifficultiesArr);
   }, []);
 
+  const { data: session } = useSession();
+  let email = "";
+  if (session) {
+    email = session.user.email;
+  }
+
   function sendQuestionToServer(filedsValue) {
     console.log(filedsValue);
-    // let checkboxValidation = false;
-    // for (let answer of filedsValue.answers) {
-    //   checkboxValidation = answer.isCorrect ? true : false;
-    // }
+    filedsValue.email = email;
     if (
       filedsValue.difficulty &&
       filedsValue.age &&
@@ -268,7 +246,6 @@ function AnswersFields() {
                 checked={checked[index]}
                 onChange={() => handleChange(event, answerField, index)}
                 inputProps={{ "aria-label": "controlled" }}
-                // name={answerField}
               />
               <Button
                 variant="outlined"

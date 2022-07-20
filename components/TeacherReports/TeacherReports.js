@@ -15,9 +15,7 @@ import DataTableReportQuestion from "../DataTableReportQuestion/DataTableReportQ
 
 const valueToSearch = {};
 function dataProcessing(data, setTestsList, setGroupsList) {
-  // setTestsList(data.tests);
   setGroupsList(data.groups);
-  console.log(data.groups);
   const students = [];
   for (let group of data.groups) {
     students.push(group.students);
@@ -34,7 +32,6 @@ function getDataFromServer(email, setData, setTestsList, setGroupsList) {
     .then((data) => {
       setData(data);
       dataProcessing(data, setTestsList, setGroupsList);
-      console.log("data", data);
     })
     .catch(() => console.log("error"));
 }
@@ -48,7 +45,6 @@ const Search = async (
   data,
   setStudentsToReportQuestion
 ) => {
-  console.log("valueToSearch", valueToSearch);
   if (valueToSearch.test && valueToSearch.group) {
     const { test, group } = valueToSearch;
     const students = [];
@@ -67,7 +63,6 @@ const Search = async (
             _id: student._id,
           };
           students.push(studentDetails);
-          console.log("students", students);
           setStudentsToReportQuestion(students);
         }
       }
@@ -76,14 +71,12 @@ const Search = async (
       if (student.done) {
         for (let tes of data.tests) {
           if (tes._id === test._id) {
-            // console.log(tes);
             questions.push(tes.questions);
           }
         }
       }
     }
     const [q] = questions;
-    console.log(questions);
     setQuestionsOfTest(q);
     setShowValueSearched(students);
     setDisabledReportQuestions(false);
@@ -133,10 +126,7 @@ export default function TeacherReports() {
   function handleFieldTestName(event, value) {
     valueToSearch.test = value;
   }
-  // function handleFieldStudentName(event, value) {
-  //   valueToSearch.student = value;
-  //   console.log(valueToSearch);
-  // }
+
   return (
     <>
       <div className={styles.contentFlex}>

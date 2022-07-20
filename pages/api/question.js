@@ -3,7 +3,6 @@ import Answer from "../../models/answer";
 import Question from "../../models/question";
 
 const handler = async (req, res) => {
-  // console.log(req.method);
   if (req.method === "GET" && req.headers.pleaseget === "newQuestions") {
     const newQuestions = await Question.find({ confirmed: false }).populate([
       "age",
@@ -30,14 +29,16 @@ const handler = async (req, res) => {
       });
       console.log(update);
     }
-    // const questions = await Question.findByIdAndUpdate({}, { confirmed: true });
     res.send("success");
   } else if (req.method === "POST") {
     const question = JSON.parse(req.body);
-    // const question = req.body; //postman
 
-    const { age, subject, difficulty, content, answers } = question;
+    const { age, subject, difficulty, content, answers, email } = question;
     if (age && subject && difficulty && content && answers) {
+      let confirmed = false;
+      if (email === process.env.EMAIL) {
+        confirmed = true;
+      }
       try {
         const answersToDB = [];
         for (let answer of answers) {
@@ -46,6 +47,7 @@ const handler = async (req, res) => {
             isCorrect: answer.isCorrect,
           });
           const createdAnswer = await newAnswer.save();
+          // console.log("newAnswer._id", newAnswer._id);
           answersToDB.push(createdAnswer);
         }
 
@@ -55,7 +57,7 @@ const handler = async (req, res) => {
           difficulty,
           content,
           answers: answersToDB,
-          confirmed: false,
+          confirmed,
           statistics: {
             numberOfResponses: 0,
             amountOfRight: 0,

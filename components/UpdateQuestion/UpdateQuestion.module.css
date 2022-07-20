@@ -1,0 +1,7 @@
+.titles {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(70, 145, 219);
+}

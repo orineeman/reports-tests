@@ -19,7 +19,6 @@ export default function Admin() {
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log("res.status", res.status);
           if (res.status === "not confirm") {
             router.push("/");
           }

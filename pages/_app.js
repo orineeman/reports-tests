@@ -19,7 +19,6 @@ const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
       fetch(`/api/permissions/${email}`)
         .then((res) => res.json())
         .then((permission) => {
-          console.log("permission", permission);
           setPermissions(permission);
         })
         .catch(() => console.log("error"));

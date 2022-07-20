@@ -18,7 +18,6 @@ function getDataFromServer(setTestsArr, email) {
   })
     .then((res) => res.json())
     .then((studentsTests) => {
-      console.log("studentsTests.tests", studentsTests);
       setTestsArr(studentsTests);
     })
     .catch(() => setTestsArr(["error"]));
@@ -33,7 +32,6 @@ export default function TestsOfStudents() {
   const router = useRouter();
   const [testsArr, setTestsArr] = useState([]);
   const [disabled, setDisabled] = useState(true);
-  //   console.log(testsArr[0]);
   const { data: session } = useSession();
   let email = "";
   if (session?.user?.email) {

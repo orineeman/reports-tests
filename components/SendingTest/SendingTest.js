@@ -14,30 +14,14 @@ function getDataFromServer(
   setTestsArr,
   email
 ) {
-  // const reqBody = { pleaseGet: "groups and tests", email };
   fetch("/api/teacher", {
     method: "GET",
     headers: { pleaseGet: "groups and tests", email },
   })
     .then((res) => res.json())
     .then((teacherDetails) => {
-      // console.log(teacherDetails);
-      // if (teacherDetails.groups[0]) {
-      // console.log(4);
-      // setGroupsArr(...groupsArr, {
-      // groupName: "You have not yet created a group",
-      // });
-      // } else {
       setGroupsArr(teacherDetails.groups);
-      console.log(teacherDetails);
-      // }
-      // if (teacherDetails.tests[0]) {
-      // setTestsArr(...testsArr, {
-      // testName: "You have not yet created a test",
-      // });
-      // } else {
       setTestsArr(teacherDetails.tests);
-      // }
     })
     .catch(() => setGroupsArr(["error"]));
 }
@@ -62,7 +46,6 @@ export default function SendingTest() {
     teacherName = session.user.name;
   }
   useEffect(() => {
-    // console.log("email", email);
     if (email) {
       getDataFromServer(groupsArr, setGroupsArr, testsArr, setTestsArr, email);
       filedsValue.email = email;
@@ -73,11 +56,9 @@ export default function SendingTest() {
 
   function handleFieldMessage() {
     filedsValue.message = event.target.value;
-    // console.log(filedsValue);
   }
 
   function sendDataToServer(filedsValue) {
-    console.log(filedsValue);
     if (
       filedsValue.groupId &&
       filedsValue.testId &&
@@ -89,8 +70,7 @@ export default function SendingTest() {
         body: JSON.stringify(filedsValue),
       })
         .then((res) => res.json())
-        .then((Confirm) => {
-          console.log("the server Approves sending the email", Confirm);
+        .then(() => {
           alert("Your test is sent to students");
         })
         .catch(() => console.log("error"));
@@ -140,7 +120,6 @@ function SelectTest({ testsArr }) {
   const handleSelectTest = (event) => {
     setTest(event.target.value);
     filedsValue.testId = event.target.value;
-    // console.log(event.target.value);
   };
   return (
     <FormControl fullWidth>
@@ -171,7 +150,6 @@ function SelectGroup({ groupsArr }) {
   const handleSelectGroup = (event) => {
     setGroup(event.target.value);
     filedsValue.groupId = event.target.value;
-    console.log(filedsValue);
   };
 
   return (
