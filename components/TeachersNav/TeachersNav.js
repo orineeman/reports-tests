@@ -1,6 +1,6 @@
-import { Link } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import styles from "./TeachersNav.module.css";
 
 export default function TeachersNav() {

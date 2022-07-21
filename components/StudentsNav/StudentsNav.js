@@ -1,4 +1,5 @@
-import { Link } from "@mui/material";
+import Link from "next/link";
+
 import Button from "@mui/material/Button";
 import styles from "./StudentsNav.module.css";
 

@@ -1,4 +1,3 @@
-// import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
@@ -31,6 +30,7 @@ function getDataFromServer(email, setData, setTestsList, setGroupsList) {
     .then((res) => res.json())
     .then((data) => {
       setData(data);
+      console.log("data", data);
       dataProcessing(data, setTestsList, setGroupsList);
     })
     .catch(() => console.log("error"));
@@ -140,7 +140,8 @@ export default function TeacherReports() {
         >
           <InfoOutlinedIcon sx={{ fontSize: 18, px: 0.5 }} />
           <div>
-            You have the option below to filter a group report by question
+            After selecting a test, you have the option below to filter a group
+            report by question
           </div>
         </div>
       </div>
