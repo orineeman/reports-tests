@@ -16,7 +16,6 @@ function getDataFromServer(setShowTest) {
 
 const submitTest = async (QuestionsIdForTest, email) => {
   let testIdAndEmail = {};
-  console.log(QuestionsIdForTest);
   if (QuestionsIdForTest.questions && QuestionsIdForTest.label) {
     await fetch("/api/test", {
       method: "POST",
@@ -24,23 +23,18 @@ const submitTest = async (QuestionsIdForTest, email) => {
     })
       .then((res) => res.json())
       .then((test) => {
-        console.log(test._id);
         testIdAndEmail.testId = test._id;
-        console.log("the client side give test:", test);
-        // alert("The test was saved successfully");
       })
       .catch(() => console.log("error"));
 
     testIdAndEmail.email = email;
-    console.log(testIdAndEmail);
 
     fetch("/api/teacher", {
       method: "PATCH",
       body: JSON.stringify(testIdAndEmail),
     })
       .then((res) => res.json())
-      .then((teacherUpdate) => {
-        console.log("the client side give-teacherUpdate:", teacherUpdate);
+      .then(() => {
         alert("The test was saved successfully");
       })
       .catch(() => console.log("error"));
@@ -103,15 +97,6 @@ function DataTable({ questions, questionsIdForTest }) {
     { field: "subject", headerName: "Subject", width: 150 },
     { field: "difficulty", headerName: "Difficulty", width: 110 },
     { field: "question", headerName: "Question", width: 130 },
-    // {
-    //   field: "fullName",
-    //   headerName: "Full name",
-    //   description: "This column has a value getter and is not sortable.",
-    //   sortable: false,
-    //   width: 160,
-    //   valueGetter: (params) =>
-    //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-    // },
   ];
   const rows = [];
   questions.map((question) => {
@@ -133,8 +118,8 @@ function DataTable({ questions, questionsIdForTest }) {
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
           checkboxSelection
           onSelectionModelChange={(newSelectionModel) => {
             questionsIdForTest.questions = newSelectionModel;

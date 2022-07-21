@@ -322,8 +322,11 @@ function DataTable({ questionData }) {
       right: answer.statistics.amountOfRight,
       mistakes: answer.statistics.amountOfMistakes,
       misleadingPercentages: `${
-        (100 / answer.statistics.numberOfResponses) *
-        answer.statistics.amountOfMistakes
+        Math.round(
+          (100 / answer.statistics.numberOfResponses) *
+            answer.statistics.amountOfMistakes *
+            10
+        ) / 10
       } %`,
       id: answer._id,
     };

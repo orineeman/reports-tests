@@ -1,10 +1,10 @@
+import { Grid } from "@mui/material";
 import { SessionProvider, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import AdminLogin from "../components/AdminLogin/AdminLogin";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import adminContext from "../Context/adminContext";
-import styles from "../styles/globals.css";
 
 const { AD_PASS } = process.env;
 
@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   };
 
   return (
-    <div className={styles.container}>
+    <Grid container>
       <SessionProvider session={session}>
         <adminContext.Provider
           value={{
@@ -79,7 +79,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           <Footer />
         </adminContext.Provider>
       </SessionProvider>
-    </div>
+    </Grid>
   );
 }
 export default MyApp;
@@ -102,7 +102,7 @@ function Authorized() {
       style={{ marginTop: "200px", marginLeft: "300px", marginBottom: "200px" }}
     >
       You do not have permission for this page,
-      <br /> please contact the management.
+      <br /> please sign in with google or contact the management.
     </div>
   );
 }

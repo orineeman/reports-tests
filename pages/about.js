@@ -2,11 +2,11 @@ import LeftMainNav from "../components/LeftMainNav/LeftMainNav";
 import styles from "../styles/Home.module.css";
 export default function About() {
   return (
-    <div className={styles.container}>
-      <div className={styles.nav}>
+    <div>
+      <div>
         <LeftMainNav />
       </div>
-      <div className={styles.contents}>
+      <div>
         <p>
           The essence of the site - a site where there will be a selection of
           questions in the account, (classified by age, of course elementary

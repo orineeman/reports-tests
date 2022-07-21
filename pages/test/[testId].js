@@ -77,11 +77,11 @@ export default function TestLobby() {
   const [doneTest, setDoneTest] = useState(false);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.nav}>
+    <div>
+      <div>
         <h2>Goodluck!</h2>
       </div>
-      <div className={styles.contents}>
+      <div>
         {!doneTest && (
           <TestQuestions testId={testId} setDoneTest={setDoneTest} />
         )}
@@ -153,8 +153,8 @@ function TestQuestions({ testId, setDoneTest }) {
   return (
     <div>
       {!showQuestions && (
-        <div className={styles.container}>
-          <div className={styles.contents}>
+        <div>
+          <div>
             <h1>Instructions:</h1>
             <h3>
               In this test you have {numOfQuestions} questions. Be sure to read
@@ -179,8 +179,8 @@ function TestQuestions({ testId, setDoneTest }) {
         </div>
       )}
       {showQuestions && (
-        <div className={styles.container}>
-          <div className={styles.contents}>
+        <div>
+          <div>
             <h6>Question: {questionNum}</h6>
             <h2>{nextQuestion?.content}</h2>
             {nextQuestion?.answers.map((answer, index) => (

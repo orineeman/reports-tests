@@ -15,12 +15,12 @@ import DataTableReportQuestion from "../DataTableReportQuestion/DataTableReportQ
 const valueToSearch = {};
 function dataProcessing(data, setTestsList, setGroupsList) {
   setGroupsList(data.groups);
-  const students = [];
-  for (let group of data.groups) {
-    students.push(group.students);
-  }
-  const mergedStudents = [].concat.apply([], students);
-  console.log(mergedStudents);
+  // const students = [];
+  // for (let group of data.groups) {
+  //   students.push(group.students);
+  // }
+  // const mergedStudents = [].concat.apply([], students);
+  // console.log(mergedStudents);
 }
 
 function getDataFromServer(email, setData, setTestsList, setGroupsList) {
@@ -30,7 +30,6 @@ function getDataFromServer(email, setData, setTestsList, setGroupsList) {
     .then((res) => res.json())
     .then((data) => {
       setData(data);
-      console.log("data", data);
       dataProcessing(data, setTestsList, setGroupsList);
     })
     .catch(() => console.log("error"));
@@ -47,7 +46,6 @@ const Search = async (
 ) => {
   if (valueToSearch.test && valueToSearch.group) {
     const { test, group } = valueToSearch;
-    // console.log("test", test, "group", group);
     const students = [];
     const questions = [];
     for (let student of group.students) {
@@ -64,7 +62,6 @@ const Search = async (
             _id: student._id,
           };
           students.push(studentDetails);
-          console.log("students", students);
           setStudentsToReportQuestion(students);
         }
       }
@@ -75,7 +72,6 @@ const Search = async (
       }
     }
     const [q] = questions;
-    console.log("questions", questions);
     setQuestionsOfTest(q);
     setShowValueSearched(students);
     setDisabledReportQuestions(false);

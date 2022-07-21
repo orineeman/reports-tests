@@ -57,6 +57,7 @@ export default function UploadingQuestions() {
     } else {
       alert("Please fill all fields");
     }
+    4444;
   }
   function handleFieldContent() {
     filedsValue.content = event.target.value;
