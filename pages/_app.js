@@ -6,7 +6,7 @@ import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import adminContext from "../Context/adminContext";
 
-const { AD_PASS } = process.env;
+const { ADMIN_PASS } = process.env;
 
 const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
   const { data, status } = useSession();
@@ -39,7 +39,7 @@ const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
 };
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  const adminPassword = AD_PASS;
+  const adminPassword = ADMIN_PASS;
   const [disableButton, setDisableButton] = useState(true);
   const [openAdminLoginDialog, setOpenAdminLoginDialog] = useState(false);
   const handleClickOpenAdminLogin = () => {
