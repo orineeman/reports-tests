@@ -26,8 +26,7 @@ const handler = async (req, res) => {
               },
             }
           );
-          console.log(student.label, student.email);
-          await sendEmail(
+          sendEmail(
             `Hi ${student.label}, `,
             `The teacher ${teacherName} sent you a test, to start clicking on the attached link And he added the following message:${message}.
              http://localhost:3000/test/${testId}`,
@@ -42,38 +41,9 @@ const handler = async (req, res) => {
         return res.status(500).send(error.message);
       }
     } else {
-      // console.log("I'm here");
       res.status(422).send("data_incomplete");
     }
   }
-  // else if (req.method === "PATCH") {
-  //   const teacher = JSON.parse(req.body);
-  //   // const teacher = req.body; //postman
-  //   if (teacher.testId) {
-  //     const { teacherName, email, testId } = teacher;
-  //     // const test = { test: testId };
-  // const updateTestsTeacher = await Teacher.findOneAndUpdate(
-  //   { email },
-  //   { $push: { tests: testId } }
-  // );
-  //     res.send(updateTestsTeacher);
-  //     sendEmail(`hi ${teacherName}`, "your test saved", email);
-  //   }
-
-  //   if (teacher.groupId) {
-  //     console.log("teacher", teacher);
-  //     const { teacherName, email, groupId } = teacher;
-  //     // const group = { group: groupId };
-  //     const updateGroupsTeacher = await Teacher.findOneAndUpdate(
-  //       { email },
-  //       { $push: { groups: groupId } }
-  //     );
-  //     res.send(updateGroupsTeacher);
-  //     sendEmail(`hi ${teacherName}`, "your group saved", email);
-  //   }
-  // } else {
-  //   res.status(422).send("req_method_not_supported");
-  // }
 };
 
 export default connectDB(handler);

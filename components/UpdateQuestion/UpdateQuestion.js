@@ -8,11 +8,15 @@ import styles from "./UpdateQuestion.module.css";
 import { DataGrid } from "@mui/x-data-grid";
 import getDataFromServer from "../../utils/getAgeSubjectDif";
 import MenuItem from "@mui/material/MenuItem";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import messageContext from "../../Context/messageContext";
 
-function getQuesionFromServer(questionIdToUpdate, setQuestionData) {
+function getQuesionFromServer(
+  questionIdToUpdate,
+  setQuestionData,
+  setShowLoding
+) {
   fetch("/api/admin/update-question", {
     method: "GET",
     headers: { questionid: questionIdToUpdate },
@@ -21,6 +25,7 @@ function getQuesionFromServer(questionIdToUpdate, setQuestionData) {
     .then((questionAndAnswers) => {
       console.log("questionAndAnswers", questionAndAnswers);
       setQuestionData(questionAndAnswers);
+      setShowLoding(false);
     })
     .catch(() => console.log("error"));
 }
@@ -79,18 +84,20 @@ export default function UploadingQuestions({
   const [difficultiesArr, setDifficultiesArr] = useState([]);
   const [questionData, setQuestionData] = useState({});
   const { setMessage, setShowMessage } = useContext(messageContext);
+  const [showLoding, setShowLoding] = useState(true);
 
   changesToUpdate.questionId = questionIdToUpdate;
 
   useEffect(() => {
     if (questionIdToUpdate) {
-      getQuesionFromServer(questionIdToUpdate, setQuestionData);
+      getQuesionFromServer(questionIdToUpdate, setQuestionData, setShowLoding);
       getDataFromServer(setAgesArr, setSubjectsArr, setDifficultiesArr);
     }
   }, [questionIdToUpdate]);
 
   const handleCloseDialog = () => {
     setOpenUpdateQuestionDialog(false);
+    setShowLoding(true);
   };
 
   return (
@@ -101,70 +108,75 @@ export default function UploadingQuestions({
         open={openUpdateQuestionDialog}
         onClose={handleCloseDialog}
       >
-        <DialogTitle>Question update</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Modify the data as you wish and click Save Changes.
-          </DialogContentText>
-          <TextFields
-            questionData={questionData}
-            difficultiesArr={difficultiesArr}
-            agesArr={agesArr}
-            subjectsArr={subjectsArr}
-          />
-          <div
-            style={{
-              marginTop: 20,
-              display: "flex",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <div
-              style={{
-                marginTop: 10,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <div style={{ color: "rgb(70, 145, 219)" }}>answers</div>
-              <AnswersFields questionData={questionData} />
-            </div>
-            <div>
-              <DataTable
-                sx={{ width: 400, minHeight: 100 }}
+        {showLoding && <CircularProgress style={{ margin: "auto" }} />}
+        {!showLoding && (
+          <>
+            <DialogTitle>Question update</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Modify the data as you wish and click Save Changes.
+              </DialogContentText>
+              <TextFields
                 questionData={questionData}
+                difficultiesArr={difficultiesArr}
+                agesArr={agesArr}
+                subjectsArr={subjectsArr}
               />
-            </div>
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button
-            onClick={() =>
-              deleteQuestion(
-                questionIdToUpdate,
-                handleCloseDialog,
-                setMessage,
-                setShowMessage
-              )
-            }
-          >
-            Delete question
-          </Button>
-          <Button
-            onClick={() =>
-              updateQuestion(
-                changesToUpdate,
-                handleCloseDialog,
-                setMessage,
-                setShowMessage
-              )
-            }
-          >
-            Save Changes
-          </Button>
-        </DialogActions>
+              <div
+                style={{
+                  marginTop: 20,
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <div
+                  style={{
+                    marginTop: 10,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ color: "rgb(70, 145, 219)" }}>answers</div>
+                  <AnswersFields questionData={questionData} />
+                </div>
+                <div>
+                  <DataTable
+                    sx={{ width: 400, minHeight: 100 }}
+                    questionData={questionData}
+                  />
+                </div>
+              </div>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog}>Cancel</Button>
+              <Button
+                onClick={() =>
+                  deleteQuestion(
+                    questionIdToUpdate,
+                    handleCloseDialog,
+                    setMessage,
+                    setShowMessage
+                  )
+                }
+              >
+                Delete question
+              </Button>
+              <Button
+                onClick={() =>
+                  updateQuestion(
+                    changesToUpdate,
+                    handleCloseDialog,
+                    setMessage,
+                    setShowMessage
+                  )
+                }
+              >
+                Save Changes
+              </Button>
+            </DialogActions>
+          </>
+        )}
       </Dialog>
     </div>
   );

@@ -1,6 +1,6 @@
 import Checkbox from "@mui/material/Checkbox";
 // import styles from "./testId.module.css";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -15,7 +15,8 @@ async function getTestFromServer(
   setNumOfQuestion,
   setTest,
   email,
-  setDoneTest
+  setDoneTest,
+  setShowLobby
 ) {
   try {
     const json = await fetch("/api/test", {
@@ -30,6 +31,7 @@ async function getTestFromServer(
     setNextQuestion(test[currentQuestion - 1]);
     setNumOfQuestion(test.length);
     setQuestionNum(currentQuestion);
+    setShowLobby(true);
   } catch (err) {
     console.log(err);
   }
@@ -95,6 +97,7 @@ export default function TestLobby() {
 function TestQuestions({ testId, setDoneTest }) {
   let email = "";
   const [showQuestions, setShowQuestions] = useState(false);
+  const [showLobby, setShowLobby] = useState(false);
   const [nextQuestion, setNextQuestion] = useState({});
   const [test, setTest] = useState();
   const [numOfQuestions, setNumOfQuestions] = useState(0);
@@ -128,7 +131,8 @@ function TestQuestions({ testId, setDoneTest }) {
         setNumOfQuestions,
         setTest,
         email,
-        setDoneTest
+        setDoneTest,
+        setShowLobby
       );
     }
   }, [email, setDoneTest, testId]);
@@ -159,12 +163,14 @@ function TestQuestions({ testId, setDoneTest }) {
         <div>
           <div>
             <h1>Instructions:</h1>
-            <h3>
-              In this test you have {numOfQuestions} questions. Be sure to read
-              the questions and answer them correctly, as it is not possible to
-              return to the questions you have already answered.
-            </h3>
-
+            {!showLobby && <CircularProgress />}
+            {showLobby && (
+              <h3>
+                In this test you have {numOfQuestions} questions. Be sure to
+                read the questions and answer them correctly, as it is not
+                possible to return to the questions you have already answered.
+              </h3>
+            )}
             <h2>Good luck on the test!</h2>
             <div>
               <Button

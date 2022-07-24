@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import { SessionProvider, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import AdminLogin from "../components/AdminLogin/AdminLogin";
@@ -13,18 +13,24 @@ const { ADMIN_PASS } = process.env;
 const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
   const { data, status } = useSession();
   const [permissions, setPermissions] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const email = data?.user?.email;
 
   useEffect(() => {
     if (email && (authStudents || authAdmin || authTeachers)) {
+      setIsLoading(true); // is loading = false
       fetch(`/api/permissions/${email}`)
         .then((res) => res.json())
         .then((permission) => {
           console.log(permission);
           setPermissions(permission);
+          setIsLoading(false);
         })
-        .catch(() => console.log("error"));
+        .catch(() => {
+          setIsLoading(false);
+          console.log("error");
+        });
     }
   }, [authAdmin, authStudents, authTeachers, email]);
 
@@ -34,8 +40,16 @@ const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
     return <AuthTeachers status={status}>{children}</AuthTeachers>;
   } else if (authAdmin && permissions.adminPermission) {
     return <AuthAdmin status={status}>{children}</AuthAdmin>;
-  } else if (authAdmin || authStudents || authTeachers) {
-    return <Authorized />;
+  } else if (
+    (authAdmin && !permissions.adminPermission) ||
+    (authStudents && !permissions.studentPermission) ||
+    (authTeachers && !permissions.teacherPermission)
+  ) {
+    if (isLoading) {
+      return <CircularProgress style={{ margin: "auto" }} />;
+    } else {
+      return <Authorized />;
+    }
   } else {
     return children;
   }
@@ -96,15 +110,29 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 }
 export default MyApp;
 
-function AuthStudents({ children }) {
+function AuthStudents({ children, status }) {
+  console.log("status", status);
+  if (status === "loading") {
+    return <div>Trying to connect to the Student page...</div>;
+  }
   return children;
 }
 
-function AuthTeachers({ children }) {
+function AuthTeachers({ children, status }) {
+  console.log("status", status);
+
+  if (status === "loading") {
+    return <div>Trying to connect to the Teacher page...</div>;
+  }
   return children;
 }
 
-function AuthAdmin({ children }) {
+function AuthAdmin({ children, status }) {
+  console.log("status", status);
+
+  if (status === "loading") {
+    return <div>Trying to connect to the Admin page...</div>;
+  }
   return children;
 }
 

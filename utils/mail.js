@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 async function sendEmail(subject, message, email) {
   console.log("message:", message);
-  console.log("sendEmail");
+
   let transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -23,7 +23,7 @@ async function sendEmail(subject, message, email) {
   try {
     await transport.sendMail(mailOptions);
   } catch (err) {
-    console.log(err);
+    console.log("SEND EMAIL ERROR", err);
   }
 }
 

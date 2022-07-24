@@ -102,7 +102,6 @@ export default function TeacherReports() {
 
   function handleFieldGroupName(event, value) {
     valueToSearch.group = value;
-    // setShowStudentsOfGroup(valueToSearch?.group?.students);
     for (let group of data.groups) {
       if (group._id === valueToSearch?.group?._id) {
         const testsOfGroup = [];

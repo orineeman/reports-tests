@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -39,6 +39,7 @@ const filedsValue = {
 export default function SendingTest() {
   const { setMessage, setShowMessage } = useContext(messageContext);
 
+  const [showLoding, setShowLoding] = useState(false);
   const [testsArr, setTestsArr] = useState([]);
   const [groupsArr, setGroupsArr] = useState([]);
   const { data: session } = useSession();
@@ -68,17 +69,20 @@ export default function SendingTest() {
       filedsValue.email &&
       filedsValue.teacherName
     ) {
+      setShowLoding(true);
       fetch("/api/sendtest", {
         method: "POST",
         body: JSON.stringify(filedsValue),
       })
         .then((res) => res.json())
         .then(() => {
+          setShowLoding(false);
           setShowMessage(true);
           setMessage("Your test is sent to students");
         })
         .catch(() => console.log("error"));
     } else {
+      setShowLoding(false);
       setShowMessage(true);
       setMessage("Please select group and test");
     }
@@ -87,35 +91,41 @@ export default function SendingTest() {
   return (
     <>
       <h2>Sending a test to students</h2>
-      <h6>Select a test and group and click Submit</h6>
-      <div className={styles.flex}>
-        <div>
-          <SelectTest testsArr={testsArr} />
-        </div>
-        <div>
-          <SelectGroup groupsArr={groupsArr} />
-        </div>
-      </div>
-      <TextField
-        sx={{ width: "650px", marginTop: "20px" }}
-        id="field-question"
-        label="Write here a message to the group"
-        variant="outlined"
-        name="content"
-        key="content"
-        onChange={handleFieldMessage}
-      />
-      <div className={styles.submitButton}>
-        <Button
-          variant="contained"
-          sx={{ margin: "15px", width: "150px" }}
-          key="submit"
-          type="submit"
-          onClick={() => sendDataToServer(filedsValue)}
-        >
-          Submit
-        </Button>
-      </div>
+
+      {showLoding && <CircularProgress />}
+      {!showLoding && (
+        <>
+          <h6>Select a test and group and click Submit</h6>
+          <div className={styles.flex}>
+            <div>
+              <SelectTest testsArr={testsArr} />
+            </div>
+            <div>
+              <SelectGroup groupsArr={groupsArr} />
+            </div>
+          </div>
+          <TextField
+            sx={{ width: "650px", marginTop: "20px" }}
+            id="field-question"
+            label="Write here a message to the group"
+            variant="outlined"
+            name="content"
+            key="content"
+            onChange={handleFieldMessage}
+          />
+          <div className={styles.submitButton}>
+            <Button
+              variant="contained"
+              sx={{ margin: "15px", width: "150px" }}
+              key="submit"
+              type="submit"
+              onClick={() => sendDataToServer(filedsValue)}
+            >
+              Submit
+            </Button>
+          </div>
+        </>
+      )}
     </>
   );
 }
