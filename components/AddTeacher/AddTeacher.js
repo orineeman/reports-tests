@@ -1,6 +1,7 @@
 import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./AddTeacher.module.css";
+import messageContext from "../../Context/messageContext";
 
 function filedValidations(filedsValue) {
   if (filedsValue.teachers[0]) {
@@ -13,7 +14,7 @@ function filedValidations(filedsValue) {
   }
 }
 
-function sendTeachersToServer(filedsValue) {
+function sendTeachersToServer(filedsValue, setMessage, setShowMessage) {
   console.log("filedsValue", filedsValue);
   if (filedValidations(filedsValue)) {
     fetch("/api/admin", {
@@ -24,11 +25,13 @@ function sendTeachersToServer(filedsValue) {
       .then((res) => {
         if (res.status === "success") {
           console.log("res.status", res.status);
-          alert(
+          setShowMessage(true);
+          setMessage(
             "All teachers received permission, and an email was sent to the permissions holders"
           );
         } else {
-          alert(
+          setShowMessage(true);
+          setMessage(
             `Some of these teachers have been licensed in the past: ${res}. the rest have been successfully registered and emailed to them`
           );
         }
@@ -36,7 +39,8 @@ function sendTeachersToServer(filedsValue) {
 
       .catch(() => console.log("error"));
   } else {
-    alert("You have not filled in the fields");
+    setShowMessage(true);
+    setMessage("You have not filled in the fields");
   }
 }
 
@@ -45,6 +49,7 @@ const filedsValue = {
 };
 
 export default function AddTeacher() {
+  const { setMessage, setShowMessage } = useContext(messageContext);
   let [newTeacherField, setNewTeacherField] = useState([1]);
   const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [disabledEmailField, setDisabledEmailField] = useState(true);
@@ -129,7 +134,9 @@ export default function AddTeacher() {
             sx={{ margin: "15px", width: "150px" }}
             key="submit"
             type="submit"
-            onClick={() => sendTeachersToServer(filedsValue)}
+            onClick={() =>
+              sendTeachersToServer(filedsValue, setMessage, setShowMessage)
+            }
           >
             Submit
           </Button>

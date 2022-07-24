@@ -1,6 +1,4 @@
-import Question from "../../../models/question";
 import connectDB from "../../../middleware/mongodb";
-import Answer from "../../../models/answer";
 import Permission from "../../../models/permissions";
 import Age from "../../../models/age";
 import Subject from "../../../models/subject";
@@ -88,54 +86,51 @@ const handler = async (req, res) => {
     // res.send(type);
   } else if (req.method === "PATCH") {
     const dataToUpdate = JSON.parse(req.body);
-    console.log("dataToUpdate", dataToUpdate);
-    const {
-      questionId,
-      answerContent,
-      age,
-      difficulty,
-      questionContent,
-      subject,
-    } = dataToUpdate;
-    if (age) {
-      await Question.findByIdAndUpdate(questionId, { age });
+    const { id, newValue, field } = dataToUpdate;
+    let response = {};
+    if (field === "age") {
+      const age = await Age.findByIdAndUpdate(id, { [field]: newValue });
+      response = age;
     }
-    if (difficulty) {
-      await Question.findByIdAndUpdate(questionId, { difficulty });
-    }
-    if (subject) {
-      await Question.findByIdAndUpdate(questionId, { subject });
-    }
-    if (questionContent) {
-      await Question.findByIdAndUpdate(questionId, {
-        content: questionContent,
+    if (field === "subject") {
+      const subject = await Subject.findByIdAndUpdate(id, {
+        [field]: newValue,
       });
+      response = subject;
     }
-    if (answerContent) {
-      console.log("answerContent", answerContent);
-      const answersId = Object.keys(answerContent);
-      console.log("answersId", answersId);
-      for (let answerId of answersId) {
-        await Question.findByIdAndUpdate(
-          { questionId, "answers._id": answerId },
-          {
-            $set: {
-              "answers.$.content": answerContent.answerId,
-            },
-          }
-        );
-        await Answer.findByIdAndUpdate(answerId, {
-          content: answerContent.answerId,
-        });
-      }
+    if (field === "difficulty") {
+      const difficulty = await Difficulty.findByIdAndUpdate(id, {
+        [field]: newValue,
+      });
+      response = difficulty;
     }
-    res.send(dataToUpdate);
+    if (field === "fullName") {
+      const permission = await Permission.findByIdAndUpdate(id, {
+        [field]: newValue,
+      });
+      response = permission;
+    }
+    res.send(response);
   } else if (req.method === "DELETE") {
-    const dataToDelete = JSON.parse(req.body);
-    const [questionIdToDelete] = dataToDelete;
-    console.log("questionIdToDelete", questionIdToDelete);
-    await Question.findByIdAndRemove(questionIdToDelete);
-    res.send("the question is deleted");
+    const idToUpdate = req.headers.idtoupdate;
+    let response = {};
+    if (req.headers.valuetodelete === "age") {
+      const age = await Age.findByIdAndRemove(idToUpdate);
+      response = age;
+    }
+    if (req.headers.valuetodelete === "subject") {
+      const subject = await Subject.findByIdAndRemove(idToUpdate);
+      response = subject;
+    }
+    if (req.headers.valuetodelete === "difficulty") {
+      const difficulty = await Difficulty.findByIdAndRemove(idToUpdate);
+      response = difficulty;
+    }
+    if (req.headers.valuetodelete === "fullName") {
+      const permission = await Permission.findByIdAndRemove(idToUpdate);
+      response = permission;
+    }
+    res.send(response);
   } else {
     res.status(422).send("req_method_not_supported");
   }

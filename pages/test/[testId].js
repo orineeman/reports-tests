@@ -1,9 +1,10 @@
 import Checkbox from "@mui/material/Checkbox";
 // import styles from "./testId.module.css";
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import messageContext from "../../Context/messageContext";
 
 let answerTime = 0;
 
@@ -100,6 +101,7 @@ function TestQuestions({ testId, setDoneTest }) {
   const [questionNum, setQuestionNum] = useState(0);
   const [intervalId, setIntervalId] = useState(0);
   const [checked, setChecked] = useState([]);
+  const { setMessage, setShowMessage } = useContext(messageContext);
 
   const router = useRouter();
   const dataToServer = {
@@ -140,7 +142,8 @@ function TestQuestions({ testId, setDoneTest }) {
       answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer);
       setChecked([]);
       if (questionNum === test.length) {
-        alert("Well done");
+        setShowMessage(true);
+        setMessage("Well done");
         router.push("/students");
       }
     }

@@ -3,10 +3,11 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./UploadingQuestions.module.css";
 import getDataFromServer from "../../utils/getAgeSubjectDif";
 import { useSession } from "next-auth/react";
+import messageContext from "../../Context/messageContext";
 
 const filedsValue = {
   difficulty: "",
@@ -20,6 +21,7 @@ export default function UploadingQuestions() {
   const [agesArr, setAgesArr] = useState([]);
   const [subjectsArr, setSubjectsArr] = useState([]);
   const [difficultiesArr, setDifficultiesArr] = useState([]);
+  const { setMessage, setShowMessage } = useContext(messageContext);
 
   useEffect(() => {
     getDataFromServer(setAgesArr, setSubjectsArr, setDifficultiesArr);
@@ -49,15 +51,16 @@ export default function UploadingQuestions() {
         .then((res) => res.json())
         .then((question) => {
           console.log("the client side", question);
-          alert(
+          setShowMessage(true);
+          setMessage(
             "Your question has been sent successfully, It will be checked soon by the webmaster, and then uploaded to the database"
           );
         })
         .catch(() => console.log("error"));
     } else {
-      alert("Please fill all fields");
+      setShowMessage(true);
+      setMessage("Please fill all fields");
     }
-    4444;
   }
   function handleFieldContent() {
     filedsValue.content = event.target.value;

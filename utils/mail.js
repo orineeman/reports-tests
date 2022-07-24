@@ -14,8 +14,8 @@ async function sendEmail(subject, message, email) {
     },
   });
   const mailOptions = {
-    from: process.env.EMAIL, // Sender address
-    to: email, // List of recipients
+    from: process.env.EMAIL,
+    to: email,
     subject,
     text: message,
   };

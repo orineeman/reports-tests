@@ -48,11 +48,9 @@ export default function AdminLogin() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAdminLogin}>Cancel</Button>
-          {!disableButton && (
-            // <Link href="/admin">
-            <Button onClick={() => goToAdminPage()}>Login</Button>
-            // </Link>
-          )}
+          <Button disabled={disableButton} onClick={() => goToAdminPage()}>
+            Go-on
+          </Button>
         </DialogActions>
       </AdminLoginDialog>
     </>

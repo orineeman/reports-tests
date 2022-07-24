@@ -1,6 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import messageContext from "../../Context/messageContext";
 
 function getDataFromServer(setShowQuestions) {
   fetch("/api/question", {
@@ -15,7 +16,7 @@ function getDataFromServer(setShowQuestions) {
     .catch(() => console.log("error"));
 }
 
-const confirmQuestions = (QuestionsIdForUpdate) => {
+const confirmQuestions = (QuestionsIdForUpdate, setMessage, setShowMessage) => {
   if (QuestionsIdForUpdate.questions[0]) {
     fetch("/api/question", {
       method: "PATCH",
@@ -24,18 +25,22 @@ const confirmQuestions = (QuestionsIdForUpdate) => {
     })
       .then((update) => {
         console.log("the client side give-questions update:", update);
-        alert("The questions moved to the repository successfully");
+        setShowMessage(true);
+        setMessage("The questions moved to the repository successfully");
         getDataFromServer();
       })
       .catch(() => console.log("error"));
   } else {
-    alert("You did not select any questions");
+    setShowMessage(true);
+    setMessage("You did not select any questions");
   }
 };
 
 export default function CheckNewQuestions() {
   const QuestionsIdForUpdate = { questions: [] };
   const [showQuestions, setShowQuestions] = useState([]);
+  const { setMessage, setShowMessage } = useContext(messageContext);
+
   useEffect(() => {
     getDataFromServer(setShowQuestions);
   }, []);
@@ -56,7 +61,9 @@ export default function CheckNewQuestions() {
           sx={{ margin: "15px", width: "150px" }}
           key="confirm"
           type="confirm"
-          onClick={() => confirmQuestions(QuestionsIdForUpdate)}
+          onClick={() =>
+            confirmQuestions(QuestionsIdForUpdate, setMessage, setShowMessage)
+          }
         >
           confirm
         </Button>

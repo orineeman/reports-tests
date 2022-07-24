@@ -4,7 +4,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import messageContext from "../../Context/messageContext";
 import styles from "./SendingTest.module.css";
 
 function getDataFromServer(
@@ -36,6 +37,8 @@ const filedsValue = {
 };
 
 export default function SendingTest() {
+  const { setMessage, setShowMessage } = useContext(messageContext);
+
   const [testsArr, setTestsArr] = useState([]);
   const [groupsArr, setGroupsArr] = useState([]);
   const { data: session } = useSession();
@@ -71,11 +74,13 @@ export default function SendingTest() {
       })
         .then((res) => res.json())
         .then(() => {
-          alert("Your test is sent to students");
+          setShowMessage(true);
+          setMessage("Your test is sent to students");
         })
         .catch(() => console.log("error"));
     } else {
-      alert("Please select group and test");
+      setShowMessage(true);
+      setMessage("Please select group and test");
     }
   }
 

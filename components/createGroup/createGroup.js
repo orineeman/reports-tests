@@ -1,7 +1,8 @@
 import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./CreateGroup.module.css";
 import { useSession } from "next-auth/react";
+import messageContext from "../../Context/messageContext";
 
 const filedsValue = {
   students: [],
@@ -9,6 +10,8 @@ const filedsValue = {
   label: "",
 };
 export default function CreateGroup() {
+  const { setMessage, setShowMessage } = useContext(messageContext);
+
   const { data: session } = useSession();
   let email = "";
   let teacherName = "";
@@ -20,15 +23,18 @@ export default function CreateGroup() {
   const sendGroupToServer = async (filedsValue, email, teacherName) => {
     let groupIdAndEmail = {};
     if (filedsValue.students && filedsValue.label) {
-      await fetch("/api/group", {
-        method: "POST",
-        body: JSON.stringify(filedsValue),
-      })
-        .then((res) => res.json())
-        .then((group) => {
-          groupIdAndEmail.groupId = group._id;
-        })
-        .catch(() => console.log("error"));
+      try {
+        const json = await fetch("/api/group", {
+          method: "POST",
+          body: JSON.stringify(filedsValue),
+        });
+        const data = await json.json();
+        // .then((group) => {
+        groupIdAndEmail.groupId = data._id;
+        // })
+      } catch (err) {
+        console.log("error", err);
+      }
 
       groupIdAndEmail.email = email;
       groupIdAndEmail.teacherName = teacherName;
@@ -39,11 +45,13 @@ export default function CreateGroup() {
       })
         .then((res) => res.json())
         .then(() => {
-          alert("Your group has been save successfully");
+          setShowMessage(true);
+          setMessage("Your group has been save successfully");
         })
         .catch(() => console.log("error"));
     } else {
-      alert("Please fill all fields");
+      setShowMessage(true);
+      setMessage("Please fill all fields");
     }
   };
 
@@ -92,7 +100,9 @@ function StudentsFields({ filedsValue }) {
     setDisabledEmailField(false);
   };
   const handleStudentEmailChange = (studentField, index) => {
+    filedsValue.students[index] = { ...filedsValue.students[index], email: "" };
     filedsValue.students[index].email = event.target.value;
+    console.log(filedsValue);
   };
 
   function addStudentField() {

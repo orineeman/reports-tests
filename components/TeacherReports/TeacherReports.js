@@ -7,20 +7,15 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import styles from "./TeacherReports.module.css";
 import DataTableReportQuestion from "../DataTableReportQuestion/DataTableReportQuestion";
+import messageContext from "../../Context/messageContext";
 
 const valueToSearch = {};
 function dataProcessing(data, setTestsList, setGroupsList) {
   setGroupsList(data.groups);
-  // const students = [];
-  // for (let group of data.groups) {
-  //   students.push(group.students);
-  // }
-  // const mergedStudents = [].concat.apply([], students);
-  // console.log(mergedStudents);
 }
 
 function getDataFromServer(email, setData, setTestsList, setGroupsList) {
@@ -35,14 +30,16 @@ function getDataFromServer(email, setData, setTestsList, setGroupsList) {
     .catch(() => console.log("error"));
 }
 
-const Search = async (
+const search = async (
   valueToSearch,
   email,
   setShowValueSearched,
   setDisabledReportQuestions,
   setQuestionsOfTest,
   data,
-  setStudentsToReportQuestion
+  setStudentsToReportQuestion,
+  setMessage,
+  setShowMessage
 ) => {
   if (valueToSearch.test && valueToSearch.group) {
     const { test, group } = valueToSearch;
@@ -76,7 +73,8 @@ const Search = async (
     setShowValueSearched(students);
     setDisabledReportQuestions(false);
   } else {
-    alert("Please select a group and test to search");
+    setShowMessage(true);
+    setMessage("Please select a group and test to search");
   }
 };
 
@@ -89,6 +87,7 @@ export default function TeacherReports() {
   const [disabledReportQuestions, setDisabledReportQuestions] = useState(true);
   const [showReportQuestion, setShowReportQuestion] = useState([]);
   const [studentsToReportQuestion, setStudentsToReportQuestion] = useState([]);
+  const { setMessage, setShowMessage } = useContext(messageContext);
 
   const { data: session } = useSession();
   let email = "";
@@ -173,14 +172,16 @@ export default function TeacherReports() {
           key="Search"
           type="Search"
           onClick={() =>
-            Search(
+            search(
               valueToSearch,
               email,
               setShowValueSearched,
               setDisabledReportQuestions,
               setQuestionsOfTest,
               data,
-              setStudentsToReportQuestion
+              setStudentsToReportQuestion,
+              setMessage,
+              setShowMessage
             )
           }
         >

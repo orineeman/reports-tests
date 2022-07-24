@@ -9,7 +9,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import getDataFromServer from "../../utils/getAgeSubjectDif";
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import messageContext from "../../Context/messageContext";
 
 function getQuesionFromServer(questionIdToUpdate, setQuestionData) {
   fetch("/api/admin/update-question", {
@@ -33,25 +34,37 @@ const changesToUpdate = {
   subject: "",
 };
 
-function updateQuestion(changesToUpdate, handleCloseDialog) {
+function updateQuestion(
+  changesToUpdate,
+  handleCloseDialog,
+  setMessage,
+  setShowMessage
+) {
   fetch("/api/admin/update-question", {
     method: "PATCH",
     body: JSON.stringify(changesToUpdate),
   })
     .then(() => {
-      alert("The question has been successfully updated");
+      setShowMessage(true);
+      setMessage("The question has been successfully updated");
       getDataFromServer();
     })
     .catch(() => console.log("error"));
   handleCloseDialog();
 }
-function deleteQuestion(questionIdToUpdate, handleCloseDialog) {
+function deleteQuestion(
+  questionIdToUpdate,
+  handleCloseDialog,
+  setMessage,
+  setShowMessage
+) {
   fetch("/api/admin/update-question", {
     method: "DELETE",
     body: JSON.stringify(questionIdToUpdate),
   })
     .then(() => {
-      alert("The question has been successfully deleted");
+      setShowMessage(true);
+      setMessage("The question has been successfully deleted");
     })
     .catch(() => console.log("error"));
   handleCloseDialog();
@@ -65,6 +78,8 @@ export default function UploadingQuestions({
   const [subjectsArr, setSubjectsArr] = useState([]);
   const [difficultiesArr, setDifficultiesArr] = useState([]);
   const [questionData, setQuestionData] = useState({});
+  const { setMessage, setShowMessage } = useContext(messageContext);
+
   changesToUpdate.questionId = questionIdToUpdate;
 
   useEffect(() => {
@@ -127,13 +142,25 @@ export default function UploadingQuestions({
           <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button
             onClick={() =>
-              deleteQuestion(questionIdToUpdate, handleCloseDialog)
+              deleteQuestion(
+                questionIdToUpdate,
+                handleCloseDialog,
+                setMessage,
+                setShowMessage
+              )
             }
           >
             Delete question
           </Button>
           <Button
-            onClick={() => updateQuestion(changesToUpdate, handleCloseDialog)}
+            onClick={() =>
+              updateQuestion(
+                changesToUpdate,
+                handleCloseDialog,
+                setMessage,
+                setShowMessage
+              )
+            }
           >
             Save Changes
           </Button>

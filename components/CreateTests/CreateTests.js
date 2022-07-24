@@ -1,7 +1,8 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import messageContext from "../../Context/messageContext";
 
 function getDataFromServer(setShowTest) {
   fetch("/api/question", {
@@ -14,7 +15,12 @@ function getDataFromServer(setShowTest) {
     .catch(() => console.log("error"));
 }
 
-const submitTest = async (QuestionsIdForTest, email) => {
+const submitTest = async (
+  QuestionsIdForTest,
+  email,
+  setMessage,
+  setShowMessage
+) => {
   let testIdAndEmail = {};
   if (QuestionsIdForTest.questions && QuestionsIdForTest.label) {
     await fetch("/api/test", {
@@ -35,15 +41,19 @@ const submitTest = async (QuestionsIdForTest, email) => {
     })
       .then((res) => res.json())
       .then(() => {
-        alert("The test was saved successfully");
+        setShowMessage(true);
+        setMessage("The test was saved successfully");
       })
       .catch(() => console.log("error"));
   } else {
-    alert("Please fill all fields");
+    setShowMessage(true);
+    setMessage("Please fill all fields");
   }
 };
 
 export default function CreateTests() {
+  const { setMessage, setShowMessage } = useContext(messageContext);
+
   const { data: session } = useSession();
   let email = "";
   if (session) {
@@ -82,7 +92,9 @@ export default function CreateTests() {
           sx={{ margin: "15px", width: "150px" }}
           key="submit"
           type="submit"
-          onClick={() => submitTest(questionsIdForTest, email)}
+          onClick={() =>
+            submitTest(questionsIdForTest, email, setMessage, setShowMessage)
+          }
         >
           Submit
         </Button>

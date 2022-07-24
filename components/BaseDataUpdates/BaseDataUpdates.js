@@ -1,8 +1,9 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./BaseDataUpdates.module.css";
 import DeleteBaseData from "../DeleteBaseData/DeleteBaseData";
+import messageContext from "../../Context/messageContext";
 
 function showDataToUpdate(
   event,
@@ -48,7 +49,12 @@ function handleAddFieldChange(
   setValueToAdd(newValue);
   console.log(newValue);
 }
-async function save(valueToAdd, setValueOfAddField) {
+async function save(
+  valueToAdd,
+  setValueOfAddField,
+  setMessage,
+  setShowMessage
+) {
   console.log("valueToAdd", valueToAdd);
   try {
     const json = await fetch("/api/admin/base-data-updates", {
@@ -57,7 +63,8 @@ async function save(valueToAdd, setValueOfAddField) {
     });
     const data = await json.json();
     console.log(data);
-    alert("Insert done");
+    setShowMessage(true);
+    setMessage("Insert done");
   } catch (err) {
     console.log(err);
   }
@@ -74,6 +81,7 @@ export default function BaseDataUpdates() {
   const [valueToDelete, setValueToDelete] = useState({});
   const [valueOfAddField, setValueOfAddField] = useState("");
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const { setMessage, setShowMessage } = useContext(messageContext);
 
   return (
     <>
@@ -200,7 +208,9 @@ export default function BaseDataUpdates() {
           key="save"
           type="save"
           disabled={disabledSaveButton}
-          onClick={() => save(valueToAdd, setValueOfAddField)}
+          onClick={() =>
+            save(valueToAdd, setValueOfAddField, setMessage, setShowMessage)
+          }
         >
           save
         </Button>
@@ -254,7 +264,7 @@ function DataTable({
   });
   return (
     <>
-      <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
+      <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
         <DataGrid
           rows={rows}
           columns={columns}

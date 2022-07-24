@@ -11,7 +11,6 @@ import { forwardRef, useEffect, useState } from "react";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
 function getDataFromServer(valueToDelete, setValueOfUpdateField) {
   fetch("/api/admin/base-data-updates", {
     method: "GET",
@@ -39,6 +38,41 @@ function getDataFromServer(valueToDelete, setValueOfUpdateField) {
     .catch(() => console.log("error"));
 }
 
+function handleDelete(valueToDelete, handleClose) {
+  fetch("/api/admin/base-data-updates", {
+    method: "DELETE",
+    headers: {
+      idToUpdate: valueToDelete.id,
+      valueToDelete: valueToDelete.field,
+    },
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      console.log("res", res);
+    })
+
+    .catch(() => console.log("error"));
+  handleClose();
+}
+
+function handleUpdateFieldChange(event, valueToDelete, setValueOfUpdateField) {
+  valueToDelete.newValue = event.target.value;
+  setValueOfUpdateField(event.target.value);
+  console.log(valueToDelete);
+}
+function handleUpdate(valueToDelete, handleClose) {
+  fetch("/api/admin/base-data-updates", {
+    method: "PATCH",
+    body: JSON.stringify(valueToDelete),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      console.log("res", res);
+    })
+
+    .catch(() => console.log("error"));
+  handleClose();
+}
 export default function DeleteBaseData({
   openDeleteDialog,
   setOpenDeleteDialog,
@@ -65,7 +99,7 @@ export default function DeleteBaseData({
       >
         <DialogTitle>{"Update or Delete"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
+          <DialogContentText id="Update-data">
             If you want to update the {valueToDelete.field}, change the value
             and click Save Change
             <br /> If you want to delete the {valueToDelete.field} click on
@@ -77,17 +111,23 @@ export default function DeleteBaseData({
             sx={{ width: "300px", margin: "10px" }}
             type="text"
             variant="outlined"
-            // onChange={() =>
-            // handleAddFieldChange(
-            // event
-            // )
-            // }
+            onChange={() =>
+              handleUpdateFieldChange(
+                event,
+                valueToDelete,
+                setValueOfUpdateField
+              )
+            }
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>cancel</Button>
-          <Button onClick={handleClose}>Save Change</Button>
-          <Button onClick={handleClose}>Delete</Button>
+          <Button onClick={() => handleUpdate(valueToDelete, handleClose)}>
+            Save Change
+          </Button>
+          <Button onClick={() => handleDelete(valueToDelete, handleClose)}>
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

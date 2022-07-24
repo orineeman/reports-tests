@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import AdminLogin from "../components/AdminLogin/AdminLogin";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
+import Message from "../components/Message/Message";
 import adminContext from "../Context/adminContext";
+import messageContext from "../Context/messageContext";
 
 const { ADMIN_PASS } = process.env;
 
@@ -19,6 +21,7 @@ const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
       fetch(`/api/permissions/${email}`)
         .then((res) => res.json())
         .then((permission) => {
+          console.log(permission);
           setPermissions(permission);
         })
         .catch(() => console.log("error"));
@@ -42,6 +45,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const adminPassword = ADMIN_PASS;
   const [disableButton, setDisableButton] = useState(true);
   const [openAdminLoginDialog, setOpenAdminLoginDialog] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState("");
   const handleClickOpenAdminLogin = () => {
     setOpenAdminLoginDialog(true);
   };
@@ -56,28 +61,35 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <Grid container>
       <SessionProvider session={session}>
-        <adminContext.Provider
-          value={{
-            disableButton,
-            setDisableButton,
-            handleClickOpenAdminLogin,
-            openAdminLoginDialog,
-            handleCloseAdminLogin,
-            testAdminLogin,
-            adminPassword,
-          }}
-        >
-          <Header />
-          <CheckAuth
-            authAdmin={Component.authAdmin}
-            authStudents={Component.authStudents}
-            authTeachers={Component.authTeachers}
+        <messageContext.Provider value={{ setMessage, setShowMessage }}>
+          <adminContext.Provider
+            value={{
+              disableButton,
+              setDisableButton,
+              handleClickOpenAdminLogin,
+              openAdminLoginDialog,
+              handleCloseAdminLogin,
+              testAdminLogin,
+              adminPassword,
+            }}
           >
-            <Component {...pageProps} />
-          </CheckAuth>
-          <AdminLogin />
-          <Footer />
-        </adminContext.Provider>
+            <Header />
+            <CheckAuth
+              authAdmin={Component.authAdmin}
+              authStudents={Component.authStudents}
+              authTeachers={Component.authTeachers}
+            >
+              <Component {...pageProps} />
+            </CheckAuth>
+            <AdminLogin />
+            <Message
+              message={message}
+              showMessage={showMessage}
+              setShowMessage={setShowMessage}
+            />
+            <Footer />
+          </adminContext.Provider>
+        </messageContext.Provider>
       </SessionProvider>
     </Grid>
   );
