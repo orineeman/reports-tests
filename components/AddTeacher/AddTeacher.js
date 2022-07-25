@@ -48,23 +48,39 @@ const filedsValue = {
   teachers: [],
 };
 
+function isValidEmail(email) {
+  return /\S+@\S+\.\S+/.test(email);
+}
+
 export default function AddTeacher() {
   const { setMessage, setShowMessage } = useContext(messageContext);
   let [newTeacherField, setNewTeacherField] = useState([1]);
   const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [disabledEmailField, setDisabledEmailField] = useState(true);
-
+  const [errors, setErrors] = useState([]);
   const handleTeacherNameChange = (teacherField, index) => {
-    filedsValue.teachers[index] = { fullName: "" };
+    filedsValue.teachers[index] = {
+      ...filedsValue.teachers[index],
+      fullName: "",
+    };
     filedsValue.teachers[index].fullName = event.target.value;
     console.log(filedsValue);
     setDisabledAddButton(false);
     setDisabledEmailField(false);
   };
-  const handleTeacherEmailChange = (teacherField, index) => {
+  const handleTeacherEmailChange = (event, teacherField, index) => {
+    filedsValue.teachers[index] = { ...filedsValue.teachers[index], email: "" };
     filedsValue.teachers[index].email = event.target.value;
-    console.log(filedsValue);
-    // setDisabledAddButton(false);
+    if (!isValidEmail(event.target.value)) {
+      const _errors = [...errors];
+      _errors[index] = true;
+      setErrors(_errors);
+      console.log(_errors);
+    } else {
+      const _errors = [...errors];
+      _errors[index] = false;
+      setErrors(_errors);
+    }
   };
 
   function addTeacherField() {
@@ -105,9 +121,13 @@ export default function AddTeacher() {
                 key="Teacher email"
                 variant="outlined"
                 required
+                error={errors[index]}
                 disabled={disabledEmailField}
-                onChange={() => handleTeacherEmailChange(teacherField, index)}
+                onChange={() =>
+                  handleTeacherEmailChange(event, teacherField, index)
+                }
               />
+              {/* {error && <h2 style={{ color: "red" }}>{error}</h2>} */}
               <Button
                 variant="outlined"
                 sx={{ height: "40px", margin: "10px", width: "40px" }}

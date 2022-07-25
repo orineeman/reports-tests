@@ -19,11 +19,10 @@ const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
 
   useEffect(() => {
     if (email && (authStudents || authAdmin || authTeachers)) {
-      setIsLoading(true); // is loading = false
+      setIsLoading(true);
       fetch(`/api/permissions/${email}`)
         .then((res) => res.json())
         .then((permission) => {
-          console.log(permission);
           setPermissions(permission);
           setIsLoading(false);
         })
@@ -61,6 +60,21 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [openAdminLoginDialog, setOpenAdminLoginDialog] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState("");
+  const [numOfNewMessages, setNumOfMessages] = useState();
+
+  function getNumOfNewMessages(setNewMessages) {
+    fetch("/api/contact-us", {
+      method: "GET",
+      headers: { pleaseGet: "numOfNewMessages" },
+    })
+      .then((res) => res.json())
+      .then((numOfNewMessages) => {
+        console.log("dataToUpdate", numOfNewMessages);
+        setNewMessages(numOfNewMessages);
+      })
+      .catch(() => console.log("error"));
+  }
+
   const handleClickOpenAdminLogin = () => {
     setOpenAdminLoginDialog(true);
   };
@@ -85,6 +99,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               handleCloseAdminLogin,
               testAdminLogin,
               adminPassword,
+              getNumOfNewMessages,
+              numOfNewMessages,
+              setNumOfMessages,
             }}
           >
             <Header />
@@ -119,8 +136,6 @@ function AuthStudents({ children, status }) {
 }
 
 function AuthTeachers({ children, status }) {
-  console.log("status", status);
-
   if (status === "loading") {
     return <div>Trying to connect to the Teacher page...</div>;
   }

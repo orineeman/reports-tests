@@ -9,6 +9,11 @@ const filedsValue = {
   tests: [],
   label: "",
 };
+
+function isValidEmail(email) {
+  return /\S+@\S+\.\S+/.test(email);
+}
+
 export default function CreateGroup() {
   const { setMessage, setShowMessage } = useContext(messageContext);
 
@@ -92,9 +97,10 @@ function StudentsFields({ filedsValue }) {
   let [newStudentsField, setNewStudentsField] = useState([1]);
   const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [disabledEmailField, setDisabledEmailField] = useState(true);
+  const [errors, setErrors] = useState([]);
 
   const handleStudentNameChange = (studentField, index) => {
-    filedsValue.students[index] = { label: "" };
+    filedsValue.students[index] = { ...filedsValue.students[index], label: "" };
     filedsValue.students[index].label = event.target.value;
     setDisabledAddButton(false);
     setDisabledEmailField(false);
@@ -102,7 +108,16 @@ function StudentsFields({ filedsValue }) {
   const handleStudentEmailChange = (studentField, index) => {
     filedsValue.students[index] = { ...filedsValue.students[index], email: "" };
     filedsValue.students[index].email = event.target.value;
-    console.log(filedsValue);
+    if (!isValidEmail(event.target.value)) {
+      const _errors = [...errors];
+      _errors[index] = true;
+      setErrors(_errors);
+      console.log(_errors);
+    } else {
+      const _errors = [...errors];
+      _errors[index] = false;
+      setErrors(_errors);
+    }
   };
 
   function addStudentField() {
@@ -142,6 +157,7 @@ function StudentsFields({ filedsValue }) {
                 label="Student email"
                 key="Student email"
                 variant="outlined"
+                error={errors[index]}
                 disabled={disabledEmailField}
                 onChange={() => handleStudentEmailChange(studentField, index)}
               />

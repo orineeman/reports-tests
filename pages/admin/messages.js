@@ -1,5 +1,5 @@
 import AdminNav from "../../components/AdminNav/AdminNav";
-import CheckNewQuestions from "../../components/CheckNewQuestions/CheckNewQuestions";
+import ReadMessages from "../../components/ReadMessages/ReadMessages";
 import styles from "../../styles/Home.module.css";
 
 export default function Admin() {
@@ -9,7 +9,7 @@ export default function Admin() {
         <AdminNav />
       </div>
       <div className={styles.contents}>
-        <CheckNewQuestions />
+        <ReadMessages />
       </div>
     </div>
   );

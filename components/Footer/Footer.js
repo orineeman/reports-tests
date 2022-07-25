@@ -4,8 +4,9 @@ import InfoIcon from "@mui/icons-material/Info";
 import { Grid } from "@mui/material";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import adminContext from "../../Context/adminContext";
 import "./Footer.module.css";
 
@@ -25,6 +26,17 @@ export default function Footer() {
 }
 
 function Navigation() {
+  const [admin, setAdmin] = useState(false);
+  const { data: session } = useSession();
+  useEffect(() => {
+    let email = "";
+    if (session) {
+      email = session.user.email;
+      if (email === process.env.EMAIL) {
+        setAdmin(true);
+      }
+    }
+  }, [session]);
   const router = useRouter();
   const { handleClickOpenAdminLogin } = useContext(adminContext);
   const [value, setValue] = useState(0);
@@ -47,11 +59,14 @@ function Navigation() {
         icon={<InfoIcon />}
         onClick={() => router.push("/about")}
       />
-      <BottomNavigationAction
-        label="Admin"
-        icon={<AdminPanelSettingsIcon />}
-        onClick={handleClickOpenAdminLogin}
-      />
+
+      {admin && (
+        <BottomNavigationAction
+          label="Admin"
+          icon={<AdminPanelSettingsIcon />}
+          onClick={handleClickOpenAdminLogin}
+        />
+      )}
     </BottomNavigation>
   );
 }

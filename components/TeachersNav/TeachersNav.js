@@ -1,9 +1,19 @@
+import { BottomNavigationAction } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import styles from "./TeachersNav.module.css";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
+import ContactUs from "../ContactUs/ContactUs";
+import { useState } from "react";
+
+function handleClickOpenContactUs(setOpenDrawer) {
+  setOpenDrawer(true);
+}
 
 export default function TeachersNav() {
+  const [openDrawer, setOpenDrawer] = useState(false);
+
   const { data: session } = useSession();
   let email = "";
   if (session) {
@@ -52,6 +62,17 @@ export default function TeachersNav() {
           Uploading questions
         </Button>
       </Link>
+      <BottomNavigationAction
+        title="Contact Us"
+        icon={<ContactMailIcon />}
+        onClick={() => handleClickOpenContactUs(setOpenDrawer)}
+      />
+      <ContactUs
+        email={email}
+        openDrawer={openDrawer}
+        setOpenDrawer={setOpenDrawer}
+      />
+      Contact us
     </div>
   );
 }
