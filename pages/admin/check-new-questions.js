@@ -14,3 +14,4 @@ export default function Admin() {
     </div>
   );
 }
+Admin.authAdmin = true;

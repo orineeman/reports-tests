@@ -14,3 +14,4 @@ export default function Teachers() {
     </div>
   );
 }
+Teachers.authTeachers = true;

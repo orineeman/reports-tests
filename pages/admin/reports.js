@@ -2,7 +2,7 @@ import styles from "../../styles/Home.module.css";
 import AdminNav from "../../components/AdminNav/AdminNav";
 import AdminReports from "../../components/AdminReports/AdminReports";
 
-export default function Teachers() {
+export default function Admin() {
   return (
     <div className={styles.container}>
       <div className={styles.nav}>
@@ -14,3 +14,4 @@ export default function Teachers() {
     </div>
   );
 }
+Admin.authAdmin = true;

@@ -61,6 +61,7 @@ function updateMassege(
   handleCloseDialog();
   getAllMessageFromServer();
   getNumOfNewMessages(setNumOfMessages);
+  changesToUpdate.answer = "";
 }
 function deleteMassege(
   messageIdToUpdate,
@@ -83,6 +84,7 @@ function deleteMassege(
     .catch(() => console.log("error"));
   handleCloseDialog();
   getNumOfNewMessages(setNumOfMessages);
+  changesToUpdate.answer = "";
   //   getAllMessageFromServer();
 }
 export default function AnswerToMessage({
@@ -173,7 +175,7 @@ export default function AnswerToMessage({
                   </div>
                   <TextField
                     id="TextFieldAnswer"
-                    label="Your regly"
+                    label="Your reply"
                     sx={{ width: "90%", mt: 2 }}
                     onChange={handleAnswerFieldChange}
                   />

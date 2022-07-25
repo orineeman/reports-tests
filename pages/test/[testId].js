@@ -1,5 +1,5 @@
 import Checkbox from "@mui/material/Checkbox";
-// import styles from "./testId.module.css";
+import styles from "./testId.module.css";
 import { Button, CircularProgress } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -80,11 +80,11 @@ export default function TestLobby() {
   const [doneTest, setDoneTest] = useState(false);
 
   return (
-    <div>
-      <div>
+    <div className={styles.container}>
+      <div className={styles.nav}>
         <h2>Goodluck!</h2>
       </div>
-      <div>
+      <div className={styles.contents}>
         {!doneTest && (
           <TestQuestions testId={testId} setDoneTest={setDoneTest} />
         )}
@@ -220,3 +220,4 @@ function TestQuestions({ testId, setDoneTest }) {
     </div>
   );
 }
+TestLobby.authStudents = true;

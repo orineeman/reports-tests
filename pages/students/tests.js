@@ -100,3 +100,4 @@ function SelectTest({ testsArr, setDisabled }) {
     </FormControl>
   );
 }
+TestsOfStudents.authStudents = true;
