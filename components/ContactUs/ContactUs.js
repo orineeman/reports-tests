@@ -60,11 +60,16 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
           </div>
         </div>
         <TextareaAutosize
-          aria-label="minimum height"
           autoFocus
           minRows={3}
           placeholder="Write here"
-          style={{ width: 200, marginLeft: 30, marginRight: 30, fontSize: 17 }}
+          style={{
+            padding: "8px",
+            width: 200,
+            marginLeft: 30,
+            marginRight: 30,
+            fontSize: 17,
+          }}
           onChange={handleChangeMessage}
         />
         <div

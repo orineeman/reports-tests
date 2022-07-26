@@ -1,17 +1,13 @@
 import AdminNav from "../../components/AdminNav/AdminNav";
 import BaseDataUpdates from "../../components/BaseDataUpdates/BaseDataUpdates";
-import styles from "../../styles/Home.module.css";
+import { Grid } from "@mui/material";
 
 export default function Admin() {
   return (
-    <div className={styles.container}>
-      <div className={styles.nav}>
-        <AdminNav />
-      </div>
-      <div className={styles.contents}>
-        <BaseDataUpdates />
-      </div>
-    </div>
+    <Grid container>
+      <AdminNav />
+      <BaseDataUpdates />
+    </Grid>
   );
 }
 Admin.authAdmin = true;

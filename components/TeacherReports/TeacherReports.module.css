@@ -1,13 +1,76 @@
-.contentFlex {
+.content {
+  padding-left: 4vw;
+  padding-top: 5vh;
+  display: flex;
+  flex-direction: column;
+}
+._content {
+  padding-top: 5vh;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 65px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  /* border: 1px solid red; */
+  text-align: center;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #140b53;
 }
-
+.note {
+  width: 18vw;
+  padding: 2vh;
+  background: rgb(235, 235, 235);
+  border-radius: 15px;
+  display: flex;
+  font-size: 12px;
+  align-self: end;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+}
 .selectFlex {
   display: flex;
-  /* justify-content: space-between; */
   flex-direction: column;
+}
+.flexDiv {
+  display: flex;
+  justify-content: space-between;
   /* border: 1px solid red; */
+  width: 55vw;
+  margin-bottom: 2vh;
+  align-items: center;
+}
+.subTitle {
+  margin-bottom: 2vh;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #040330;
+}
+.tableDiv {
+  margin-top: 0vh;
+  width: 55vw;
+}
+
+.submitButton {
+  margin-top: 4vh;
+  padding: 6px 32px;
+  gap: 8px;
+  width: 7.5vw;
+  height: 5vh;
+  background: rgba(133, 64, 245, 0.97);
+  border-radius: 4px;
+  margin-bottom: 2vh;
+}
+.submitButton:hover {
+  opacity: 0.9;
+  background: rgba(133, 64, 245, 0.97);
 }

@@ -119,19 +119,10 @@ export default function TeacherReports() {
   }
 
   return (
-    <>
-      <div className={styles.contentFlex}>
-        <h2>Reports</h2>
-        <div
-          style={{
-            width: 200,
-            background: "rgb(235,235,235)",
-            padding: 10,
-            borderRadius: 15,
-            display: "flex",
-            fontSize: 12,
-          }}
-        >
+    <div className={styles.content}>
+      <div className={styles.flexDiv}>
+        <div className={styles.title}>Reports</div>
+        <div className={styles.note}>
           <InfoOutlinedIcon sx={{ fontSize: 18, px: 0.5 }} />
           <div>
             After selecting a test, you have the option below to filter a group
@@ -139,7 +130,8 @@ export default function TeacherReports() {
           </div>
         </div>
       </div>
-      <div style={{ fontSize: 18, margin: 10 }}>
+
+      <div className={styles.subTitle}>
         Select a group & test for report view:
       </div>
       <div className={styles.selectFlex}>
@@ -147,7 +139,7 @@ export default function TeacherReports() {
           disablePortal
           id="group-name-field"
           options={groupsList}
-          sx={{ width: 300 }}
+          sx={{ width: "23vw" }}
           renderInput={(params) => (
             <TextField {...params} label="Search by group name" />
           )}
@@ -157,17 +149,15 @@ export default function TeacherReports() {
           disablePortal
           id="test-name-field"
           options={testsList}
-          sx={{ width: 300, marginTop: "20px" }}
+          sx={{ width: "23vw", marginTop: "20px" }}
           renderInput={(params) => (
             <TextField {...params} label="Search by test name" />
           )}
           onChange={(event, value) => handleFieldTestName(event, value)}
         />
-      </div>
-      <div className="flex-div Search-button">
         <Button
           variant="contained"
-          sx={{ margin: "15px", width: "150px" }}
+          className={styles.submitButton}
           key="Search"
           type="Search"
           onClick={() =>
@@ -186,6 +176,8 @@ export default function TeacherReports() {
         >
           Search
         </Button>
+      </div>
+      <div className={styles.tableDiv}>
         <DataTable showValueSearched={showValueSearched} />
         <SelectQuestion
           questionsOfTest={questionsOfTest}
@@ -196,7 +188,7 @@ export default function TeacherReports() {
       </div>
 
       <DataTableReportQuestion showReportQuestion={showReportQuestion} />
-    </>
+    </div>
   );
 }
 
@@ -220,7 +212,7 @@ function DataTable({ showValueSearched }) {
   });
   return (
     <>
-      <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
+      <div style={{ height: 500, marginTop: "20px" }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -258,19 +250,12 @@ function SelectQuestion({
     setShowReportQuestion(StudentsQuestionDetails);
   };
   return (
-    <>
-      <div className={styles.contentFlex}>
-        <h6>Select a question to view its report</h6>
-        <div
-          style={{
-            width: 200,
-            background: "rgb(235,235,235)",
-            padding: 10,
-            borderRadius: 15,
-            display: "flex",
-            fontSize: 12,
-          }}
-        >
+    <div className={styles._content}>
+      <div className={styles.flexDiv}>
+        <div className={styles.subTitle}>
+          Select a question to view its report
+        </div>
+        <div className={styles.note}>
           <InfoOutlinedIcon sx={{ fontSize: 18, px: 0.5 }} />
           <div>
             Students who did not answer the question are not presented in its
@@ -280,7 +265,7 @@ function SelectQuestion({
       </div>
       <Select
         disabled={disabledReportQuestions}
-        sx={{ width: "300px" }}
+        sx={{ width: "23vw" }}
         id="Select-quetion"
         value={question}
         name="question"
@@ -293,6 +278,6 @@ function SelectQuestion({
           </MenuItem>
         ))}
       </Select>
-    </>
+    </div>
   );
 }

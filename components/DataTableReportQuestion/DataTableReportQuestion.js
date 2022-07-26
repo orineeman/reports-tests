@@ -18,7 +18,7 @@ export default function DataTableReportQuestion({ showReportQuestion }) {
   });
   return (
     <>
-      <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
+      <div style={{ height: 400, marginTop: "20px" }}>
         <DataGrid
           rows={rows}
           columns={columns}

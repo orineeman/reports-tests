@@ -27,12 +27,14 @@
 ._subTitle {
   color: #5d46c8;
 }
-.teacherLobby {
+.lobby {
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
+  width: 50vw;
+  text-align: justify;
 }
 .innerTitle {
   font-family: "Roboto";

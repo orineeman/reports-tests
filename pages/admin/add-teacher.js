@@ -1,17 +1,13 @@
 import AdminNav from "../../components/AdminNav/AdminNav";
-import styles from "../../styles/Home.module.css";
 import AddTeacher from "../../components/AddTeacher/AddTeacher";
+import { Grid } from "@mui/material";
 
 export default function Admin() {
   return (
-    <div className={styles.container}>
-      <div className={styles.nav}>
-        <AdminNav />
-      </div>
-      <div className={styles.contents}>
-        <AddTeacher />
-      </div>
-    </div>
+    <Grid container>
+      <AdminNav />
+      <AddTeacher />
+    </Grid>
   );
 }
 Admin.authAdmin = true;

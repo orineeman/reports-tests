@@ -30,8 +30,8 @@ export default function Admin() {
   return (
     <Grid container>
       <AdminNav />
-      <div className={styles.title}>
-        <h1>welcome mr. admin</h1>
+      <div className={styles.titlesDiv}>
+        <div className={styles.title}>welcome mr. admin</div>
       </div>
     </Grid>
   );

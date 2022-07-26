@@ -1,25 +1,39 @@
 import { Grid } from "@mui/material";
 import LeftMainNav from "../components/LeftMainNav/LeftMainNav";
+import styles from "../styles/Home.module.css";
+
 export default function About() {
   return (
     <Grid container>
       <LeftMainNav />
-      <div>
-        <p>
-          The essence of the site - a site where there will be a selection of
-          questions in the account, (classified by age, of course elementary
-          age), where it will be possible to register as a teacher, the teacher
-          will be able to: <br />a - Pull questions from there to print a test,
-          <br /> b - Add questions to the database Students, and get each child
-          a password, then each child will be able to login and take the test on
-          the site. This feature is the main thing because: the teacher will
-          receive a total report - a grade for each student, execution time, an
-          unusual question that several percent of the class failed, a question
-          that took a long time. The intention is that later it will be possible
-          to follow the students progress history, so that there is an accurate
-          knowledge of his condition - (for example - a student who last year
-          would answer a question in a few seconds and is now delayed - will
-          light a red light for the teacher).
+      <div className={styles.titlesDiv}>
+        <div className={styles.title}>About Test-reports</div>
+        <p className={styles.lobby}>
+          The website has a selection of calculus questions, (classified by age,
+          subject and difficulty), where you can register as a teacher. The
+          teacher will be able to:
+          <br />
+          <br />
+          A - pull questions from the database to create a test.
+          <br />
+          <br />
+          B - create a group of students, and send the test to the group.
+          <br />
+          <br />
+          C- Add questions to the question database.
+          <br />
+          <br />
+          Every student will be able to log in and access the test on the
+          website (he receives a link by email).
+          <br />
+          <br />
+          The teacher will receive an overall report - grade for each student,
+          execution time, an unusual question that what percentage of the class
+          failed, a question that took a lot of time.
+          <br />
+          <br />
+          In exceptional cases, the site administrator changes the details of
+          the failing questions.
         </p>
       </div>
     </Grid>

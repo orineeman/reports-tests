@@ -15,7 +15,7 @@ function ExplanationTeachers() {
   return (
     <div className={styles.titlesDiv}>
       <div className={styles.innerTitle}>What can you do here? </div>
-      <p className={styles.teacherLobby}>
+      <p className={styles.lobby}>
         A. Uploading questions to the database - fields to fill in - approximate
         age for the question, the question, 4 American answers or a standard
         answer, send button. Will send an email thanking the teacher for the
