@@ -1,37 +1,25 @@
 import Link from "next/link";
-
-import Button from "@mui/material/Button";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import SchoolIcon from "@mui/icons-material/School";
 import styles from "./LeftMainNav.module.css";
-import { createTheme, ThemeProvider, Typography } from "@mui/material";
+import Divider from "@mui/material/Divider";
 
-const theme = createTheme();
-theme.typography.h6 = {
-  fontSize: "0.5rem",
-  "@media (min-width:600px)": {
-    fontSize: "1rem",
-  },
-};
 export default function LeftMainNav() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        marginTop: 30,
-      }}
-    >
-      <ThemeProvider theme={theme}>
-        <Link href="/students">
-          <Button sx={{ marginBottom: "10px" }} key="student-login">
-            <Typography variant="h6">Students</Typography>
-          </Button>
-        </Link>
-        <Link href="/teachers">
-          <Button sx={{ marginBottom: "10px" }} key="teachers-registr">
-            <Typography variant="h6">Teachers</Typography>
-          </Button>
-        </Link>
-      </ThemeProvider>
+    <div className={styles.leftMainNav}>
+      <Link href="/students">
+        <div className={styles.btnMainNav} key="student-login">
+          <MenuBookIcon className={styles.iconsMainNav} />
+          <div className={styles.linksMainNav}>Students</div>
+        </div>
+      </Link>
+      <Link href="/teachers">
+        <div className={styles.btnMainNav} key="teachers-registr">
+          <SchoolIcon className={styles.iconsMainNav} />
+          <div className={styles.linksMainNav}>Teachers</div>
+        </div>
+      </Link>
+      <Divider className={styles.divider} />
     </div>
   );
 }

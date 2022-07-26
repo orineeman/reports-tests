@@ -1,18 +1,14 @@
 // import TeachersNav from "../components/TeachersNav/TeachersNav";
 import UploadingQuestions from "../../components/UploadingQuestions/UploadingQuestions";
 import TeachersNav from "../../components/TeachersNav/TeachersNav";
-import styles from "../../styles/Home.module.css";
+import { Grid } from "@mui/material";
 
 export default function Teachers() {
   return (
-    <div className={styles.container}>
-      <div className={styles.nav}>
-        <TeachersNav />
-      </div>
-      <div className={styles.contents}>
-        <UploadingQuestions />
-      </div>
-    </div>
+    <Grid container>
+      <TeachersNav />
+      <UploadingQuestions />
+    </Grid>
   );
 }
 Teachers.authTeachers = true;

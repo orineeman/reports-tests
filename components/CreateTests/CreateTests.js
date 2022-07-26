@@ -3,6 +3,7 @@ import { Button, TextField } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import messageContext from "../../Context/messageContext";
+import styles from "./CreateTests.module.css";
 
 function getDataFromServer(setShowTest) {
   fetch("/api/question", {
@@ -69,10 +70,11 @@ export default function CreateTests() {
     questionsIdForTest.label = event.target.value;
   }
   return (
-    <>
-      <h2>Create Tests</h2>
+    <div className={styles.content}>
+      <div className={styles.title}>Create Tests</div>
       <TextField
-        sx={{ width: "650px", marginTop: "20px" }}
+        testName
+        className={styles.testName}
         id="Test-name-field"
         label="Test name"
         variant="outlined"
@@ -86,10 +88,10 @@ export default function CreateTests() {
         questionsIdForTest={questionsIdForTest}
         email={email}
       />
-      <div className="flex-div submit-button">
+      <div className={styles.submitDiv}>
         <Button
+          className={styles.submitButton}
           variant="contained"
-          sx={{ margin: "15px", width: "150px" }}
           key="submit"
           type="submit"
           onClick={() =>
@@ -99,7 +101,7 @@ export default function CreateTests() {
           Submit
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -123,9 +125,9 @@ function DataTable({ questions, questionsIdForTest }) {
   });
   return (
     <>
-      <h6>
+      <div className={styles.subTitle}>
         Select the questions you want and click Submit to create the test:
-      </h6>
+      </div>
       <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
         <DataGrid
           rows={rows}

@@ -8,19 +8,12 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import adminContext from "../../Context/adminContext";
-import "./Footer.module.css";
+import styles from "./Footer.module.css";
 
 export default function Footer() {
   return (
-    <Grid
-      container
-      style={{
-        width: "100vw",
-      }}
-    >
-      <Grid item xs={12}>
-        <Navigation />
-      </Grid>
+    <Grid container className={styles.footerdDiv}>
+      <Navigation />
     </Grid>
   );
 }
@@ -43,6 +36,12 @@ function Navigation() {
 
   return (
     <BottomNavigation
+      sx={{
+        "& .Mui-selected, .Mui-selected > svg": {
+          color: "#140b53",
+          // width: "50vw",
+        },
+      }}
       showLabels
       value={value}
       onChange={(event, newValue) => {
@@ -50,11 +49,13 @@ function Navigation() {
       }}
     >
       <BottomNavigationAction
+        className={styles.footerIcon}
         label="Home"
         icon={<HomeIcon />}
         onClick={() => router.push("/")}
       />
       <BottomNavigationAction
+        className={styles.footerIcon}
         label="About"
         icon={<InfoIcon />}
         onClick={() => router.push("/about")}
@@ -62,6 +63,7 @@ function Navigation() {
 
       {admin && (
         <BottomNavigationAction
+          className={styles.footerIcon}
           label="Admin"
           icon={<AdminPanelSettingsIcon />}
           onClick={handleClickOpenAdminLogin}

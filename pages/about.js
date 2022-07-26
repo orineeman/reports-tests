@@ -1,19 +1,17 @@
+import { Grid } from "@mui/material";
 import LeftMainNav from "../components/LeftMainNav/LeftMainNav";
-import styles from "../styles/Home.module.css";
 export default function About() {
   return (
-    <div>
-      <div>
-        <LeftMainNav />
-      </div>
+    <Grid container>
+      <LeftMainNav />
       <div>
         <p>
           The essence of the site - a site where there will be a selection of
           questions in the account, (classified by age, of course elementary
           age), where it will be possible to register as a teacher, the teacher
-          will be able to a - pull questions from there to print a test, b -
-          upload questions to the database Students, and get each child a
-          password, then each child will be able to login and take the test on
+          will be able to: <br />a - Pull questions from there to print a test,
+          <br /> b - Add questions to the database Students, and get each child
+          a password, then each child will be able to login and take the test on
           the site. This feature is the main thing because: the teacher will
           receive a total report - a grade for each student, execution time, an
           unusual question that several percent of the class failed, a question
@@ -24,6 +22,6 @@ export default function About() {
           light a red light for the teacher).
         </p>
       </div>
-    </div>
+    </Grid>
   );
 }

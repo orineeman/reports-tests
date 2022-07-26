@@ -1,0 +1,48 @@
+.drowerTitle {
+  font-weight: 500;
+  font-family: "Roboto";
+  font-style: normal;
+  font-size: 19px;
+  line-height: 24px;
+  color: #040330;
+}
+
+.drowerText {
+  margin-bottom: 4vh;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #040330;
+}
+
+.sendButton {
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  margin-left: 4vh;
+  padding: 6px 32px;
+  color: #ffffff;
+  gap: 8px;
+  width: 80%;
+  height: 8vh;
+  background: rgba(133, 64, 245, 0.97);
+  border-radius: 4px;
+}
+.sendButton:hover {
+  opacity: 0.9;
+  background: rgba(133, 64, 245, 0.97);
+}
+.closeBtn {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  padding-right: 2vw;
+  letter-spacing: 0.01em;
+  color: #140b53;
+}

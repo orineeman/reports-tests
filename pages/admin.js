@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -27,14 +28,12 @@ export default function Admin() {
     }
   }, [email, router]);
   return (
-    <div className={styles.container}>
-      <div className={styles.nav}>
-        <AdminNav />
-      </div>
-      <div className={styles.contents}>
+    <Grid container>
+      <AdminNav />
+      <div className={styles.title}>
         <h1>welcome mr. admin</h1>
       </div>
-    </div>
+    </Grid>
   );
 }
 

@@ -89,14 +89,15 @@ export default function SendingTest() {
   }
 
   return (
-    <>
-      <h2>Sending a test to students</h2>
-
+    <div className={styles.content}>
+      <div className={styles.title}>Sending a test to students</div>
       {showLoding && <CircularProgress />}
       {!showLoding && (
         <>
-          <h6>Select a test and group and click Submit</h6>
-          <div className={styles.flex}>
+          <div className={styles.subTitle}>
+            Select a test and group and click Submit
+          </div>
+          <div className={styles.selectsDiv}>
             <div>
               <SelectTest testsArr={testsArr} />
             </div>
@@ -113,8 +114,9 @@ export default function SendingTest() {
             key="content"
             onChange={handleFieldMessage}
           />
-          <div className={styles.submitButton}>
+          <div className={styles.submitDiv}>
             <Button
+              className={styles.submitButton}
               variant="contained"
               sx={{ margin: "15px", width: "150px" }}
               key="submit"
@@ -126,7 +128,7 @@ export default function SendingTest() {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
 

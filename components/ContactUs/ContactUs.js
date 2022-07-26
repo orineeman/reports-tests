@@ -2,6 +2,7 @@ import { Button, TextareaAutosize } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import { useContext } from "react";
 import messageContext from "../../Context/messageContext";
+import styles from "./ContactUs.module.css";
 
 async function sendMessageToServer(
   message,
@@ -25,12 +26,18 @@ async function sendMessageToServer(
   setOpenDrawer(false);
 }
 
+function close(setOpenDrawer) {
+  setOpenDrawer(false);
+}
+
 const message = { email: "", message: "" };
+
 export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
   const { setMessage, setShowMessage } = useContext(messageContext);
 
   const anchor = "left";
   message.email = email;
+
   function handleChangeMessage() {
     message.message = event.target.value;
     console.log(message);
@@ -44,12 +51,13 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
         onClose={() => setOpenDrawer(false)}
       >
         <div style={{ width: 200, marginTop: 50, marginLeft: 30 }}>
-          <h3>
-            Dear teacher, <br />
-            <br /> your comments are important to us <br />
+          <div className={styles.drowerTitle}>Dear teacher,</div>
+
+          <div className={styles.drowerText}>
+            <br /> your comments are important to us. <br />
             For comments, suggestions, send to us and we will respond as soon as
-            possible
-          </h3>
+            possible.
+          </div>
         </div>
         <TextareaAutosize
           aria-label="minimum height"
@@ -59,12 +67,15 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
           style={{ width: 200, marginLeft: 30, marginRight: 30, fontSize: 17 }}
           onChange={handleChangeMessage}
         />
-        <h4 style={{ width: 200, marginTop: 50, marginLeft: 30 }}>
+        <div
+          className={styles.drowerTitle}
+          style={{ width: 200, marginTop: 50, marginLeft: 30 }}
+        >
           We appreciate it
-        </h4>
+        </div>
         <Button
+          className={styles.sendButton}
           variant="outlined"
-          sx={{ margin: "50px", width: "150px" }}
           key="send message"
           type="send message"
           onClick={() =>
@@ -77,6 +88,12 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
           }
         >
           Send message
+        </Button>
+        <Button
+          className={styles.closeBtn}
+          onClick={() => close(setOpenDrawer)}
+        >
+          close
         </Button>
       </Drawer>
     </div>

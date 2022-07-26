@@ -8,6 +8,7 @@ import styles from "./UploadingQuestions.module.css";
 import getDataFromServer from "../../utils/getAgeSubjectDif";
 import { useSession } from "next-auth/react";
 import messageContext from "../../Context/messageContext";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const filedsValue = {
   difficulty: "",
@@ -66,9 +67,9 @@ export default function UploadingQuestions() {
     filedsValue.content = event.target.value;
   }
   return (
-    <>
-      <h2>Uploading questions</h2>
-      <div className={styles.flex}>
+    <div className={styles.content}>
+      <div className={styles.title}>Add questions</div>
+      <div className={styles.selectsDiv}>
         <div>
           <SelectAge agesArr={agesArr} />
         </div>
@@ -80,7 +81,7 @@ export default function UploadingQuestions() {
         </div>
       </div>
       <TextField
-        sx={{ width: "650px", marginTop: "20px" }}
+        className={styles.questionField}
         id="field-question"
         label="Write here the question"
         variant="outlined"
@@ -89,12 +90,12 @@ export default function UploadingQuestions() {
         onChange={handleFieldContent}
       />
 
-      <h6>Please mark the correct answer</h6>
+      <div className={styles.subTitle}>Please mark the correct answer</div>
       <AnswersFields />
-      <div className={styles.submitButton}>
+      <div className={styles.submitDiv}>
         <Button
+          className={styles.submitButton}
           variant="contained"
-          sx={{ margin: "15px", width: "150px" }}
           key="submit"
           type="submit"
           onClick={() => sendQuestionToServer(filedsValue)}
@@ -102,7 +103,7 @@ export default function UploadingQuestions() {
           Submit
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -119,7 +120,7 @@ function SelectAge({ agesArr }) {
     <FormControl sx={{ width: "80px" }}>
       <InputLabel id="age-select">Age</InputLabel>
       <Select
-        sx={{ width: "100px", mr: 20 }}
+        sx={{ width: "100px" }}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={age}
@@ -234,43 +235,36 @@ function AnswersFields() {
   return (
     <>
       <div>
-        <div>
-          {newAnswerField.map((answerField, index) => (
-            <div key={answerField}>
-              {index + 1}
-              <TextField
-                autoFocus
-                sx={{ width: "300px", margin: "10px" }}
-                label="answer"
-                variant="outlined"
-                onChange={() => handleAnswerChange(answerField, index)}
-              />
-              <Checkbox
-                value={answerField}
-                checked={checked[index]}
-                onChange={() => handleChange(event, answerField, index)}
-                inputProps={{ "aria-label": "controlled" }}
-              />
-              <Button
-                variant="outlined"
-                sx={{ height: "40px", margin: "10px", width: "40px" }}
-                key="removeAnswerField"
-                onClick={() => removeAnswerField(answerField, index)}
-              >
-                -
-              </Button>
-            </div>
-          ))}
-        </div>
-        <Button
-          variant="outlined"
-          sx={{ margin: "15px", width: "200px" }}
-          disabled={disabledAddButton}
-          key="addAnswerField"
-          onClick={addAnswerField}
-        >
-          Add answer
-        </Button>
+        {newAnswerField.map((answerField, index) => (
+          <div key={index} className={styles.answerFieldDiv}>
+            <div className={styles.answerFieldNum}>{index + 1}</div>
+            <TextField
+              // autoFocus
+              sx={{ width: "300px" }}
+              label="answer"
+              variant="outlined"
+              onChange={() => handleAnswerChange(answerField, index)}
+            />
+            <Checkbox
+              value={answerField}
+              checked={checked[index]}
+              onChange={() => handleChange(event, answerField, index)}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+            <DeleteIcon onClick={() => removeAnswerField(answerField, index)} />
+          </div>
+
+          // </div>
+        ))}
+      </div>
+      <div
+        className={styles.addBtn}
+        variant="outlined"
+        disabled={disabledAddButton}
+        key="addAnswerField"
+        onClick={addAnswerField}
+      >
+        + Add answer
       </div>
     </>
   );

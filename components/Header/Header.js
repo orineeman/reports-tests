@@ -1,10 +1,8 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
-import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
-import { Box, Button, Grid } from "@mui/material";
-import Image from "next/image";
-import { blue } from "@mui/material/colors";
+// import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
+import { Button, Grid } from "@mui/material";
 
 async function userConnection(user) {
   user ? true : false;
@@ -33,55 +31,17 @@ export default function Header() {
     }
   }, [session]);
   return (
-    <Grid
-      container
-      style={{
-        margin: -8,
-        background: "rgb(230, 230, 230)",
-        width: "100vw",
-        // opacity: 0.8,
-        height: 80,
-      }}
-    >
-      <Grid
-        item
-        xs={8}
-        md={4}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+    <Grid container className={styles.header}>
+      <Grid item className={styles.logoDiv}>
         <>
-          <Grid
-            item
-            xs={8}
-            md={5}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <CreateOutlinedIcon />
-            Test-reports
+          <Grid item className={styles.logo}>
+            Test - reports
           </Grid>
         </>
       </Grid>
 
-      <Grid
-        item
-        xs={2}
-        md={6}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "start",
-          fontSize: 10,
-        }}
-      >
-        Hello {session?.user?.name || `guest`}
+      <Grid item className={styles.hello}>
+        Hello, {session?.user?.name || `guest`}
       </Grid>
       <Grid
         item
@@ -96,43 +56,18 @@ export default function Header() {
         {!signIn && (
           <Button
             className={styles.signIn}
-            // style={{
-            //   borderRadius: "50px",
-            //   display: "flex",
-            //   textAlign: "center",
-            //   alignItems: "center",
-            //   justifyContent: "center",
-            //   border: "1px solid #4285f4",
-            //   fontSize: 10,
-            //   background: "#fff",
-            // }}
             onClick={() => logIn(setSignIn, session)}
           >
             <p className={styles.signInText} style={{ marginRight: 4 }}>
               sign in with
             </p>
             <GoogleIcon />
-            {/* <Image
-              class="google-icon"
-              alt="sign in"
-              src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-              // layout="fill"
-              width="18px"
-              height="18px"
-            /> */}
           </Button>
         )}
         {signIn && (
           <Button
-            style={{
-              borderRadius: "50px",
-
-              display: "flex",
-              textAlign: "center",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 10,
-            }}
+            className={styles.signIn}
+            style={{}}
             onClick={() => {
               logOut(setSignIn);
             }}

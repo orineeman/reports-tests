@@ -1,23 +1,45 @@
-.container {
-  margin: -8px auto;
-  width: 75%;
-  height: 100%;
+.titlesDiv {
   /* border: 1px solid red; */
-  /* background-color: rgb(253, 192, 192); */
-  padding: 8px;
-  display: flex;
+  width: 70vw;
+  padding-top: 3%;
+  padding-left: 3%;
 }
-.nav {
-  padding: 8px;
-  /* border: 1px solSid red; */
-  width: 250px;
-  min-height: 420px;
-  background-color: rgb(240, 240, 240);
-  box-shadow: 3px 3px 3px 3px;
-  margin-top: 5px;
+.title {
+  margin-bottom: 2%;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30.474px;
+  line-height: 46px;
+  text-transform: capitalize;
+
+  color: #472cc0;
 }
-.contents {
-  padding: 30px;
-  width: 700px;
-  min-height: 420px;
+.subTitle {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28.5522px;
+  line-height: 43px;
+  text-transform: capitalize;
+  color: #040330;
+}
+._subTitle {
+  color: #5d46c8;
+}
+.teacherLobby {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+.innerTitle {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 65px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
 }
