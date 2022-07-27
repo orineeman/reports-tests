@@ -1,9 +1,93 @@
-.submitButton {
-  justify-content: center;
-  display: flex;
+.content {
+  padding-left: 4vw;
+  padding-top: 5vh;
 }
-.flex {
+.title {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 65px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #140b53;
+  margin-bottom: 2vh;
+}
+
+.subTitle {
+  margin-bottom: 2vh;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #040330;
+}
+.submitDiv {
+  display: flex;
+  justify-content: end;
+}
+.submitButton {
+  padding: 6px 32px;
+  gap: 8px;
+  width: 7.5vw;
+  height: 5vh;
+  background: rgba(133, 64, 245, 0.97);
+  border-radius: 4px;
+}
+.submitButton:hover {
+  opacity: 0.9;
+  background: rgba(133, 64, 245, 0.97);
+  cursor: pointer;
+}
+
+.studentFieldDiv {
+  margin-top: 2vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.studentFieldNum {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  width: 3vw;
+  display: flex;
+  justify-content: center;
+  margin-right: 1vw;
+}
+.textField {
+  margin-right: 2vw;
+}
+.divider {
+  width: 55vw;
+  height: 0px;
+  left: 383px;
+  top: 503px;
+  margin-top: 1vh;
+  border: 1px solid #dfd8ff;
+}
+.addBtn {
+  margin-top: 4vh;
+  width: 8vw;
+  margin-left: 2vh;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #140b53;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
 }

@@ -6,6 +6,7 @@ import UploadingQuestions from "../UpdateQuestion/UpdateQuestion";
 import { CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import clsx from "clsx";
+import styles from "./AdminReports.module.css";
 
 function getDataFromServer(setAllQuestions, setShowLoding) {
   fetch(`/api/admin/admin-reports`)
@@ -41,12 +42,15 @@ export default function AdminReports() {
   }, [email]);
 
   return (
-    <>
-      <h2>Question & answers reports</h2>
-      {showLoding && <CircularProgress />}
+    <div className={styles.content}>
+      <div className={styles.title}>Question & answers reports</div>
+
+      {showLoding && (
+        <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+      )}
       {!showLoding && (
         <>
-          <div style={{ fontSize: 18, margin: 10 }}>
+          <div className={styles.subTitle}>
             Click on a question to update its data:
           </div>
           <div>
@@ -60,7 +64,7 @@ export default function AdminReports() {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
 
@@ -109,11 +113,10 @@ function DataTable({
   });
   return (
     <>
-      <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
+      <div style={{ height: 500, width: "45vw", marginTop: "20px" }}>
         <Box
           sx={{
             height: 500,
-            width: "100%",
             "& .super-app.negative": {
               backgroundColor: "rgba(157, 255, 118, 0.49)",
               color: "#1a3e72",

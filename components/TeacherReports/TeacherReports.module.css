@@ -41,7 +41,6 @@
 .flexDiv {
   display: flex;
   justify-content: space-between;
-  /* border: 1px solid red; */
   width: 55vw;
   margin-bottom: 2vh;
   align-items: center;
@@ -73,4 +72,5 @@
 .submitButton:hover {
   opacity: 0.9;
   background: rgba(133, 64, 245, 0.97);
+  cursor: pointer;
 }

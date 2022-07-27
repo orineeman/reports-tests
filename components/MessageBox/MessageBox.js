@@ -5,8 +5,9 @@ import { CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import clsx from "clsx";
 import AnswerToMessage from "../AnswerToMessage/AnswerToMessage";
+import styles from "./MessageBox.module.css";
 
-export default function ReadMessages() {
+export default function MessageBox() {
   const [openAnswerToMessageDialog, setOpenAnswerToMessageDialog] =
     useState(false);
   const [messageIdToUpdate, setMessageIdToUpdate] = useState("");
@@ -33,12 +34,15 @@ export default function ReadMessages() {
   }
 
   return (
-    <>
-      <h2>Message box</h2>
-      {showLoding && <CircularProgress />}
+    <div className={styles.content}>
+      <div className={styles.title}>Message box</div>
+
+      {showLoding && (
+        <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+      )}
       {!showLoding && (
         <>
-          <div style={{ fontSize: 18, margin: 10 }}>
+          <div className={styles.subTitle}>
             Click on a message to read & answer:
           </div>
           <div>
@@ -55,7 +59,7 @@ export default function ReadMessages() {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
 
@@ -106,11 +110,10 @@ function DataTable({
   });
   return (
     <>
-      <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
+      <div style={{ height: 500, width: "45vw", marginTop: "20px" }}>
         <Box
           sx={{
             height: 500,
-            width: "100%",
             "& .super-app.negative": {
               backgroundColor: "rgba(157, 255, 118, 0.49)",
               color: "#1a3e72",

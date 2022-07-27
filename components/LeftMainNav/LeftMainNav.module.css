@@ -25,9 +25,9 @@
   margin-bottom: 10px;
   background: rgba(3, 9, 168, 0.12);
   border-radius: 4px;
+  cursor: pointer;
 }
 .linksMainNav {
-  /* top: calc(50% - 20px / 2); */
   font-family: Roboto;
   font-style: normal;
   font-weight: 600;
@@ -36,7 +36,6 @@
   text-transform: capitalize;
   color: rgba(4, 3, 48, 0.87);
   margin-left: 1vw;
-  /* margin-right: 2vw; */
 }
 .iconsMainNav {
   color: #323232;

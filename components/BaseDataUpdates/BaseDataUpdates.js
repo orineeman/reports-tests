@@ -84,16 +84,17 @@ export default function BaseDataUpdates() {
   const { setMessage, setShowMessage } = useContext(messageContext);
 
   return (
-    <>
-      <h2>Base data updates</h2>
-      <h4>
+    <div className={styles.content}>
+      <div className={styles.title}>Base data updates</div>
+
+      <div className={styles.subTitle}>
         Select the data you want to update, and click the field you want to
         update or delete
-      </h4>
-      <div className={styles.flex}>
+      </div>
+      <div>
         <Button
+          className={styles.updateBtns}
           variant="outlined"
-          sx={{ margin: "15px", width: "150px" }}
           key="permissions"
           type="permissions"
           value="permissions"
@@ -110,8 +111,8 @@ export default function BaseDataUpdates() {
           Permissions
         </Button>
         <Button
+          className={styles.updateBtns}
           variant="outlined"
-          sx={{ margin: "15px", width: "150px" }}
           key="ages"
           type="ages"
           value="ages"
@@ -128,8 +129,8 @@ export default function BaseDataUpdates() {
           Ages
         </Button>
         <Button
+          className={styles.updateBtns}
           variant="outlined"
-          sx={{ margin: "15px", width: "150px" }}
           key="subjects"
           type="subjects"
           value="subjects"
@@ -146,8 +147,8 @@ export default function BaseDataUpdates() {
           Subjects
         </Button>
         <Button
+          className={styles.updateBtns}
           variant="outlined"
-          sx={{ margin: "15px", width: "150px" }}
           key="difficulties"
           type="difficulties"
           value="difficulties"
@@ -172,10 +173,11 @@ export default function BaseDataUpdates() {
         valueToDelete={valueToDelete}
         setValueToDelete={setValueToDelete}
       />
-      <div className={styles.flex}>
+      <div>
         <Button
+          className={styles.addButton}
           variant="contained"
-          sx={{ margin: "15px", width: "200px" }}
+          sx={{ margin: "15px" }}
           key="AddButton"
           type="AddButton"
           disabled={disabledAddButton}
@@ -203,8 +205,9 @@ export default function BaseDataUpdates() {
           }
         />
         <Button
+          className={styles.saveButton}
           variant="contained"
-          sx={{ margin: "15px", width: "200px" }}
+          sx={{ margin: "15px" }}
           key="save"
           type="save"
           disabled={disabledSaveButton}
@@ -215,7 +218,7 @@ export default function BaseDataUpdates() {
           save
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -264,9 +267,10 @@ function DataTable({
   });
   return (
     <>
-      <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
+      <div style={{ height: 250, width: "52vw", marginTop: "20px" }}>
         <DataGrid
           rows={rows}
+          sx={{ fontFamily: "Roboto", fontStyle: "normal", fontWeight: 400 }}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}

@@ -141,48 +141,46 @@ function StudentsFields({ filedsValue }) {
   return (
     <>
       <div>
-        <div>
-          {newStudentsField.map((studentField, index) => (
-            <>
-              {" "}
-              <div className={styles.studentFieldDiv} key="studentField">
-                <div className={styles.studentFieldNum}>{index + 1}</div>
-                <TextField
-                  className={styles.textField}
-                  sx={{ width: "300px", margin: "10px" }}
-                  type="text"
-                  label="Student full name"
-                  variant="outlined"
-                  onChange={() => handleStudentNameChange(studentField, index)}
-                  required
-                />
-                <TextField
-                  className={styles.textField}
-                  sx={{ width: "300px", margin: "10px" }}
-                  type="email"
-                  required
-                  label="Student email"
-                  variant="outlined"
-                  error={errors[index]}
-                  disabled={disabledEmailField}
-                  onChange={() => handleStudentEmailChange(studentField, index)}
-                />
-                <DeleteIcon
-                  onClick={() => removeStudentField(studentField, index)}
-                />
-              </div>
-              <Divider className={styles.divider} />
-            </>
-          ))}
-        </div>
-        <div
-          className={styles.addBtn}
-          // disabled={disabledAddButton}
-          key="addStudentField"
-          onClick={addStudentField}
-        >
-          + Add student
-        </div>
+        {newStudentsField.map((studentField, index) => (
+          <>
+            {" "}
+            <div className={styles.studentFieldDiv} key="studentField">
+              <div className={styles.studentFieldNum}>{index + 1}</div>
+              <TextField
+                className={styles.textField}
+                sx={{ width: "300px", margin: "10px" }}
+                type="text"
+                label="Student full name"
+                variant="outlined"
+                onChange={() => handleStudentNameChange(studentField, index)}
+                required
+              />
+              <TextField
+                className={styles.textField}
+                sx={{ width: "300px", margin: "10px" }}
+                type="email"
+                required
+                label="Student email"
+                variant="outlined"
+                error={errors[index]}
+                disabled={disabledEmailField}
+                onChange={() => handleStudentEmailChange(studentField, index)}
+              />
+              <DeleteIcon
+                onClick={() => removeStudentField(studentField, index)}
+              />
+            </div>
+            <Divider className={styles.divider} />
+          </>
+        ))}
+      </div>
+      <div
+        className={styles.addBtn}
+        // disabled={disabledAddButton}
+        key="addStudentField"
+        onClick={addStudentField}
+      >
+        + Add student
       </div>
     </>
   );

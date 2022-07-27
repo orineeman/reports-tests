@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -44,17 +45,16 @@ export default function TestsOfStudents() {
     }
   }, [email]);
   return (
-    <div className={styles.container}>
-      <div className={styles.nav}>
-        <StudentNav />
-      </div>
-      <div className={styles.contents}>
-        <h4>Select a test</h4>
+    <Grid container>
+      <StudentNav />
+      <div className={styles.titlesDiv}>
+        <div className={styles.title}>Select a test</div>
         <SelectTest testsArr={testsArr} setDisabled={setDisabled} />
         <div style={{ marginTop: "30px" }}>
           <Button
+            className={styles.submitButton}
             variant="contained"
-            sx={{ margin: "15px", width: "150px" }}
+            sx={{ margin: "15px" }}
             key="submit"
             type="submit"
             disabled={disabled}
@@ -64,7 +64,7 @@ export default function TestsOfStudents() {
           </Button>
         </div>
       </div>
-    </div>
+    </Grid>
   );
 }
 

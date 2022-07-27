@@ -163,7 +163,9 @@ function TestQuestions({ testId, setDoneTest }) {
         <div>
           <div>
             <h1>Instructions:</h1>
-            {!showLobby && <CircularProgress />}
+            {!showLobby && (
+              <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+            )}
             {showLobby && (
               <h3>
                 In this test you have {numOfQuestions} questions. Be sure to

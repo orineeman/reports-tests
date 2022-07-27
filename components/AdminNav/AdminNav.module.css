@@ -37,6 +37,7 @@
   margin-bottom: 10px;
   background: rgba(3, 9, 168, 0.12);
   border-radius: 4px;
+  cursor: pointer;
 }
 .iconsAdminNav {
   color: #323232;

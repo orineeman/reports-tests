@@ -130,7 +130,11 @@ export default function AnswerToMessage({
           )
         }
       >
-        {showLoding && <CircularProgress style={{ margin: "auto" }} />}
+        {showLoding && (
+          <CircularProgress
+            style={{ margin: "auto", color: "rgba(133, 64, 245, 0.97)" }}
+          />
+        )}
         {!showLoding && (
           <>
             <DialogTitle>Sending a reply to the teacher</DialogTitle>

@@ -47,4 +47,5 @@
 .submitButton:hover {
   opacity: 0.9;
   background: rgba(133, 64, 245, 0.97);
+  cursor: pointer;
 }

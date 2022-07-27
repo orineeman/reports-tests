@@ -1,7 +1,8 @@
-import { Button, TextField } from "@mui/material";
+import { Button, Divider, TextField } from "@mui/material";
 import { useContext, useState } from "react";
 import styles from "./AddTeacher.module.css";
 import messageContext from "../../Context/messageContext";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function filedValidations(filedsValue) {
   if (filedsValue.teachers[0]) {
@@ -55,7 +56,7 @@ function isValidEmail(email) {
 export default function AddTeacher() {
   const { setMessage, setShowMessage } = useContext(messageContext);
   let [newTeacherField, setNewTeacherField] = useState([1]);
-  const [disabledAddButton, setDisabledAddButton] = useState(true);
+  // const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [disabledEmailField, setDisabledEmailField] = useState(true);
   const [errors, setErrors] = useState([]);
   const handleTeacherNameChange = (teacherField, index) => {
@@ -65,7 +66,7 @@ export default function AddTeacher() {
     };
     filedsValue.teachers[index].fullName = event.target.value;
     console.log(filedsValue);
-    setDisabledAddButton(false);
+    // setDisabledAddButton(false);
     setDisabledEmailField(false);
   };
   const handleTeacherEmailChange = (event, teacherField, index) => {
@@ -98,70 +99,68 @@ export default function AddTeacher() {
     setNewTeacherField([...newTeacherField]);
   }
   return (
-    <>
-      <div>
-        <div>
-          {newTeacherField.map((teacherField, index) => (
-            <div className={styles.flex} key={teacherField}>
-              {index + 1}
-              <TextField
-                autoFocus
-                sx={{ width: "300px", margin: "10px" }}
-                type="text"
-                label="Teacher full name"
-                key="Teacher full name"
-                variant="outlined"
-                onChange={() => handleTeacherNameChange(teacherField, index)}
-                required
-              />
-              <TextField
-                sx={{ width: "300px", margin: "10px" }}
-                type="email"
-                label="Teacher email"
-                key="Teacher email"
-                variant="outlined"
-                required
-                error={errors[index]}
-                disabled={disabledEmailField}
-                onChange={() =>
-                  handleTeacherEmailChange(event, teacherField, index)
-                }
-              />
-              {/* {error && <h2 style={{ color: "red" }}>{error}</h2>} */}
-              <Button
-                variant="outlined"
-                sx={{ height: "40px", margin: "10px", width: "40px" }}
-                key="removeTeacherField"
-                onClick={() => removeTeacherField(teacherField, index)}
-              >
-                -
-              </Button>
-            </div>
-          ))}
-        </div>
-        <Button
-          variant="outlined"
-          sx={{ margin: "15px", width: "200px" }}
-          disabled={disabledAddButton}
-          key="addTeacherField"
-          onClick={addTeacherField}
-        >
-          Add teacher
-        </Button>
-        <div className="">
-          <Button
-            variant="contained"
-            sx={{ margin: "15px", width: "150px" }}
-            key="submit"
-            type="submit"
-            onClick={() =>
-              sendTeachersToServer(filedsValue, setMessage, setShowMessage)
-            }
-          >
-            Submit
-          </Button>
-        </div>
+    <div className={styles.content}>
+      <div className={styles.title}>Add teacher permission</div>
+
+      {newTeacherField.map((teacherField, index) => (
+        <>
+          <div className={styles.studentFieldDiv} key={teacherField}>
+            <div className={styles.studentFieldNum}>{index + 1}</div>
+
+            <TextField
+              className={styles.textField}
+              sx={{ width: "300px", margin: "10px" }}
+              autoFocus
+              type="text"
+              label="Teacher full name"
+              key="Teacher full name"
+              variant="outlined"
+              onChange={() => handleTeacherNameChange(teacherField, index)}
+              required
+            />
+            <TextField
+              className={styles.textField}
+              sx={{ width: "300px", margin: "10px" }}
+              type="email"
+              label="Teacher email"
+              key="Teacher email"
+              variant="outlined"
+              required
+              error={errors[index]}
+              disabled={disabledEmailField}
+              onChange={() =>
+                handleTeacherEmailChange(event, teacherField, index)
+              }
+            />
+            <DeleteIcon
+              onClick={() => removeTeacherField(teacherField, index)}
+            />
+          </div>
+          <Divider className={styles.divider} />
+        </>
+      ))}
+      <div
+        className={styles.addBtn}
+        // disabled={disabledAddButton}
+        key="addStudentField"
+        onClick={addTeacherField}
+      >
+        + Add student
       </div>
-    </>
+
+      <div className={styles.submitDiv}>
+        <Button
+          variant="contained"
+          className={styles.submitButton}
+          key="submit"
+          type="submit"
+          onClick={() =>
+            sendTeachersToServer(filedsValue, setMessage, setShowMessage)
+          }
+        >
+          Submit
+        </Button>
+      </div>
+    </div>
   );
 }

@@ -23,7 +23,6 @@
   text-transform: capitalize;
   color: #140b53;
   margin-left: 1vw;
-  /* margin-right: 2vw; */
 }
 .btnTeacherNav {
   display: flex;
@@ -36,6 +35,7 @@
   margin-bottom: 10px;
   background: rgba(3, 9, 168, 0.12);
   border-radius: 4px;
+  cursor: pointer;
 }
 .iconsTeacherNav {
   color: #323232;

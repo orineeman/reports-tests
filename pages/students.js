@@ -6,8 +6,8 @@ export default function Students() {
   return (
     <Grid container>
       <StudentNav />
-      <div className={styles.title}>
-        <h1>welcome mr. student</h1>
+      <div className={styles.titlesDiv}>
+        <div className={styles.title}>welcome mr. student</div>
       </div>
     </Grid>
   );

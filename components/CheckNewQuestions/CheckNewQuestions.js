@@ -2,6 +2,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import messageContext from "../../Context/messageContext";
+import styles from "./CheckNewQuestions.module.css";
 
 function getDataFromServer(setShowQuestions) {
   fetch("/api/question", {
@@ -46,19 +47,17 @@ export default function CheckNewQuestions() {
   }, []);
 
   return (
-    <>
-      <h2>Check new questions</h2>
+    <div className={styles.content}>
+      <div className={styles.title}>Check new questions</div>
 
       <DataTable
         questions={showQuestions}
         QuestionsIdForUpdate={QuestionsIdForUpdate}
       />
-      <div
-      //   className="flex-div confirm-button"
-      >
+      <div className={styles.submitDiv}>
         <Button
+          className={styles.submitButton}
           variant="contained"
-          sx={{ margin: "15px", width: "150px" }}
           key="confirm"
           type="confirm"
           onClick={() =>
@@ -68,7 +67,7 @@ export default function CheckNewQuestions() {
           confirm
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -104,10 +103,10 @@ function DataTable({ questions, QuestionsIdForUpdate }) {
   });
   return (
     <>
-      <h6>
+      <div className={styles.subTitle}>
         Highlight the questions you want to approve for teachers to use, and
         click on confirm button
-      </h6>
+      </div>
       <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
         <DataGrid
           rows={rows}
@@ -115,7 +114,6 @@ function DataTable({ questions, QuestionsIdForUpdate }) {
           pageSize={5}
           rowsPerPageOptions={[5]}
           checkboxSelection
-          // sx={{ color: "red" }}
           onSelectionModelChange={(newSelectionModel) => {
             QuestionsIdForUpdate.questions = newSelectionModel;
           }}

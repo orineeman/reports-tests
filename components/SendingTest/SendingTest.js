@@ -91,7 +91,9 @@ export default function SendingTest() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Sending a test to students</div>
-      {showLoding && <CircularProgress />}
+      {showLoding && (
+        <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+      )}
       {!showLoding && (
         <>
           <div className={styles.subTitle}>

@@ -1,9 +1,60 @@
-.submitButton {
-  justify-content: center;
-  display: flex;
+.content {
+  padding-left: 4vw;
+  padding-top: 5vh;
 }
-.flex {
+.title {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 65px;
   display: flex;
-  justify-content: space-between;
-  /* border: 1px solid red; */
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #140b53;
+  margin-bottom: 2vh;
+}
+
+.subTitle {
+  margin-bottom: 2vh;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #040330;
+}
+.updateBtns {
+  margin: 15px;
+  width: 150px;
+  color: rgba(133, 64, 245, 0.97);
+  border-color: rgba(133, 64, 245, 0.97);
+}
+.addButton {
+  padding: 6px 32px;
+  gap: 8px;
+  width: 15vw;
+  height: 7vh;
+  background: rgba(133, 64, 245, 0.97);
+  border-radius: 4px;
+}
+.addButton:hover {
+  opacity: 0.9;
+  background: rgba(133, 64, 245, 0.97);
+  cursor: pointer;
+}
+.saveButton {
+  padding: 6px 32px;
+  gap: 8px;
+  width: 10vw;
+  height: 7vh;
+  background: rgba(133, 64, 245, 0.97);
+  border-radius: 4px;
+}
+.saveButton:hover {
+  opacity: 0.9;
+  background: rgba(133, 64, 245, 0.97);
+  cursor: pointer;
 }

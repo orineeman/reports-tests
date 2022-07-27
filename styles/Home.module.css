@@ -45,3 +45,16 @@
   letter-spacing: 0.01em;
   text-transform: uppercase;
 }
+.submitButton {
+  padding: 6px 32px;
+  gap: 8px;
+  width: 13vw;
+  height: 7vh;
+  background: rgba(133, 64, 245, 0.97);
+  border-radius: 4px;
+}
+.submitButton:hover {
+  opacity: 0.9;
+  background: rgba(133, 64, 245, 0.97);
+  cursor: pointer;
+}

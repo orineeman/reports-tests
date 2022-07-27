@@ -108,7 +108,11 @@ export default function UploadingQuestions({
         open={openUpdateQuestionDialog}
         onClose={handleCloseDialog}
       >
-        {showLoding && <CircularProgress style={{ margin: "auto" }} />}
+        {showLoding && (
+          <CircularProgress
+            style={{ margin: "auto", color: "rgba(133, 64, 245, 0.97)" }}
+          />
+        )}
         {!showLoding && (
           <>
             <DialogTitle>Question update</DialogTitle>

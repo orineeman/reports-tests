@@ -32,6 +32,7 @@
 .sendButton:hover {
   opacity: 0.9;
   background: rgba(133, 64, 245, 0.97);
+  cursor: pointer;
 }
 .closeBtn {
   font-family: "Roboto";
@@ -45,4 +46,7 @@
   padding-right: 2vw;
   letter-spacing: 0.01em;
   color: #140b53;
+}
+.closeBtn:hover {
+  cursor: pointer;
 }

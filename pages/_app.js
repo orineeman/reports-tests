@@ -45,7 +45,11 @@ const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
     (authTeachers && !permissions.teacherPermission)
   ) {
     if (isLoading) {
-      return <CircularProgress style={{ margin: "auto" }} />;
+      return (
+        <CircularProgress
+          style={{ margin: "auto", color: "rgba(133, 64, 245, 0.97)" }}
+        />
+      );
     } else {
       return <Authorized />;
     }
