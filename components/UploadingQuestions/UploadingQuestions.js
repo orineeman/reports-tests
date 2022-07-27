@@ -206,14 +206,18 @@ function AnswersFields() {
 
   const handleChange = (event, answerField, index) => {
     setChecked[index] = event.target.checked;
-    filedsValue.answers[index].isCorrect = event.target.checked;
+    filedsValue.answers[index] = {
+      ...filedsValue.answers[index],
+      isCorrect: event.target.checked,
+    };
   };
 
   const handleAnswerChange = (answerField, index) => {
     console.log("index", index);
-    filedsValue.answers[index] = { content: "", isCorrect: false };
-    filedsValue.answers[index].content = event.target.value;
-    console.log(filedsValue);
+    filedsValue.answers[index] = {
+      ...filedsValue.answers[index],
+      content: event.target.value,
+    };
 
     setDisabledAddButton(false);
   };
@@ -246,6 +250,11 @@ function AnswersFields() {
               onChange={() => handleAnswerChange(answerField, index)}
             />
             <Checkbox
+              sx={{
+                "&.Mui-checked": {
+                  color: "#472CC0",
+                },
+              }}
               value={answerField}
               checked={checked[index]}
               onChange={() => handleChange(event, answerField, index)}

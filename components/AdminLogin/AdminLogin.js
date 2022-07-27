@@ -33,13 +33,16 @@ export default function AdminLogin() {
         open={openAdminLoginDialog}
         onClose={handleCloseAdminLogin}
       >
-        <DialogTitle sx={{ input: { color: "#140B53" } }}>
-          Admin login
-        </DialogTitle>
+        <DialogTitle sx={{ color: "#140B53" }}>Admin login</DialogTitle>
         <DialogContent>
           <TextField
-            color="secondary"
-            sx={{ input: { color: "#140B53" } }}
+            // color="secondary"
+            sx={{
+              "&.Mui-input": {
+                color: "#472CC0",
+              },
+            }}
+            // sx={{ input: { color: "#140B53" } }}
             autoFocus
             margin="dense"
             id="admin_login"
@@ -52,11 +55,11 @@ export default function AdminLogin() {
           />
         </DialogContent>
         <DialogActions>
-          <Button style={{ color: "#9C27B0" }} onClick={handleCloseAdminLogin}>
+          <Button style={{ color: "#140B53" }} onClick={handleCloseAdminLogin}>
             Cancel
           </Button>
           <Button
-            style={{ color: "#9C27B0" }}
+            style={{ color: "#140B53" }}
             disabled={disableButton}
             onClick={() => goToAdminPage()}
           >

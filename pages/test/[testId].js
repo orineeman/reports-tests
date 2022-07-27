@@ -85,7 +85,11 @@ export default function TestLobby() {
         <div className={styles.linksStudentNav}>Goodluck!</div>
       </div>
       {!doneTest && <TestQuestions testId={testId} setDoneTest={setDoneTest} />}
-      {doneTest && <h2>You have completed this test before</h2>}
+      {doneTest && (
+        <div className={styles.subTitle}>
+          You have completed this test before
+        </div>
+      )}
     </Grid>
   );
 }

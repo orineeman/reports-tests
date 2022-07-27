@@ -107,10 +107,34 @@ export default function CreateTests() {
 
 function DataTable({ questions, questionsIdForTest }) {
   const columns = [
-    { field: "age", headerName: "Age", width: 60 },
-    { field: "subject", headerName: "Subject", width: 150 },
-    { field: "difficulty", headerName: "Difficulty", width: 110 },
-    { field: "question", headerName: "Question", width: 130 },
+    {
+      field: "age",
+      headerName: "Age",
+      width: 60,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "subject",
+      headerName: "Subject",
+      width: 150,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "difficulty",
+      headerName: "Difficulty",
+      width: 110,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "question",
+      headerName: "Question",
+      width: 130,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
   ];
   const rows = [];
   questions.map((question) => {
@@ -135,6 +159,17 @@ function DataTable({ questions, questionsIdForTest }) {
           pageSize={10}
           rowsPerPageOptions={[10]}
           checkboxSelection
+          sx={{
+            "& .header": {
+              fontWeight: 700,
+              fontSize: "16px",
+              color: "#040330",
+            },
+            borderColor: "#040330",
+            "& .MuiDataGrid-cell:hover": {
+              color: "#040330",
+            },
+          }}
           onSelectionModelChange={(newSelectionModel) => {
             questionsIdForTest.questions = newSelectionModel;
           }}

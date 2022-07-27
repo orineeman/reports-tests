@@ -194,10 +194,34 @@ export default function TeacherReports() {
 
 function DataTable({ showValueSearched }) {
   const columns = [
-    { field: "name", headerName: "name", width: 120 },
-    { field: "grade", headerName: "grade", width: 100 },
-    { field: "done", headerName: "done", width: 80 },
-    { field: "currentQuestion", headerName: "currentQuestion", width: 150 },
+    {
+      field: "name",
+      headerName: "name",
+      width: 120,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "grade",
+      headerName: "grade",
+      width: 100,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "done",
+      headerName: "done",
+      width: 80,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "currentQuestion",
+      headerName: "currentQuestion",
+      width: 150,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
   ];
   const rows = [];
   showValueSearched.map((student) => {
@@ -214,6 +238,17 @@ function DataTable({ showValueSearched }) {
     <>
       <div style={{ height: 500, marginTop: "20px" }}>
         <DataGrid
+          sx={{
+            "& .header": {
+              fontWeight: 700,
+              fontSize: "16px",
+              color: "#040330",
+            },
+            borderColor: "#040330",
+            "& .MuiDataGrid-cell:hover": {
+              color: "#040330",
+            },
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}

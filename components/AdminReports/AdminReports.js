@@ -76,16 +76,32 @@ function DataTable({
   questionIdToUpdate,
 }) {
   const columns = [
-    { field: "content", headerName: "Content", width: 100 },
+    {
+      field: "content",
+      headerName: "Content",
+      width: 100,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
     {
       field: "numberOfResponses",
       headerName: "responses",
       width: 110,
+      headerClassName: "header",
+      headerAlign: "center",
     },
-    { field: "amountOfRight", headerName: "Right", width: 100 },
+    {
+      field: "amountOfRight",
+      headerName: "Right",
+      width: 100,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
     {
       field: "amountOfMistakes",
       headerName: "Mistakes",
+      headerClassName: "header",
+      headerAlign: "center",
       width: 100,
       type: "number",
       cellClassName: (params) => {
@@ -144,6 +160,17 @@ function DataTable({
           <DataGrid
             rows={rows}
             columns={columns}
+            sx={{
+              "& .header": {
+                fontWeight: 700,
+                fontSize: "16px",
+                color: "#040330",
+              },
+              borderColor: "#040330",
+              "& .MuiDataGrid-cell:hover": {
+                color: "#040330",
+              },
+            }}
             pageSize={10}
             rowsPerPageOptions={[10]}
             onSelectionModelChange={(questionId) => {

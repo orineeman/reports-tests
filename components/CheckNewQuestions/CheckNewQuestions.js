@@ -73,10 +73,34 @@ export default function CheckNewQuestions() {
 
 function DataTable({ questions, QuestionsIdForUpdate }) {
   const columns = [
-    { field: "age", headerName: "Age", width: 60 },
-    { field: "subject", headerName: "Subject", width: 150 },
-    { field: "difficulty", headerName: "Difficulty", width: 110 },
-    { field: "question", headerName: "Question", width: 130 },
+    {
+      field: "age",
+      headerName: "Age",
+      width: 60,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "subject",
+      headerName: "Subject",
+      width: 150,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "difficulty",
+      headerName: "Difficulty",
+      width: 110,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "question",
+      headerName: "Question",
+      width: 130,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
     {
       field: "answers",
       headerName: "Answers",
@@ -109,6 +133,17 @@ function DataTable({ questions, QuestionsIdForUpdate }) {
       </div>
       <div style={{ height: 500, width: "100%", marginTop: "20px" }}>
         <DataGrid
+          sx={{
+            "& .header": {
+              fontWeight: 700,
+              fontSize: "16px",
+              color: "#040330",
+            },
+            borderColor: "#040330",
+            "& .MuiDataGrid-cell:hover": {
+              color: "#040330",
+            },
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}

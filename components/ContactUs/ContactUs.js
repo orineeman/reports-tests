@@ -1,6 +1,6 @@
 import { Button, TextareaAutosize } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import messageContext from "../../Context/messageContext";
 import styles from "./ContactUs.module.css";
 
@@ -34,6 +34,7 @@ const message = { email: "", message: "" };
 
 export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
   const { setMessage, setShowMessage } = useContext(messageContext);
+  const [disabled, setDisabled] = useState(true);
 
   const anchor = "left";
   message.email = email;
@@ -41,6 +42,11 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
   function handleChangeMessage() {
     message.message = event.target.value;
     console.log(message);
+    if (message.message) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   }
 
   return (
@@ -82,6 +88,7 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
           We appreciate it
         </div>
         <Button
+          disabled={disabled}
           className={styles.sendButton}
           variant="outlined"
           key="send message"

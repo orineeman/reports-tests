@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import { useSession } from "next-auth/react";
 import { useContext, useEffect, useState } from "react";
 import messageContext from "../../Context/messageContext";
+import getDate from "../../utils/getDate";
 import styles from "./SendingTest.module.css";
 
 function getDataFromServer(
@@ -54,7 +55,8 @@ export default function SendingTest() {
       getDataFromServer(groupsArr, setGroupsArr, testsArr, setTestsArr, email);
       filedsValue.email = email;
       filedsValue.teacherName = teacherName;
-      filedsValue.date = Date();
+
+      filedsValue.date = getDate();
     }
   }, [email]);
 

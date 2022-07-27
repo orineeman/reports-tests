@@ -2,9 +2,27 @@ import { DataGrid } from "@mui/x-data-grid";
 
 export default function DataTableReportQuestion({ showReportQuestion }) {
   const columns = [
-    { field: "name", headerName: "name", width: 120 },
-    { field: "answerCorrectly", headerName: "Answer correctly", width: 150 },
-    { field: "responseTime", headerName: "Response time", width: 150 },
+    {
+      field: "name",
+      headerName: "name",
+      width: 120,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "answerCorrectly",
+      headerName: "Answer correctly",
+      width: 150,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "responseTime",
+      headerName: "Response time",
+      width: 150,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
   ];
   const rows = [];
   showReportQuestion.map((student) => {
@@ -20,6 +38,17 @@ export default function DataTableReportQuestion({ showReportQuestion }) {
     <>
       <div style={{ height: 400, marginTop: "20px" }}>
         <DataGrid
+          sx={{
+            "& .header": {
+              fontWeight: 700,
+              fontSize: "16px",
+              color: "#040330",
+            },
+            borderColor: "#040330",
+            "& .MuiDataGrid-cell:hover": {
+              color: "#040330",
+            },
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}

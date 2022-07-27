@@ -348,14 +348,33 @@ function AnswersFields({ questionData }) {
 
 function DataTable({ questionData }) {
   const columns = [
-    { field: "content", headerName: "answer content", width: 110 },
-    // { field: "responses", headerName: "Responses", width: 80 },
-    { field: "right", headerName: "Right", width: 50 },
-    { field: "mistakes", headerName: "Mistakes", width: 70 },
+    {
+      field: "content",
+      headerName: "answer content",
+      width: 110,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "right",
+      headerName: "Right",
+      width: 50,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "mistakes",
+      headerName: "Mistakes",
+      width: 70,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
     {
       field: "misleadingPercentages",
       headerName: "Misleading percentages",
       width: 150,
+      headerClassName: "header",
+      headerAlign: "center",
     },
   ];
 
@@ -396,11 +415,24 @@ function DataTable({ questionData }) {
           </div>
         </div>
         <DataGrid
+          sx={{
+            "& .header": {
+              fontWeight: 700,
+              fontSize: "16px",
+              color: "#040330",
+            },
+            borderColor: "#040330",
+            "& .MuiDataGrid-cell:hover": {
+              color: "#040330",
+            },
+            width: 500,
+            fontSize: "12px",
+            height: 300,
+          }}
           rows={rows}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          sx={{ width: 500, fontSize: "12px", height: 300 }}
         />
       </div>
     </>

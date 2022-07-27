@@ -1,6 +1,7 @@
 import connectDB from "../../middleware/mongodb";
 import Message from "../../models/message";
 import Teacher from "../../models/teacher";
+import getDate from "../../utils/getDate";
 import sendEmail from "../../utils/mail";
 
 const handler = async (req, res) => {
@@ -25,7 +26,7 @@ const handler = async (req, res) => {
           message: message.message,
           email: message.email,
           isRead: false,
-          date: Date(),
+          date: getDate(),
         });
         await newMessage.save();
         return res.status(200).send(message);

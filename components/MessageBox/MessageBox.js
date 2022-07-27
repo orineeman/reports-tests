@@ -71,19 +71,41 @@ function DataTable({
   getAllMessageFromServer,
 }) {
   const columns = [
-    { field: "message", headerName: "Message", width: 100 },
-    { field: "answer", headerName: "Answer", width: 100 },
+    {
+      field: "message",
+      headerName: "Message",
+      width: 100,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+    {
+      field: "answer",
+      headerName: "Answer",
+      width: 100,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
     {
       field: "date",
       headerName: "Date",
       width: 150,
       type: "date",
+      headerClassName: "header",
+      headerAlign: "center",
     },
-    { field: "email", headerName: "Email", width: 100 },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 100,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
     {
       field: "isRead",
       headerName: "Is read",
       width: 70,
+      headerClassName: "header",
+      headerAlign: "center",
       cellClassName: (params) => {
         if (params.value == null) {
           return "";
@@ -138,6 +160,17 @@ function DataTable({
           }}
         >
           <DataGrid
+            sx={{
+              "& .header": {
+                fontWeight: 700,
+                fontSize: "16px",
+                color: "#040330",
+              },
+              borderColor: "#040330",
+              "& .MuiDataGrid-cell:hover": {
+                color: "#040330",
+              },
+            }}
             rows={rows}
             columns={columns}
             pageSize={10}

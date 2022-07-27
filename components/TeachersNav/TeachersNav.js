@@ -83,13 +83,12 @@ export default function TeachersNav() {
       </Link>
       <div className={styles.btnTeacherNav}>
         <BottomNavigationAction
-          // className={styles.btnTeacherNav}
+          // sx={{ border: "1px solid red" }}
           title="Contact Us"
           icon={
             <ContactMailIcon
               className={styles.iconsTeacherNav}
               style={{
-                width: "100%",
                 marginLeft: "-7vw",
                 fontSize: 22,
                 color: "rgb(50,50,50)",

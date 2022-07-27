@@ -256,7 +256,15 @@ function DataTable({
     headerName = "Difficulties";
   }
 
-  columns = [{ field: field, headerName: headerName, width: 200 }];
+  columns = [
+    {
+      field: field,
+      headerName: headerName,
+      width: 200,
+      headerClassName: "header",
+      headerAlign: "center",
+    },
+  ];
 
   dataToTable.map((item) => {
     const itemsToRows = {
@@ -270,7 +278,17 @@ function DataTable({
       <div style={{ height: 250, width: "52vw", marginTop: "20px" }}>
         <DataGrid
           rows={rows}
-          sx={{ fontFamily: "Roboto", fontStyle: "normal", fontWeight: 400 }}
+          sx={{
+            "& .header": {
+              fontWeight: 700,
+              fontSize: "16px",
+              color: "#040330",
+            },
+            borderColor: "#040330",
+            "& .MuiDataGrid-cell:hover": {
+              color: "#040330",
+            },
+          }}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}
