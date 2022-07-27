@@ -25,7 +25,6 @@ export default function MessageBox() {
     fetch(`/api/contact-us`)
       .then((res) => res.json())
       .then((allMessages) => {
-        console.log(allMessages);
         setAllMessages(allMessages);
         setShowLoding(false);
       })

@@ -35,7 +35,6 @@ export default function UploadingQuestions() {
   }
 
   function sendQuestionToServer(filedsValue) {
-    console.log(filedsValue);
     filedsValue.email = email;
     if (
       filedsValue.difficulty &&
@@ -113,7 +112,6 @@ function SelectAge({ agesArr }) {
   const handleSelectAge = (event) => {
     setAge(event.target.value);
     filedsValue.age = event.target.value;
-    console.log(event.target.value);
   };
 
   return (
@@ -143,7 +141,6 @@ function SelectSubject({ subjectsArr }) {
   const handleSelectSubject = (event) => {
     setSubject(event.target.value);
     filedsValue.subject = event.target.value;
-    console.log(event.target.value);
   };
 
   return (
@@ -174,7 +171,6 @@ function SelectDifficulty({ difficultiesArr }) {
   const handleSelectDifficulty = (event) => {
     setDifficulty(event.target.value);
     filedsValue.difficulty = event.target.value;
-    console.log(event.target.value);
   };
 
   return (
@@ -213,7 +209,6 @@ function AnswersFields() {
   };
 
   const handleAnswerChange = (answerField, index) => {
-    console.log("index", index);
     filedsValue.answers[index] = {
       ...filedsValue.answers[index],
       content: event.target.value,

@@ -40,10 +40,11 @@ async function getTestFromServer(
 async function sendDataToServer(dataToServer, nextQuestion, answerTime) {
   dataToServer.questionId = nextQuestion.questionId;
   const restAnswers = nextQuestion.answers.filter(
-    (answer) => answer.answerId !== dataToServer.markedAnswerId
+    (answer) => !dataToServer.markedAnswersId.includes(answer.answerId)
   );
   dataToServer.restAnswers = restAnswers;
   dataToServer.time = answerTime;
+  console.log(dataToServer);
 
   try {
     await fetch("/api/student", {
@@ -108,7 +109,7 @@ function TestQuestions({ testId, setDoneTest }) {
 
   const router = useRouter();
   const dataToServer = {
-    markedAnswerId: "",
+    markedAnswersId: [],
     time: 0,
     currentQuestion: questionNum,
     email: "",
@@ -152,9 +153,13 @@ function TestQuestions({ testId, setDoneTest }) {
       }
     }
   }
-  const handleChange = (event, answer) => {
+  const handleChange = (event, answerId) => {
     if (event.target.checked) {
-      dataToServer.markedAnswerId = answer.answerId;
+      dataToServer.markedAnswersId.push(answerId.answerId);
+    } else {
+      dataToServer.markedAnswersId = dataToServer.markedAnswersId.filter(
+        (answer) => answer != answerId.answerId
+      );
     }
   };
   return (

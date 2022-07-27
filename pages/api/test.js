@@ -53,14 +53,8 @@ const handler = async (req, res) => {
     const tests = await Test.find().populate(["questions", "questions.age"]);
     res.send(tests);
   } else if (req.method === "POST") {
-    // const test = req.body; // to postman
     const test = JSON.parse(req.body);
-    // console.log("test", test);
-    if (typeof test === "string") {
-      console.log("test is string");
-    } else {
-      console.log("test is json");
-    }
+
     if (test) {
       try {
         const newTest = new Test(test);

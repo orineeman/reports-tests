@@ -10,7 +10,6 @@ async function sendMessageToServer(
   setMessage,
   setShowMessage
 ) {
-  console.log(message);
   try {
     await fetch("/api/contact-us", {
       method: "POST",
@@ -41,7 +40,6 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
 
   function handleChangeMessage() {
     message.message = event.target.value;
-    console.log(message);
     if (message.message) {
       setDisabled(false);
     } else {

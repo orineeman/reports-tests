@@ -12,7 +12,6 @@ function showDataToUpdate(
   setButtonValue,
   setValueOfAddField
 ) {
-  console.log("event", event.target.value);
   const dataToUpdate = event.target.value;
   getDataFromServer(dataToUpdate, setData);
   setButtonValue(dataToUpdate);
@@ -27,7 +26,6 @@ function getDataFromServer(dataToUpdate, setData) {
   })
     .then((res) => res.json())
     .then((dataToUpdate) => {
-      console.log("dataToUpdate", dataToUpdate);
       setData(dataToUpdate);
     })
     .catch(() => console.log("error"));
@@ -43,11 +41,9 @@ function handleAddFieldChange(
   setValueOfAddField
 ) {
   setDisabledSaveButton(false);
-  console.log(buttonValue);
   setValueOfAddField(event.target.value);
   const newValue = { type: buttonValue, value: event.target.value };
   setValueToAdd(newValue);
-  console.log(newValue);
 }
 async function save(
   valueToAdd,
@@ -55,7 +51,6 @@ async function save(
   setMessage,
   setShowMessage
 ) {
-  console.log("valueToAdd", valueToAdd);
   try {
     const json = await fetch("/api/admin/base-data-updates", {
       method: "POST",
@@ -317,7 +312,6 @@ function handleClickUpdateData(
   setOpenDeleteDialog,
   setValueToDelete
 ) {
-  console.log("idToUpdate", idToUpdate, "field", field);
   setOpenDeleteDialog(true);
   const id = idToUpdate[0];
 

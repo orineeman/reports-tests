@@ -20,7 +20,6 @@ function getMessageFromServer(
   })
     .then((res) => res.json())
     .then((teacherMessage) => {
-      console.log("teacherMessage", teacherMessage);
       setTeacherMessage(teacherMessage);
       setShowLoding(false);
     })
@@ -47,7 +46,6 @@ function updateMassege(
   setNumOfMessages
 ) {
   changesToUpdate.teacherMessage = teacherMessage;
-  console.log("changesToUpdate", changesToUpdate);
   fetch("/api/contact-us", {
     method: "PATCH",
     body: JSON.stringify(changesToUpdate),
@@ -73,7 +71,6 @@ function deleteMassege(
   setNumOfMessages
   //   getAllMessageFromServer,
 ) {
-  console.log("messageIdToUpdate", messageIdToUpdate);
   fetch("/api/contact-us", {
     method: "DELETE",
     body: JSON.stringify(messageIdToUpdate),

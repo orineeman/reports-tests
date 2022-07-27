@@ -21,7 +21,6 @@ function getDataFromServer(valueToDelete, setValueOfUpdateField) {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("data", data);
       if ("age" in data) {
         setValueOfUpdateField(data.age);
       }
@@ -58,7 +57,6 @@ function handleDelete(valueToDelete, handleClose) {
 function handleUpdateFieldChange(event, valueToDelete, setValueOfUpdateField) {
   valueToDelete.newValue = event.target.value;
   setValueOfUpdateField(event.target.value);
-  console.log(valueToDelete);
 }
 function handleUpdate(valueToDelete, handleClose) {
   fetch("/api/admin/base-data-updates", {
@@ -78,14 +76,12 @@ export default function DeleteBaseData({
   setOpenDeleteDialog,
   valueToDelete,
 }) {
-  console.log("valueToDelete", valueToDelete);
   const [valueOfUpdateField, setValueOfUpdateField] = useState("");
   const handleClose = () => {
     setOpenDeleteDialog(false);
   };
   useEffect(() => {
     if (valueToDelete) {
-      console.log();
       getDataFromServer(valueToDelete, setValueOfUpdateField);
     }
   }, [valueToDelete]);

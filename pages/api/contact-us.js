@@ -11,7 +11,6 @@ const handler = async (req, res) => {
       res.send(numOfNewMessages);
     } else if (req.headers.pleaseget === "messageid") {
       const messageId = req.headers.messageid;
-      console.log(messageId);
       const message = await Message.findById(messageId);
       res.send(message);
     } else {
@@ -47,7 +46,6 @@ const handler = async (req, res) => {
         answer,
       });
       const teacher = await Teacher.findOne({ email });
-      // console.log("teacherName", teacherName);
       await sendEmail(
         `Hi ${teacher.name}, `,
         `Thank you for your inquiry, we have carefully read your words and this is our answer: ${answer}`,

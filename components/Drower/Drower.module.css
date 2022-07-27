@@ -1,0 +1,72 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("../../public/fonts/Roboto.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+.header {
+  box-sizing: border-box;
+  /* margin: -8px; */
+  background: #ffffff;
+  /* width: 100vw; */
+  /* height: 13vh; */
+  /* border-bottom: 2px solid #140b53; */
+  box-shadow: 0px 4px 4px rgba(125, 152, 249, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoDiv {
+  padding-left: 3vw;
+}
+.logoText {
+  text-decoration: none;
+}
+.logo {
+  font-family: Roboto;
+  font-size: 24.39px;
+  line-height: 30.49px;
+  font-style: normal;
+  color: #140b53;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.hello {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 65px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #140b53;
+}
+.signIn {
+  margin-right: 0vw;
+  padding-right: 0.5vw;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
+  text-transform: capitalize;
+  color: #140b53;
+  border-radius: 50px;
+}
+.signInText {
+  font-size: 12px;
+  margin-left: 0.5vw;
+}
+@media screen and (max-width: 450px) {
+  .header {
+    justify-content: space-evenly;
+  }
+  .signInText {
+    font-size: 0;
+  }
+  .hello {
+    font-size: 0;
+  }
+}

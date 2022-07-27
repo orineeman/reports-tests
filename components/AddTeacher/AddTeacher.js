@@ -16,7 +16,6 @@ function filedValidations(filedsValue) {
 }
 
 function sendTeachersToServer(filedsValue, setMessage, setShowMessage) {
-  console.log("filedsValue", filedsValue);
   if (filedValidations(filedsValue)) {
     fetch("/api/admin", {
       method: "POST",
@@ -25,7 +24,6 @@ function sendTeachersToServer(filedsValue, setMessage, setShowMessage) {
       .then((res) => res.json())
       .then((res) => {
         if (res.status === "success") {
-          console.log("res.status", res.status);
           setShowMessage(true);
           setMessage(
             "All teachers received permission, and an email was sent to the permissions holders"
@@ -65,7 +63,6 @@ export default function AddTeacher() {
       fullName: "",
     };
     filedsValue.teachers[index].fullName = event.target.value;
-    console.log(filedsValue);
     // setDisabledAddButton(false);
     setDisabledEmailField(false);
   };
@@ -76,7 +73,6 @@ export default function AddTeacher() {
       const _errors = [...errors];
       _errors[index] = true;
       setErrors(_errors);
-      console.log(_errors);
     } else {
       const _errors = [...errors];
       _errors[index] = false;

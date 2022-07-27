@@ -11,7 +11,6 @@ function getDataFromServer(setShowQuestions) {
   })
     .then((res) => res.json())
     .then((newQuestions) => {
-      console.log(newQuestions);
       setShowQuestions(newQuestions);
     })
     .catch(() => console.log("error"));

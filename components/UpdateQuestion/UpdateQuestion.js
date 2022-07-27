@@ -23,7 +23,6 @@ function getQuesionFromServer(
   })
     .then((res) => res.json())
     .then((questionAndAnswers) => {
-      console.log("questionAndAnswers", questionAndAnswers);
       setQuestionData(questionAndAnswers);
       setShowLoding(false);
     })
@@ -351,28 +350,28 @@ function DataTable({ questionData }) {
     {
       field: "content",
       headerName: "answer content",
-      width: 110,
+      width: 130,
       headerClassName: "header",
       headerAlign: "center",
     },
     {
       field: "right",
       headerName: "Right",
-      width: 50,
+      width: 60,
       headerClassName: "header",
       headerAlign: "center",
     },
     {
       field: "mistakes",
       headerName: "Mistakes",
-      width: 70,
+      width: 90,
       headerClassName: "header",
       headerAlign: "center",
     },
     {
       field: "misleadingPercentages",
       headerName: "Misleading percentages",
-      width: 150,
+      width: 200,
       headerClassName: "header",
       headerAlign: "center",
     },
@@ -425,7 +424,7 @@ function DataTable({ questionData }) {
             "& .MuiDataGrid-cell:hover": {
               color: "#040330",
             },
-            width: 500,
+            width: "45vw",
             fontSize: "12px",
             height: 300,
           }}

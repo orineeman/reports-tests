@@ -36,13 +36,11 @@ export default function AdminLogin() {
         <DialogTitle sx={{ color: "#140B53" }}>Admin login</DialogTitle>
         <DialogContent>
           <TextField
-            // color="secondary"
             sx={{
               "&.Mui-input": {
                 color: "#472CC0",
               },
             }}
-            // sx={{ input: { color: "#140B53" } }}
             autoFocus
             margin="dense"
             id="admin_login"

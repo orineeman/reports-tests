@@ -22,7 +22,7 @@ const handler = async (req, res) => {
     const data = JSON.parse(req.body);
     // const teacher = req.body; //postman
     const {
-      markedAnswerId,
+      markedAnswersId,
       time,
       currentQuestion,
       email,
@@ -31,49 +31,53 @@ const handler = async (req, res) => {
       restAnswers,
     } = data.dataToServer;
     if (
-      markedAnswerId &&
+      // There is a situation where the student did not mark any answer,
+      // therefore 'markedAnswersId' is not in the condition
       currentQuestion &&
       email &&
       testId &&
       questionId &&
       restAnswers
     ) {
-      // let numOfQuestions = 0;
       let done = false;
       const test = await Test.findById(testId);
       if (currentQuestion >= test.questions.length) {
         done = true;
-        // const numOfQuestions = test.questions.length;
         // gradeCalculation(email, testId, numOfQuestions);
       }
       const answers = [];
       let answerCorrectly = null;
-      const markedAnswer = await Answer.findByIdAndUpdate(markedAnswerId, {
-        $inc: {
-          "statistics.numberOfResponses": 1,
-        },
-      });
-      if (markedAnswer.isCorrect) {
-        answerCorrectly = true;
-        await Answer.findByIdAndUpdate(markedAnswerId, {
-          $inc: {
-            "statistics.amountOfRight": 1,
-          },
-        });
-      } else {
-        answerCorrectly = false;
-        await Answer.findByIdAndUpdate(markedAnswerId, {
-          $inc: {
-            "statistics.amountOfMistakes": 1,
-          },
-        });
+      if (markedAnswersId[0]) {
+        for (let markedAnswerId of markedAnswersId) {
+          const markedAnswer = await Answer.findByIdAndUpdate(markedAnswerId, {
+            $inc: {
+              "statistics.numberOfResponses": 1,
+            },
+          });
+          if (markedAnswer.isCorrect) {
+            answerCorrectly = true;
+            await Answer.findByIdAndUpdate(markedAnswerId, {
+              $inc: {
+                "statistics.amountOfRight": 1,
+              },
+            });
+          } else {
+            answerCorrectly = false;
+            await Answer.findByIdAndUpdate(markedAnswerId, {
+              $inc: {
+                "statistics.amountOfMistakes": 1,
+              },
+            });
+          }
+
+          const markedAnswerToDB = {
+            answer: markedAnswer.answerId,
+            markAsCorrectAnswer: true,
+          };
+          answers.push(markedAnswerToDB);
+        }
       }
 
-      const markedAnswerToDB = {
-        answer: markedAnswer.answerId,
-        markAsCorrectAnswer: true,
-      };
-      answers.push(markedAnswerToDB);
       for (let answer of restAnswers) {
         const restAnswerToDB = {
           answer: answer.answerId,
@@ -81,13 +85,7 @@ const handler = async (req, res) => {
         };
         answers.push(restAnswerToDB);
       }
-      for (let answer of restAnswers) {
-        const restAnswerToDB = {
-          answer: answer.answerId,
-          markAsCorrectAnswer: false,
-        };
-        answers.push(restAnswerToDB);
-      }
+
       try {
         await Student.findOneAndUpdate(
           { email, "tests.test": testId },
@@ -143,15 +141,11 @@ const handler = async (req, res) => {
 export default connectDB(handler);
 
 async function gradeCalculation(email, testId, numOfQuestions) {
-  console.log("bobobo");
-  console.log("numOfQuestions", numOfQuestions);
   try {
     let numOfCorrectAnswers = 0;
     const student = await Student.findOne({ email });
-    console.log("testId", testId);
     for (let test of student.tests) {
       if (test.test == testId) {
-        console.log("toto");
         for (let question of test.questions) {
           if (question.answerCorrectly) numOfCorrectAnswers++;
         }
@@ -159,7 +153,6 @@ async function gradeCalculation(email, testId, numOfQuestions) {
     }
     const percentage = numOfQuestions / numOfCorrectAnswers;
     const grade = 100 / percentage;
-    console.log("grade", grade);
     await Student.findOneAndUpdate(
       { email, "tests.test": testId },
       {

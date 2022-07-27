@@ -3,12 +3,7 @@ import Permission from "../../../models/permissions";
 import Teacher from "../../../models/teacher";
 
 const handler = async (req, res) => {
-  // if (req.method === "GET" && req.headers.pleaseget === "valueToSearch") {
-  //   const t = JSON.parse(req.headers.valuetosearch);
-  //   console.log("tttd", t);
-  // } else
   if (req.method === "GET") {
-    // console.log("req.headers", req.headers);
     const { email } = req.query;
     let teacherDetails = {};
     const validationOfPermissions = await Permission.findOne({
@@ -23,12 +18,6 @@ const handler = async (req, res) => {
         .populate({ path: "groups", populate: { path: "students" } })
         .populate({ path: "tests", populate: { path: "questions" } });
     }
-    // studentsOfTeacher = await Teacher.findOne({
-    //     email,
-    //   })
-    //     .populate(["groups.students", "tests"])
-    //     .populate("sendTests.groupId");
-    // }
 
     res.send(teacherDetails);
   } else {

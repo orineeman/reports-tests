@@ -40,7 +40,6 @@ const handler = async (req, res) => {
     res.send(resData);
   } else if (req.method === "PATCH") {
     const dataToUpdate = JSON.parse(req.body);
-    console.log("dataToUpdate", dataToUpdate);
     const {
       questionId,
       answerContent,
@@ -64,9 +63,7 @@ const handler = async (req, res) => {
       });
     }
     if (answerContent) {
-      console.log("answerContent", answerContent);
       const answersId = Object.keys(answerContent);
-      console.log("answersId", answersId);
       for (let answerId of answersId) {
         await Question.findByIdAndUpdate(
           { questionId, "answers._id": answerId },
@@ -85,7 +82,6 @@ const handler = async (req, res) => {
   } else if (req.method === "DELETE") {
     const dataToDelete = JSON.parse(req.body);
     const [questionIdToDelete] = dataToDelete;
-    console.log("questionIdToDelete", questionIdToDelete);
     await Question.findByIdAndRemove(questionIdToDelete);
     res.send("the question is deleted");
   } else {

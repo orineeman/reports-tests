@@ -8,6 +8,7 @@ const handler = async (req, res) => {
     let newArr = [];
     for (let question of allQuestions) {
       const q = await Question.findOne({ _id: question._id });
+
       for (let answer of q.answers) {
         if (answer.isCorrect) {
           const { statistics } = await Answer.findById(

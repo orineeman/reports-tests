@@ -73,7 +73,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     })
       .then((res) => res.json())
       .then((numOfNewMessages) => {
-        console.log("dataToUpdate", numOfNewMessages);
         setNewMessages(numOfNewMessages);
       })
       .catch(() => console.log("error"));
@@ -132,7 +131,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 export default MyApp;
 
 function AuthStudents({ children, status }) {
-  console.log("status", status);
   if (status === "loading") {
     return <div>Trying to connect to the Student page...</div>;
   }
@@ -147,8 +145,6 @@ function AuthTeachers({ children, status }) {
 }
 
 function AuthAdmin({ children, status }) {
-  console.log("status", status);
-
   if (status === "loading") {
     return <div>Trying to connect to the Admin page...</div>;
   }
