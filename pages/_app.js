@@ -158,7 +158,16 @@ function AuthAdmin({ children, status }) {
 function Authorized() {
   return (
     <div
-      style={{ marginTop: "200px", marginLeft: "300px", marginBottom: "200px" }}
+      style={{
+        fontFamily: "Roboto",
+        fontStyle: "normal",
+        fontWeight: 400,
+        fontsize: "16px",
+        lineHeight: "24px",
+        marginTop: "200px",
+        marginLeft: "300px",
+        marginBottom: "200px",
+      }}
     >
       You do not have permission for this page,
       <br /> please sign in with google or contact the management.

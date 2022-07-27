@@ -17,8 +17,10 @@
   justify-content: space-between;
 }
 .logoDiv {
-  /* border: 1px solid red; */
   padding-left: 3vw;
+}
+.logoText {
+  text-decoration: none;
 }
 .logo {
   font-family: Roboto;
@@ -46,13 +48,14 @@
   padding-right: 0%;
   font-family: Roboto;
   font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 500;
   line-height: 30px;
   text-transform: capitalize;
   color: #140b53;
 }
-
+.signInText {
+  font-size: 12px;
+}
 @media screen and (max-width: 600px) {
   .signInText {
     font-size: 0;

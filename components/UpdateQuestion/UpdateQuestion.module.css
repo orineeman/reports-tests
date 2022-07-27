@@ -1,7 +1,81 @@
-.titles {
+.title {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 65px;
+  display: flex;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #140b53;
+  margin-left: 4vh;
+}
+.subTitle {
+  margin-left: 4vh;
+  margin-bottom: 2vh;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #040330;
+}
+.subTitles {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
   justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: rgb(70, 145, 219);
+  color: #140b53;
+}
+.statistics {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  justify-content: center;
+  display: flex;
+  color: #140b53;
+  margin-bottom: 2vh;
+}
+.statisticsTitles {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  display: flex;
+  color: #140b53;
+  margin-bottom: 1vh;
+}
+.statisticsValue {
+  margin-left: 1vw;
+  font-weight: 600;
+  display: flex;
+  color: #10093e;
+}
+
+.btn {
+  margin-top: 4vh;
+  width: 12vw;
+  margin-left: 2vh;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #140b53;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
 }

@@ -1,6 +1,6 @@
 import Checkbox from "@mui/material/Checkbox";
 import styles from "./testId.module.css";
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, Divider, Grid } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -80,17 +80,13 @@ export default function TestLobby() {
   const [doneTest, setDoneTest] = useState(false);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.nav}>
-        <h2>Goodluck!</h2>
+    <Grid container>
+      <div className={styles.studentNav}>
+        <div className={styles.linksStudentNav}>Goodluck!</div>
       </div>
-      <div className={styles.contents}>
-        {!doneTest && (
-          <TestQuestions testId={testId} setDoneTest={setDoneTest} />
-        )}
-        {doneTest && <h2>You have completed this test before</h2>}
-      </div>
-    </div>
+      {!doneTest && <TestQuestions testId={testId} setDoneTest={setDoneTest} />}
+      {doneTest && <h2>You have completed this test before</h2>}
+    </Grid>
   );
 }
 
@@ -158,68 +154,71 @@ function TestQuestions({ testId, setDoneTest }) {
     }
   };
   return (
-    <div>
+    <>
       {!showQuestions && (
-        <div>
-          <div>
-            <h1>Instructions:</h1>
-            {!showLobby && (
-              <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
-            )}
-            {showLobby && (
-              <h3>
-                In this test you have {numOfQuestions} questions. Be sure to
-                read the questions and answer them correctly, as it is not
-                possible to return to the questions you have already answered.
-              </h3>
-            )}
-            <h2>Good luck on the test!</h2>
-            <div>
-              <Button
-                sx={{ marginBottom: "15px" }}
-                title="click to start the test"
-                variant="contained"
-                onClick={() =>
-                  startTest(setShowQuestions, intervalId, setIntervalId)
-                }
-              >
-                Start the test
-              </Button>
+        <div className={styles.content}>
+          <div className={styles.title}>Instructions:</div>
+          {!showLobby && (
+            <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+          )}
+          {showLobby && (
+            <div className={styles.subTitle}>
+              In this test you have {numOfQuestions} questions. Be sure to read
+              the questions and answer them correctly, as it is not possible to
+              return to the questions you have already answered.
             </div>
+          )}
+          <div className={styles.subTitle2}>Good luck on the test!</div>
+          <div className={styles.submitDiv}>
+            <Button
+              className={styles.submitButton}
+              title="click to start the test"
+              variant="contained"
+              onClick={() =>
+                startTest(setShowQuestions, intervalId, setIntervalId)
+              }
+            >
+              Start the test
+            </Button>
           </div>
         </div>
       )}
       {showQuestions && (
-        <div>
-          <div>
-            <h6>Question: {questionNum}</h6>
-            <h2>{nextQuestion?.content}</h2>
-            {nextQuestion?.answers.map((answer, index) => (
-              <div key={answer.answerId}>
-                <Checkbox
-                  checked={checked[index]}
-                  value={answer}
-                  onChange={() => handleChange(event, answer)}
-                  inputProps={{ "aria-label": "controlled" }}
-                />
-                {answer.content}
-              </div>
-            ))}
-            <div>
-              <Button
-                sx={{ marginBottom: "15px" }}
-                key="goOn"
-                title="Go to the next question"
-                variant="contained"
-                onClick={() => goOn(test, intervalId, setIntervalId)}
-              >
-                Go on
-              </Button>
+        <div className={styles.content}>
+          <div className={styles.subTitle2}>Question: {questionNum}</div>
+          <Divider className={styles.divider} />
+          <div className={styles.question}>{nextQuestion?.content} = ?</div>
+          {nextQuestion?.answers.map((answer, index) => (
+            <div className={styles.answer} key={answer.answerId}>
+              <Checkbox
+                sx={{
+                  "&.Mui-checked": {
+                    color: "#472CC0",
+                  },
+                }}
+                checked={checked[index]}
+                value={answer}
+                onChange={() => handleChange(event, answer)}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+              <div className={styles.answerContent}>{answer.content}</div>
             </div>
+          ))}
+          <div>
+            <Button
+              className={styles.submitButton}
+              sx={{ marginTop: "25px" }}
+              key="goOn"
+              title="Go to the next question"
+              variant="contained"
+              onClick={() => goOn(test, intervalId, setIntervalId)}
+            >
+              Go on!
+            </Button>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 TestLobby.authStudents = true;

@@ -2,8 +2,8 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 // import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
-import { Button, Grid } from "@mui/material";
-
+import { Button, Grid, Link } from "@mui/material";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 async function userConnection(user) {
   user ? true : false;
 }
@@ -34,9 +34,11 @@ export default function Header() {
     <Grid container className={styles.header}>
       <Grid item className={styles.logoDiv}>
         <>
-          <Grid item className={styles.logo}>
-            Test - reports
-          </Grid>
+          <Link href="/" className={styles.logoText}>
+            <Grid item className={styles.logo}>
+              Test - reports
+            </Grid>
+          </Link>
         </>
       </Grid>
 
@@ -72,7 +74,8 @@ export default function Header() {
               logOut(setSignIn);
             }}
           >
-            Sign out
+            <ExitToAppIcon />
+            <p className={styles.signInText}>Sign out</p>
           </Button>
         )}
       </Grid>

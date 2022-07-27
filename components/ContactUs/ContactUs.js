@@ -62,10 +62,13 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
         <TextareaAutosize
           autoFocus
           minRows={3}
-          placeholder="Write here"
+          placeholder="Write Here"
           style={{
             padding: "8px",
-            width: 200,
+            maxWidth: 200,
+            minWidth: 200,
+            minHeight: 80,
+            maxHeight: 80,
             marginLeft: 30,
             marginRight: 30,
             fontSize: 17,

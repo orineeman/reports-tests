@@ -121,11 +121,22 @@ export default function DeleteBaseData({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>cancel</Button>
-          <Button onClick={() => handleUpdate(valueToDelete, handleClose)}>
+          <Button
+            style={{ color: "rgba(133, 64, 245, 0.97)" }}
+            onClick={handleClose}
+          >
+            cancel
+          </Button>
+          <Button
+            style={{ color: "rgba(133, 64, 245, 0.97)" }}
+            onClick={() => handleUpdate(valueToDelete, handleClose)}
+          >
             Save Change
           </Button>
-          <Button onClick={() => handleDelete(valueToDelete, handleClose)}>
+          <Button
+            style={{ color: "rgba(133, 64, 245, 0.97)" }}
+            onClick={() => handleDelete(valueToDelete, handleClose)}
+          >
             Delete
           </Button>
         </DialogActions>

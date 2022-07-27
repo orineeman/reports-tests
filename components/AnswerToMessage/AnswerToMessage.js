@@ -7,6 +7,7 @@ import { Button, CircularProgress, TextField } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import messageContext from "../../Context/messageContext";
 import adminContext from "../../Context/adminContext";
+import styles from "./AnswerToMessage.module.css";
 
 function getMessageFromServer(
   messageIdToUpdate,
@@ -137,9 +138,11 @@ export default function AnswerToMessage({
         )}
         {!showLoding && (
           <>
-            <DialogTitle>Sending a reply to the teacher</DialogTitle>
+            <DialogTitle className={styles.title}>
+              Sending a reply to the teacher
+            </DialogTitle>
             <DialogContent>
-              <DialogContentText>
+              <DialogContentText className={styles.subTitle}>
                 Write an answer and send it to the teacher by email.
               </DialogContentText>
               <div
@@ -149,31 +152,18 @@ export default function AnswerToMessage({
                   justifyContent: "space-evenly",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "start",
-                  }}
-                >
-                  <div
-                    style={{
-                      color: "rgb(70, 145, 219)",
-                      textDecoration: "underLine",
-                    }}
-                  >
-                    The teacher message
-                  </div>
-                  <div style={{ color: "rgb(70, 145, 219)" }}>
+                <div className={styles.subTitle2}>
+                  <div style={{ fontWeight: 600 }}>The teacher message</div>
+                  <div>
                     massege:
-                    <span style={{ color: "rgb(0, 0, 0)" }}>
+                    <span style={{ color: "#140b53" }}>
                       {" "}
                       {teacherMessage.message}
                     </span>
                   </div>
-                  <div style={{ color: "rgb(70, 145, 219)" }}>
+                  <div>
                     date:{" "}
-                    <span style={{ color: "rgb(0,0,0)" }}>
+                    <span style={{ color: "#140b53" }}>
                       {teacherMessage.date}
                     </span>
                   </div>
@@ -188,6 +178,7 @@ export default function AnswerToMessage({
             </DialogContent>
             <DialogActions>
               <Button
+                className={styles.btn}
                 onClick={() =>
                   updateMassege(
                     changesToUpdate,
@@ -204,6 +195,7 @@ export default function AnswerToMessage({
                 Cancel
               </Button>
               <Button
+                className={styles.btn}
                 onClick={() =>
                   deleteMassege(
                     messageIdToUpdate,
@@ -219,6 +211,7 @@ export default function AnswerToMessage({
                 Delete massege
               </Button>
               <Button
+                className={styles.btn}
                 onClick={() =>
                   updateMassege(
                     changesToUpdate,

@@ -1,0 +1,51 @@
+.title {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 65px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #140b53;
+  margin-bottom: 2vh;
+}
+.groupName {
+  width: 44vw;
+  margin-bottom: 3vh;
+}
+.subTitle {
+  margin-bottom: 2vh;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #040330;
+}
+.subTitle2 {
+  margin-bottom: 2vh;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #040330;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.btn {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  padding-right: 2vw;
+  padding-bottom: 2vw;
+  letter-spacing: 0.01em;
+  color: #140b53;
+}
+.closeBtn:hover {
+  cursor: pointer;
+}

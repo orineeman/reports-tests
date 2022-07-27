@@ -26,15 +26,20 @@ export default function AdminLogin() {
     setDisableButton(true);
     if (event.target.value === adminPassword) setDisableButton(false);
   };
+
   return (
     <>
       <AdminLoginDialog
         open={openAdminLoginDialog}
         onClose={handleCloseAdminLogin}
       >
-        <DialogTitle>Admin login</DialogTitle>
+        <DialogTitle sx={{ input: { color: "#140B53" } }}>
+          Admin login
+        </DialogTitle>
         <DialogContent>
           <TextField
+            color="secondary"
+            sx={{ input: { color: "#140B53" } }}
             autoFocus
             margin="dense"
             id="admin_login"
@@ -47,8 +52,14 @@ export default function AdminLogin() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseAdminLogin}>Cancel</Button>
-          <Button disabled={disableButton} onClick={() => goToAdminPage()}>
+          <Button style={{ color: "#9C27B0" }} onClick={handleCloseAdminLogin}>
+            Cancel
+          </Button>
+          <Button
+            style={{ color: "#9C27B0" }}
+            disabled={disableButton}
+            onClick={() => goToAdminPage()}
+          >
             Go-on
           </Button>
         </DialogActions>

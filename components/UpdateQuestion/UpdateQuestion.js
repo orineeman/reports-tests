@@ -115,9 +115,9 @@ export default function UploadingQuestions({
         )}
         {!showLoding && (
           <>
-            <DialogTitle>Question update</DialogTitle>
+            <DialogTitle className={styles.title}>Question update</DialogTitle>
             <DialogContent>
-              <DialogContentText>
+              <DialogContentText className={styles.subTitle}>
                 Modify the data as you wish and click Save Changes.
               </DialogContentText>
               <TextFields
@@ -141,7 +141,7 @@ export default function UploadingQuestions({
                     alignItems: "center",
                   }}
                 >
-                  <div style={{ color: "rgb(70, 145, 219)" }}>answers</div>
+                  <div className={styles.subTitles}>answers</div>
                   <AnswersFields questionData={questionData} />
                 </div>
                 <div>
@@ -153,8 +153,11 @@ export default function UploadingQuestions({
               </div>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleCloseDialog}>Cancel</Button>
+              <Button className={styles.btn} onClick={handleCloseDialog}>
+                Cancel
+              </Button>
               <Button
+                className={styles.btn}
                 onClick={() =>
                   deleteQuestion(
                     questionIdToUpdate,
@@ -167,6 +170,7 @@ export default function UploadingQuestions({
                 Delete question
               </Button>
               <Button
+                className={styles.btn}
                 onClick={() =>
                   updateQuestion(
                     changesToUpdate,
@@ -248,7 +252,7 @@ function TextFields({ questionData, difficultiesArr, agesArr, subjectsArr }) {
           justifyContent: "space-evenly",
         }}
       >
-        <div className={styles.titles}>
+        <div className={styles.subTitles}>
           question
           <TextField
             sx={{ width: 400 }}
@@ -257,7 +261,7 @@ function TextFields({ questionData, difficultiesArr, agesArr, subjectsArr }) {
             onChange={handleChangeQuestionContent}
           ></TextField>
         </div>
-        <div className={styles.titles}>
+        <div className={styles.subTitles}>
           age
           <TextField
             select
@@ -274,7 +278,7 @@ function TextFields({ questionData, difficultiesArr, agesArr, subjectsArr }) {
           </TextField>
         </div>
 
-        <div className={styles.titles}>
+        <div className={styles.subTitles}>
           subject
           <TextField
             select
@@ -291,7 +295,7 @@ function TextFields({ questionData, difficultiesArr, agesArr, subjectsArr }) {
           </TextField>
         </div>
 
-        <div className={styles.titles}>
+        <div className={styles.subTitles}>
           difficulty
           <TextField
             select
@@ -329,9 +333,7 @@ function AnswersFields({ questionData }) {
             marginBottom: 10,
           }}
         >
-          <div style={{ marginRight: 20, color: "rgb(70, 145, 219)" }}>
-            {i + 1}
-          </div>
+          <div style={{ marginRight: 20 }}>{i + 1}</div>
           <TextField
             sx={{ width: 150 }}
             defaultValue={answer.content}
@@ -378,25 +380,17 @@ function DataTable({ questionData }) {
   return (
     <>
       <div style={{ width: "100%", marginTop: "20px" }}>
-        <div
-          style={{
-            color: "rgb(65, 135, 170)",
-            textAlign: "center",
-            fontSize: 30,
-          }}
-        >
-          statistics:
-        </div>
+        <div className={styles.statistics}>statistics:</div>
         <div>
-          <div style={{ color: "rgb(70, 145, 219)", display: "flex" }}>
+          <div className={styles.statisticsTitles}>
             Average response time (Seconds):
-            <div style={{ color: "rgb(65, 135, 170)", marginLeft: 10 }}>
+            <div className={styles.statisticsValue}>
               {Math.round(questionData.averageResponsesTime * 10) / 10}
             </div>
           </div>
-          <div style={{ color: "rgb(70, 145, 219)", display: "flex" }}>
+          <div className={styles.statisticsTitles}>
             The number of times we answered the answer:
-            <div style={{ color: "rgb(65, 135, 170)", marginLeft: 10 }}>
+            <div className={styles.statisticsValue}>
               {questionData.numberOfResponses}
             </div>
           </div>

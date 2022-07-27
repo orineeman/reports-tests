@@ -48,7 +48,7 @@ export default function TestsOfStudents() {
     <Grid container>
       <StudentNav />
       <div className={styles.titlesDiv}>
-        <div className={styles.title}>Select a test</div>
+        <div className={styles.title2}>Select a test</div>
         <SelectTest testsArr={testsArr} setDisabled={setDisabled} />
         <div style={{ marginTop: "30px" }}>
           <Button
