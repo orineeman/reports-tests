@@ -118,3 +118,58 @@
   order: 0;
   flex-grow: 0;
 }
+@media screen and (max-width: 450px) {
+  .studentNav {
+    width: 0;
+  }
+  .linksStudentNav {
+    font-size: 0;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0vh;
+    margin-top: 7vh;
+  }
+  .subTitle {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 30px;
+    width: 80vw;
+    text-align: center;
+    color: #040330;
+  }
+  .subTitle2 {
+    margin-bottom: 17vh;
+    margin-top: 5vh;
+    width: 50vw;
+  }
+
+  .submitButton {
+    gap: 8px;
+    width: 80vw;
+    height: 6vh;
+    margin-top: 5vh;
+  }
+  .divider {
+    width: 50vw;
+    position: absolute;
+    top: 230px;
+    left: 50px;
+    border: 1px solid #dfd8ff;
+  }
+  .question {
+    width: 50vw;
+    margin-top: -15vh;
+  }
+  .answer {
+    display: flex;
+    justify-content: flex-start;
+    justify-content: start;
+    width: 50vw;
+  }
+}

@@ -45,30 +45,27 @@
 }
 .signIn {
   margin-right: 0vw;
-  padding-right: 0%;
+  padding-right: 0.5vw;
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   line-height: 30px;
   text-transform: capitalize;
   color: #140b53;
+  border-radius: 50px;
 }
 .signInText {
   font-size: 12px;
+  margin-left: 0.5vw;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 450px) {
+  .header {
+    justify-content: space-evenly;
+  }
   .signInText {
     font-size: 0;
   }
-}
-
-.signIn {
-  border-radius: 50px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 10px;
-  background: #fff;
+  .hello {
+    font-size: 0;
+  }
 }

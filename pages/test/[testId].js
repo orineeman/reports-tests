@@ -157,15 +157,16 @@ function TestQuestions({ testId, setDoneTest }) {
     <>
       {!showQuestions && (
         <div className={styles.content}>
-          <div className={styles.title}>Instructions:</div>
+          <div className={styles.title}>Instructions</div>
           {!showLobby && (
             <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
           )}
           {showLobby && (
             <div className={styles.subTitle}>
-              In this test you have {numOfQuestions} questions. Be sure to read
-              the questions and answer them correctly, as it is not possible to
-              return to the questions you have already answered.
+              In this test you have {numOfQuestions} questions.
+              <br /> Be sure to read the questions and answer them correctly, as
+              it is not possible to return to the questions you have already
+              answered.
             </div>
           )}
           <div className={styles.subTitle2}>Good luck on the test!</div>
