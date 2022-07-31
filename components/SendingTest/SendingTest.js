@@ -58,7 +58,7 @@ export default function SendingTest() {
 
       filedsValue.date = getDate();
     }
-  }, [email]);
+  }, [email, groupsArr, teacherName, testsArr]);
 
   function handleFieldMessage() {
     filedsValue.message = event.target.value;
