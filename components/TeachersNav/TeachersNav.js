@@ -89,9 +89,8 @@ export default function TeachersNav() {
             <ContactMailIcon
               className={styles.iconsTeacherNav}
               style={{
-                marginLeft: "-7vw",
+                // marginLeft: "-7vw",
                 fontSize: 22,
-                color: "rgb(50,50,50)",
               }}
             />
           }
@@ -101,9 +100,11 @@ export default function TeachersNav() {
           className={styles.linksTeacherNav}
           key="Contact us"
           title="Contact us"
-          style={{
-            marginLeft: "-8vw",
-          }}
+          style={
+            {
+              // marginLeft: "-8vw",
+            }
+          }
         >
           Contact us
         </div>

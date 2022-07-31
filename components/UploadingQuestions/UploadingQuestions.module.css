@@ -36,7 +36,7 @@
 }
 .submitDiv {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .submitButton {
   padding: 6px 32px;

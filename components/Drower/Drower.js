@@ -75,7 +75,7 @@ function ResponsiveDrawer(props) {
       >
         <Toolbar className={styles.header}>
           <IconButton
-            color="inherit"
+            color="black"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}

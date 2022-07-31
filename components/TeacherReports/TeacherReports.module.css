@@ -29,7 +29,7 @@
   border-radius: 15px;
   display: flex;
   font-size: 12px;
-  align-self: end;
+  align-self: flex-end;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;

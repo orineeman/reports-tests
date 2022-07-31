@@ -4,7 +4,8 @@ import styles from "./CreateGroup.module.css";
 import { useSession } from "next-auth/react";
 import messageContext from "../../Context/messageContext";
 import DeleteIcon from "@mui/icons-material/Delete";
-const filedsValue = {
+
+const fieldsValue = {
   students: [],
   tests: [],
   label: "",
@@ -25,43 +26,52 @@ export default function CreateGroup() {
     teacherName = session.user.name;
   }
 
-  const sendGroupToServer = async (filedsValue, email, teacherName) => {
-    let groupIdAndEmail = {};
-    if (filedsValue.students && filedsValue.label) {
-      try {
-        const json = await fetch("/api/group", {
-          method: "POST",
-          body: JSON.stringify(filedsValue),
-        });
-        const data = await json.json();
-        // .then((group) => {
-        groupIdAndEmail.groupId = data._id;
-        // })
-      } catch (err) {
-        console.log("error", err);
-      }
-
-      groupIdAndEmail.email = email;
-      groupIdAndEmail.teacherName = teacherName;
-
-      fetch("/api/teacher", {
-        method: "PATCH",
-        body: JSON.stringify(groupIdAndEmail),
-      })
-        .then((res) => res.json())
-        .then(() => {
-          setShowMessage(true);
-          setMessage("Your group has been save successfully");
-        })
-        .catch(() => console.log("error"));
-    } else {
+  const sendGroupToServer = async (fieldsValue, email, teacherName) => {
+    const emails = fieldsValue.students.map((student) => student.email);
+    function hasDuplicateEmail(emails) {
+      return emails.some(function (email) {
+        return emails.indexOf(email) !== emails.lastIndexOf(email);
+      });
+    }
+    if (hasDuplicateEmail(emails)) {
       setShowMessage(true);
-      setMessage("Please fill all fields");
+      setMessage("You filled two students with the same email");
+    } else {
+      let groupIdAndEmail = {};
+      if (fieldsValue.students && fieldsValue.label) {
+        try {
+          const json = await fetch("/api/group", {
+            method: "POST",
+            body: JSON.stringify(fieldsValue),
+          });
+          const data = await json.json();
+          groupIdAndEmail.groupId = data._id;
+        } catch (err) {
+          console.log("error", err);
+        }
+
+        groupIdAndEmail.email = email;
+        groupIdAndEmail.teacherName = teacherName;
+
+        fetch("/api/teacher", {
+          method: "PATCH",
+          body: JSON.stringify(groupIdAndEmail),
+        })
+          .then((res) => res.json())
+          .then(() => {
+            setShowMessage(true);
+            setMessage("Your group has been save successfully");
+          })
+          .catch(() => console.log("error"));
+      } else {
+        setShowMessage(true);
+        setMessage("Please fill all fields");
+      }
     }
   };
 
   function handleGroupNameField(event) {
-    filedsValue.label = event.target.value;
+    fieldsValue.label = event.target.value;
   }
   return (
     <div className={styles.content}>
@@ -80,7 +90,7 @@ export default function CreateGroup() {
       <div className={styles.subTitle}>
         Please write a name and email for each student
       </div>
-      <StudentsFields filedsValue={filedsValue} />
+      <StudentsFields fieldsValue={fieldsValue} />
       <div className={styles.submitDiv}>
         <Button
           className={styles.submitButton}
@@ -88,7 +98,7 @@ export default function CreateGroup() {
           sx={{ margin: "15px", width: "150px" }}
           key="submit"
           type="submit"
-          onClick={() => sendGroupToServer(filedsValue, email, teacherName)}
+          onClick={() => sendGroupToServer(fieldsValue, email, teacherName)}
         >
           Submit
         </Button>
@@ -97,26 +107,23 @@ export default function CreateGroup() {
   );
 }
 
-function StudentsFields({ filedsValue }) {
+function StudentsFields({ fieldsValue }) {
   let [newStudentsField, setNewStudentsField] = useState([1]);
-  // const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [disabledEmailField, setDisabledEmailField] = useState(true);
   const [errors, setErrors] = useState([]);
 
   const handleStudentNameChange = (studentField, index) => {
-    filedsValue.students[index] = { ...filedsValue.students[index], label: "" };
-    filedsValue.students[index].label = event.target.value;
-    // setDisabledAddButton(false);
+    fieldsValue.students[index] = { ...fieldsValue.students[index], label: "" };
+    fieldsValue.students[index].label = event.target.value;
     setDisabledEmailField(false);
   };
   const handleStudentEmailChange = (studentField, index) => {
-    filedsValue.students[index] = { ...filedsValue.students[index], email: "" };
-    filedsValue.students[index].email = event.target.value;
+    fieldsValue.students[index] = { ...fieldsValue.students[index], email: "" };
+    fieldsValue.students[index].email = event.target.value;
     if (!isValidEmail(event.target.value)) {
       const _errors = [...errors];
       _errors[index] = true;
       setErrors(_errors);
-      console.log(_errors);
     } else {
       const _errors = [...errors];
       _errors[index] = false;
@@ -134,7 +141,7 @@ function StudentsFields({ filedsValue }) {
       newStudentsField = newStudentsField.filter(
         (studentField) => studentField !== studentFieldId
       );
-      filedsValue.students.splice(index, 1);
+      fieldsValue.students.splice(index, 1);
     }
     setNewStudentsField([...newStudentsField]);
   }

@@ -42,7 +42,7 @@
   line-height: 24px;
   display: flex;
   width: 100%;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 2vw;
   letter-spacing: 0.01em;
   color: #140b53;

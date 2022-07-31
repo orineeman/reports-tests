@@ -20,9 +20,11 @@ const submitTest = async (
   QuestionsIdForTest,
   email,
   setMessage,
-  setShowMessage
+  setShowMessage,
+  setTestNameField
 ) => {
   let testIdAndEmail = {};
+  console.log(QuestionsIdForTest.questions, QuestionsIdForTest.label);
   if (QuestionsIdForTest.questions && QuestionsIdForTest.label) {
     await fetch("/api/test", {
       method: "POST",
@@ -31,6 +33,7 @@ const submitTest = async (
       .then((res) => res.json())
       .then((test) => {
         testIdAndEmail.testId = test._id;
+        setTestNameField("");
       })
       .catch(() => console.log("error"));
 
@@ -52,15 +55,16 @@ const submitTest = async (
   }
 };
 
+const questionsIdForTest = { questions: [], label: "" };
 export default function CreateTests() {
   const { setMessage, setShowMessage } = useContext(messageContext);
+  const [testNameField, setTestNameField] = useState("");
 
   const { data: session } = useSession();
   let email = "";
   if (session) {
     email = session.user.email;
   }
-  const questionsIdForTest = { questions: [], label: "" };
   const [showTest, setShowTest] = useState([]);
   useEffect(() => {
     getDataFromServer(setShowTest);
@@ -68,11 +72,14 @@ export default function CreateTests() {
 
   function handleFieldTestName() {
     questionsIdForTest.label = event.target.value;
+    setTestNameField(event.target.value);
+    console.log("questionsIdForTest", questionsIdForTest);
   }
   return (
     <div className={styles.content}>
       <div className={styles.title}>Create Tests</div>
       <TextField
+        value={testNameField}
         testName
         className={styles.testName}
         id="Test-name-field"
@@ -95,7 +102,13 @@ export default function CreateTests() {
           key="submit"
           type="submit"
           onClick={() =>
-            submitTest(questionsIdForTest, email, setMessage, setShowMessage)
+            submitTest(
+              questionsIdForTest,
+              email,
+              setMessage,
+              setShowMessage,
+              setTestNameField
+            )
           }
         >
           Submit

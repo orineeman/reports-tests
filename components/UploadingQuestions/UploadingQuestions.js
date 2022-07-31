@@ -10,6 +10,20 @@ import { useSession } from "next-auth/react";
 import messageContext from "../../Context/messageContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+function checkboxValidation(answers) {
+  let validation = false;
+  for (let answer of answers) {
+    if (answer.isCorrect) {
+      validation = true;
+    }
+  }
+  if (validation) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 const filedsValue = {
   difficulty: "",
   age: "",
@@ -22,6 +36,8 @@ export default function UploadingQuestions() {
   const [agesArr, setAgesArr] = useState([]);
   const [subjectsArr, setSubjectsArr] = useState([]);
   const [difficultiesArr, setDifficultiesArr] = useState([]);
+  const [valueOfQuestionField, setValueOfQuestionField] = useState("");
+  const [valueOfAnswersFields, setValueOfAnswersFields] = useState([]);
   const { setMessage, setShowMessage } = useContext(messageContext);
 
   useEffect(() => {
@@ -35,14 +51,16 @@ export default function UploadingQuestions() {
   }
 
   function sendQuestionToServer(filedsValue) {
+    console.log(filedsValue);
+    console.log(checkboxValidation(filedsValue.answers));
     filedsValue.email = email;
     if (
       filedsValue.difficulty &&
       filedsValue.age &&
       filedsValue.content &&
       filedsValue.subject &&
-      filedsValue.answers[0]
-      // checkboxValidation
+      filedsValue.answers[0] &&
+      checkboxValidation(filedsValue.answers)
     ) {
       fetch("/api/question", {
         method: "POST",
@@ -51,6 +69,8 @@ export default function UploadingQuestions() {
         .then((res) => res.json())
         .then((question) => {
           console.log("the client side", question);
+          setValueOfQuestionField("");
+          setValueOfAnswersFields([...[]]);
           setShowMessage(true);
           setMessage(
             "Your question has been sent successfully, It will be checked soon by the webmaster, and then uploaded to the database"
@@ -64,6 +84,7 @@ export default function UploadingQuestions() {
   }
   function handleFieldContent() {
     filedsValue.content = event.target.value;
+    setValueOfQuestionField(event.target.value);
   }
   return (
     <div className={styles.content}>
@@ -81,6 +102,7 @@ export default function UploadingQuestions() {
       </div>
       <TextField
         className={styles.questionField}
+        value={valueOfQuestionField}
         id="field-question"
         label="Write here the question"
         variant="outlined"
@@ -90,7 +112,10 @@ export default function UploadingQuestions() {
       />
 
       <div className={styles.subTitle}>Please mark the correct answer</div>
-      <AnswersFields />
+      <AnswersFields
+        valueOfAnswersFields={valueOfAnswersFields}
+        setValueOfAnswersFields={setValueOfAnswersFields}
+      />
       <div className={styles.submitDiv}>
         <Button
           className={styles.submitButton}
@@ -118,7 +143,7 @@ function SelectAge({ agesArr }) {
     <FormControl sx={{ width: "80px" }}>
       <InputLabel id="age-select">Age</InputLabel>
       <Select
-        sx={{ width: "100px" }}
+        sx={{ width: "8vw" }}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={age}
@@ -147,7 +172,7 @@ function SelectSubject({ subjectsArr }) {
     <FormControl fullWidth>
       <InputLabel id="subject-select">Subject</InputLabel>
       <Select
-        sx={{ width: "300px" }}
+        sx={{ width: "18vw" }}
         labelId="subject_select_label"
         id="subject_select"
         value={subject}
@@ -177,7 +202,7 @@ function SelectDifficulty({ difficultiesArr }) {
     <FormControl fullWidth>
       <InputLabel id="difficulty-select">Difficulty</InputLabel>
       <Select
-        sx={{ width: "150px" }}
+        sx={{ width: "10vw" }}
         labelId="subject_select_label"
         id="difficulty_select"
         value={difficulty}
@@ -195,7 +220,7 @@ function SelectDifficulty({ difficultiesArr }) {
   );
 }
 
-function AnswersFields() {
+function AnswersFields({ valueOfAnswersFields, setValueOfAnswersFields }) {
   let [newAnswerField, setNewAnswerField] = useState([1]);
   const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [checked, setChecked] = useState([]);
@@ -213,8 +238,12 @@ function AnswersFields() {
       ...filedsValue.answers[index],
       content: event.target.value,
     };
-
+    let _valueOfAnswersFields = [...valueOfAnswersFields];
+    _valueOfAnswersFields[index] = event.target.value;
+    setValueOfAnswersFields(_valueOfAnswersFields);
+    // setValueOfAnswersFields[index] = event.target.value;
     setDisabledAddButton(false);
+    console.log(valueOfAnswersFields[index]);
   };
 
   function addAnswerField() {
@@ -230,20 +259,22 @@ function AnswersFields() {
       filedsValue.answers.splice(index, 1);
     }
     setNewAnswerField([...newAnswerField]);
+    console.log("newAnswerField", newAnswerField, "filedsValue", filedsValue);
   }
   return (
     <>
       <div>
         {newAnswerField.map((answerField, index) => (
-          <div key={index} className={styles.answerFieldDiv}>
+          <div key={index.toString()} className={styles.answerFieldDiv}>
             <div className={styles.answerFieldNum}>{index + 1}</div>
             <TextField
-              // autoFocus
+              value={valueOfAnswersFields[index]}
               sx={{ width: "300px" }}
               label="answer"
               variant="outlined"
               onChange={() => handleAnswerChange(answerField, index)}
             />
+
             <Checkbox
               sx={{
                 "&.Mui-checked": {
