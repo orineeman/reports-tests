@@ -1,16 +1,21 @@
 import connectDB from "../../middleware/mongodb";
 import Test from "../../models/test";
 import Student from "../../models/student";
+import Question from "../../models/question";
 
-function filterOfIsCorrect(questions) {
+async function filterOfIsCorrect(questions) {
   const filteredQuestions = [];
   for (let question of questions) {
-    const filteredQuestion = { content: "", answers: [] };
+    const filteredQuestion = { questionId: "", content: "", answers: [] };
     filteredQuestion.content = question.content;
     filteredQuestion.questionId = question._id;
 
     const filteredAnswers = [];
-    for (let answer of question.answers) {
+    const q = await Question.findById(filteredQuestion.questionId).populate(
+      "answers"
+    );
+
+    for (let answer of q.answers) {
       const filteredAnswer = {};
       filteredAnswer.content = answer.content;
       filteredAnswer.answerId = answer._id;
@@ -19,6 +24,7 @@ function filterOfIsCorrect(questions) {
     filteredQuestion.answers = filteredAnswers;
     filteredQuestions.push(filteredQuestion);
   }
+  console.log("q", filteredQuestions);
 
   return filteredQuestions;
 }
@@ -44,10 +50,11 @@ const handler = async (req, res) => {
       }
     }
     const data = {
-      filterdData: filterOfIsCorrect(questions),
+      filterdData: await filterOfIsCorrect(questions),
       currentQuestion,
       done,
     };
+    console.log("data", data);
     res.send(data);
   } else if (req.method === "GET") {
     const tests = await Test.find().populate(["questions", "questions.age"]);

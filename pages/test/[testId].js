@@ -32,6 +32,7 @@ async function getTestFromServer(
     setNumOfQuestion(test.length);
     setQuestionNum(currentQuestion);
     setShowLobby(true);
+    console.log("test", test);
   } catch (err) {
     console.log(err);
   }
@@ -87,8 +88,10 @@ export default function TestLobby() {
       </div>
       {!doneTest && <TestQuestions testId={testId} setDoneTest={setDoneTest} />}
       {doneTest && (
-        <div className={styles.subTitle}>
-          You have completed this test before
+        <div className={styles.content}>
+          <div className={styles.subTitle}>
+            You have completed this test before
+          </div>
         </div>
       )}
     </Grid>

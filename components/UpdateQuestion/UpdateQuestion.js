@@ -381,7 +381,6 @@ function DataTable({ questionData }) {
   questionData?.answers?.map((answer) => {
     const answersToRows = {
       content: answer.content,
-      // responses: answer.statistics.numberOfResponses,
       right: answer.statistics.amountOfRight,
       mistakes: answer.statistics.amountOfMistakes,
       misleadingPercentages: `${

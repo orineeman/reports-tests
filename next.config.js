@@ -10,7 +10,6 @@ const {
   NEXT_PABLIC_EMAIL,
   EMAIL_PASSWORD,
   NEXTAUTH_SECRET,
-  // NEXTAUTH_URL,
 } = process.env;
 const nextConfig = {
   reactStrictMode: false,
@@ -25,7 +24,6 @@ const nextConfig = {
     NEXT_PABLIC_EMAIL,
     EMAIL_PASSWORD,
     NEXTAUTH_SECRET,
-    // NEXTAUTH_URL,
   },
 };
 

@@ -83,7 +83,6 @@ const handler = async (req, res) => {
         console.log("error", error);
       }
     }
-    // res.send(type);
   } else if (req.method === "PATCH") {
     const dataToUpdate = JSON.parse(req.body);
     const { id, newValue, field } = dataToUpdate;

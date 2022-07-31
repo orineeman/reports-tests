@@ -69,7 +69,6 @@ function deleteMassege(
   setShowMessage,
   getNumOfNewMessages,
   setNumOfMessages
-  //   getAllMessageFromServer,
 ) {
   fetch("/api/contact-us", {
     method: "DELETE",
@@ -83,7 +82,6 @@ function deleteMassege(
   handleCloseDialog();
   getNumOfNewMessages(setNumOfMessages);
   changesToUpdate.answer = "";
-  //   getAllMessageFromServer();
 }
 export default function AnswerToMessage({
   openAnswerToMessageDialog,

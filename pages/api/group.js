@@ -22,7 +22,6 @@ const handler = async (req, res) => {
           const newSt = await newStudent.save();
           studentsId.push(newSt._id);
         }
-        // return res.status(200).send("the students saved");
       } catch (error) {
         return res.status(500).send(error.message);
       }
@@ -32,7 +31,6 @@ const handler = async (req, res) => {
     // ------------------------------------
 
     if (students && label) {
-      //לולידציה להוסיף במקום 0 גם לסטודנטים
       try {
         const newGroup = new Group({
           students: studentsId,

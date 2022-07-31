@@ -288,8 +288,6 @@ function AnswersFields({ valueOfAnswersFields, setValueOfAnswersFields }) {
             />
             <DeleteIcon onClick={() => removeAnswerField(answerField, index)} />
           </div>
-
-          // </div>
         ))}
       </div>
       <div

@@ -4,7 +4,6 @@ import Student from "./student";
 import Test from "./test";
 import Group from "./group";
 const Schema = mongoose.Schema;
-// import Map from "mongoose";
 
 const teacher = new Schema({
   name: String,

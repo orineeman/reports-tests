@@ -1,4 +1,3 @@
-// import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -12,6 +11,7 @@ function getDataFromServer(setAllQuestions, setShowLoding) {
   fetch(`/api/admin/admin-reports`)
     .then((res) => res.json())
     .then((allQuestions) => {
+      console.log("allQuestions", allQuestions);
       setAllQuestions(allQuestions);
       setShowLoding(false);
     })

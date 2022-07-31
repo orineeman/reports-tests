@@ -1,5 +1,4 @@
 export default function getDataFromServer(
-  //   router,
   setAgesArr,
   setSubjectsArr,
   setDifficultiesArr

@@ -1,7 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
-// import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import { Button, Grid, Link } from "@mui/material";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 async function userConnection(user) {

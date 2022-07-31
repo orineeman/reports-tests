@@ -39,7 +39,6 @@ function Navigation() {
       sx={{
         "& .Mui-selected, .Mui-selected > svg": {
           color: "#140b53",
-          // width: "50vw",
         },
       }}
       showLabels

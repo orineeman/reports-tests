@@ -46,6 +46,7 @@
   padding-bottom: 2vw;
   letter-spacing: 0.01em;
   color: #140b53;
+  margin: 0 auto;
 }
 .closeBtn:hover {
   cursor: pointer;
