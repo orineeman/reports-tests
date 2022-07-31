@@ -36,7 +36,7 @@ const handler = async (req, res) => {
     const { age, subject, difficulty, content, answers, email } = question;
     if (age && subject && difficulty && content && answers) {
       let confirmed = false;
-      if (email === process.env.EMAIL) {
+      if (email === process.env.NEXT_PABLIC_EMAIL) {
         confirmed = true;
       }
       try {

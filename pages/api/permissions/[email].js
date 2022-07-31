@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   if (req.method === "GET") {
     const { email } = req.query;
     let permissions = {};
-    if (email === process.env.EMAIL) {
+    if (email === process.env.NEXT_PABLIC_EMAIL) {
       permissions.adminPermission = true;
     }
     const teacherPermission = await Permission.findOne({

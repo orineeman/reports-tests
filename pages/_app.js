@@ -8,7 +8,7 @@ import Message from "../components/Message/Message";
 import adminContext from "../Context/adminContext";
 import messageContext from "../Context/messageContext";
 
-const { ADMIN_PASS } = process.env;
+const { NEXT_PABLIC_ADMIN_PASS } = process.env;
 
 const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
   const { data, status } = useSession();
@@ -59,7 +59,7 @@ const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
 };
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  const adminPassword = ADMIN_PASS;
+  const adminPassword = NEXT_PABLIC_ADMIN_PASS;
   const [disableButton, setDisableButton] = useState(true);
   const [openAdminLoginDialog, setOpenAdminLoginDialog] = useState(false);
   const [showMessage, setShowMessage] = useState(false);

@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   if (req.method === "GET") {
     if (
       req.headers.pleaseget === "permissionAdmin" &&
-      req.headers.email === process.env.EMAIL
+      req.headers.email === process.env.NEXT_PABLIC_EMAIL
     ) {
       const status = { status: "confirm" };
       res.send(status);
@@ -33,7 +33,7 @@ const handler = async (req, res) => {
             await newPermission.save();
             await sendEmail(
               `Hi ${fullName}, `,
-              "In good time you received permission to the site, to start working a conference here: http://localhost:3000/teachers",
+              `In good time you received permission to the site, to start working a conference here: ${process.env.NEXT_PABLIC_SERVER_URL}`,
               email
             );
           } else {

@@ -29,7 +29,7 @@ const handler = async (req, res) => {
           sendEmail(
             `Hi ${student.label}, `,
             `The teacher ${teacherName} sent you a test, to start clicking on the attached link And he added the following message:${message}.
-             http://localhost:3000/test/${testId}`,
+             ${process.env.NEXT_PABLIC_SERVER_URL}/test/${testId}`,
             student.email
           );
         }

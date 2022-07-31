@@ -25,7 +25,7 @@ function Navigation() {
     let email = "";
     if (session) {
       email = session.user.email;
-      if (email === process.env.EMAIL) {
+      if (email === process.env.NEXT_PABLIC_EMAIL) {
         setAdmin(true);
       }
     }

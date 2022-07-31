@@ -11,13 +11,13 @@ async function userConnection(user) {
 async function logIn() {
   await signIn("google", {
     redirect: false,
-    callbackUrl: `http://localhost:3000/`,
+    callbackUrl: process.env.NEXT_PABLIC_SERVER_URL,
   });
 }
 async function logOut() {
   await signOut({
     redirect: true,
-    callbackUrl: "http://localhost:3000/",
+    callbackUrl: process.env.NEXT_PABLIC_SERVER_URL,
   });
 }
 export default function Header() {

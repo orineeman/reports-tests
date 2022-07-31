@@ -3,7 +3,7 @@ import Permission from "../../../models/permissions";
 import Age from "../../../models/age";
 import Subject from "../../../models/subject";
 import Difficulty from "../../../models/difficulty";
-const email = process.env.EMAIL;
+const email = process.env.NEXT_PABLIC_EMAIL;
 const handler = async (req, res) => {
   if (req.method === "GET" && req.headers.idtoupdate) {
     const idToUpdate = req.headers.idtoupdate;
