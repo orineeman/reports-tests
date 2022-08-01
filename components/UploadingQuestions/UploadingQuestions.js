@@ -24,7 +24,7 @@ function checkboxValidation(answers) {
   }
 }
 
-const filedsValue = {
+const fieldsValue = {
   difficulty: "",
   age: "",
   subject: "",
@@ -50,21 +50,21 @@ export default function UploadingQuestions() {
     email = session.user.email;
   }
 
-  function sendQuestionToServer(filedsValue) {
-    console.log(filedsValue);
-    console.log(checkboxValidation(filedsValue.answers));
-    filedsValue.email = email;
+  function sendQuestionToServer(fieldsValue) {
+    console.log(fieldsValue);
+    console.log(checkboxValidation(fieldsValue.answers));
+    fieldsValue.email = email;
     if (
-      filedsValue.difficulty &&
-      filedsValue.age &&
-      filedsValue.content &&
-      filedsValue.subject &&
-      filedsValue.answers[0] &&
-      checkboxValidation(filedsValue.answers)
+      fieldsValue.difficulty &&
+      fieldsValue.age &&
+      fieldsValue.content &&
+      fieldsValue.subject &&
+      fieldsValue.answers[0] &&
+      checkboxValidation(fieldsValue.answers)
     ) {
       fetch("/api/question", {
         method: "POST",
-        body: JSON.stringify(filedsValue),
+        body: JSON.stringify(fieldsValue),
       })
         .then((res) => res.json())
         .then((question) => {
@@ -83,7 +83,7 @@ export default function UploadingQuestions() {
     }
   }
   function handleFieldContent() {
-    filedsValue.content = event.target.value;
+    fieldsValue.content = event.target.value;
     setValueOfQuestionField(event.target.value);
   }
   return (
@@ -122,7 +122,7 @@ export default function UploadingQuestions() {
           variant="contained"
           key="submit"
           type="submit"
-          onClick={() => sendQuestionToServer(filedsValue)}
+          onClick={() => sendQuestionToServer(fieldsValue)}
         >
           Submit
         </Button>
@@ -136,7 +136,7 @@ function SelectAge({ agesArr }) {
 
   const handleSelectAge = (event) => {
     setAge(event.target.value);
-    filedsValue.age = event.target.value;
+    fieldsValue.age = event.target.value;
   };
 
   return (
@@ -165,7 +165,7 @@ function SelectSubject({ subjectsArr }) {
 
   const handleSelectSubject = (event) => {
     setSubject(event.target.value);
-    filedsValue.subject = event.target.value;
+    fieldsValue.subject = event.target.value;
   };
 
   return (
@@ -195,7 +195,7 @@ function SelectDifficulty({ difficultiesArr }) {
 
   const handleSelectDifficulty = (event) => {
     setDifficulty(event.target.value);
-    filedsValue.difficulty = event.target.value;
+    fieldsValue.difficulty = event.target.value;
   };
 
   return (
@@ -227,15 +227,15 @@ function AnswersFields({ valueOfAnswersFields, setValueOfAnswersFields }) {
 
   const handleChange = (event, answerField, index) => {
     setChecked[index] = event.target.checked;
-    filedsValue.answers[index] = {
-      ...filedsValue.answers[index],
+    fieldsValue.answers[index] = {
+      ...fieldsValue.answers[index],
       isCorrect: event.target.checked,
     };
   };
 
   const handleAnswerChange = (answerField, index) => {
-    filedsValue.answers[index] = {
-      ...filedsValue.answers[index],
+    fieldsValue.answers[index] = {
+      ...fieldsValue.answers[index],
       content: event.target.value,
     };
     let _valueOfAnswersFields = [...valueOfAnswersFields];
@@ -256,16 +256,17 @@ function AnswersFields({ valueOfAnswersFields, setValueOfAnswersFields }) {
       newAnswerField = newAnswerField.filter(
         (answerField) => answerField !== answerFieldId
       );
-      filedsValue.answers.splice(index, 1);
+      fieldsValue.answers.splice(index, 1);
     }
     setNewAnswerField([...newAnswerField]);
-    console.log("newAnswerField", newAnswerField, "filedsValue", filedsValue);
+    console.log("newAnswerField", newAnswerField, "fieldsValue", fieldsValue);
   }
+
   return (
     <>
       <div>
         {newAnswerField.map((answerField, index) => (
-          <div key={index.toString()} className={styles.answerFieldDiv}>
+          <div key={index} className={styles.answerFieldDiv}>
             <div className={styles.answerFieldNum}>{index + 1}</div>
             <TextField
               value={valueOfAnswersFields[index]}

@@ -30,7 +30,6 @@ export default function TeachersNav() {
           <SendIcon className={styles.iconsTeacherNav} />
           <div
             className={styles.linksTeacherNav}
-            key="Tests"
             title="Sending a test to students"
           >
             Sending test
@@ -40,11 +39,7 @@ export default function TeachersNav() {
       <Link href="/teachers/create-tests">
         <div className={styles.btnTeacherNav}>
           <CreateIcon className={styles.iconsTeacherNav} />
-          <div
-            className={styles.linksTeacherNav}
-            key="Tests"
-            title="Create, Edit ,Delete"
-          >
+          <div className={styles.linksTeacherNav} title="Create, Edit ,Delete">
             Create tests
           </div>
         </div>

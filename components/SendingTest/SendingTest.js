@@ -28,7 +28,7 @@ function getDataFromServer(
     .catch(() => setGroupsArr(["error"]));
 }
 
-const filedsValue = {
+const fieldsValue = {
   testId: "",
   groupId: "",
   message: "",
@@ -53,28 +53,28 @@ export default function SendingTest() {
   useEffect(() => {
     if (email) {
       getDataFromServer(groupsArr, setGroupsArr, testsArr, setTestsArr, email);
-      filedsValue.email = email;
-      filedsValue.teacherName = teacherName;
+      fieldsValue.email = email;
+      fieldsValue.teacherName = teacherName;
 
-      filedsValue.date = getDate();
+      fieldsValue.date = getDate();
     }
   }, [email, groupsArr, teacherName, testsArr]);
 
   function handleFieldMessage() {
-    filedsValue.message = event.target.value;
+    fieldsValue.message = event.target.value;
   }
 
-  function sendDataToServer(filedsValue) {
+  function sendDataToServer(fieldsValue) {
     if (
-      filedsValue.groupId &&
-      filedsValue.testId &&
-      filedsValue.email &&
-      filedsValue.teacherName
+      fieldsValue.groupId &&
+      fieldsValue.testId &&
+      fieldsValue.email &&
+      fieldsValue.teacherName
     ) {
       setShowLoding(true);
       fetch("/api/sendtest", {
         method: "POST",
-        body: JSON.stringify(filedsValue),
+        body: JSON.stringify(fieldsValue),
       })
         .then((res) => res.json())
         .then(() => {
@@ -125,7 +125,7 @@ export default function SendingTest() {
               sx={{ margin: "15px", width: "150px" }}
               key="submit"
               type="submit"
-              onClick={() => sendDataToServer(filedsValue)}
+              onClick={() => sendDataToServer(fieldsValue)}
             >
               Submit
             </Button>
@@ -140,7 +140,7 @@ function SelectTest({ testsArr }) {
   const [test, setTest] = useState("");
   const handleSelectTest = (event) => {
     setTest(event.target.value);
-    filedsValue.testId = event.target.value;
+    fieldsValue.testId = event.target.value;
   };
   return (
     <FormControl fullWidth>
@@ -170,7 +170,7 @@ function SelectGroup({ groupsArr }) {
 
   const handleSelectGroup = (event) => {
     setGroup(event.target.value);
-    filedsValue.groupId = event.target.value;
+    fieldsValue.groupId = event.target.value;
   };
 
   return (

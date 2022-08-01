@@ -24,7 +24,7 @@ function getDataFromServer(setTestsArr, email) {
     .catch(() => setTestsArr(["error"]));
 }
 
-const filedsValue = {
+const fieldsValue = {
   testId: "",
   email: "",
 };
@@ -41,7 +41,7 @@ export default function TestsOfStudents() {
   useEffect(() => {
     if (email) {
       getDataFromServer(setTestsArr, email);
-      filedsValue.email = email;
+      fieldsValue.email = email;
     }
   }, [email]);
   return (
@@ -58,7 +58,7 @@ export default function TestsOfStudents() {
             key="submit"
             type="submit"
             disabled={disabled}
-            onClick={() => router.push(`/test/${filedsValue.testId}`)}
+            onClick={() => router.push(`/test/${fieldsValue.testId}`)}
           >
             Start test
           </Button>
@@ -72,7 +72,7 @@ function SelectTest({ testsArr, setDisabled }) {
   const [test, setTest] = useState("");
   const handleSelectTest = (event) => {
     setTest(event.target.value);
-    filedsValue.testId = event.target.value;
+    fieldsValue.testId = event.target.value;
     setDisabled(false);
   };
   return (
@@ -85,13 +85,12 @@ function SelectTest({ testsArr, setDisabled }) {
         value={test}
         label="test"
         name="test"
-        key="test"
         onChange={handleSelectTest}
       >
         {testsArr.map(
           (test) =>
             test.test && (
-              <MenuItem key={test.test.label} value={test.test._id}>
+              <MenuItem key={test.test._id} value={test.test._id}>
                 {test.test.label}
               </MenuItem>
             )

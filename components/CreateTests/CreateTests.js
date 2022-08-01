@@ -24,18 +24,19 @@ const submitTest = async (
   setTestNameField
 ) => {
   let testIdAndEmail = {};
-  console.log(QuestionsIdForTest.questions, QuestionsIdForTest.label);
+  console.log(QuestionsIdForTest);
   if (QuestionsIdForTest.questions && QuestionsIdForTest.label) {
-    await fetch("/api/test", {
-      method: "POST",
-      body: JSON.stringify(QuestionsIdForTest),
-    })
-      .then((res) => res.json())
-      .then((test) => {
-        testIdAndEmail.testId = test._id;
-        setTestNameField("");
-      })
-      .catch(() => console.log("error"));
+    try {
+      const json = await fetch("/api/test", {
+        method: "POST",
+        body: JSON.stringify(QuestionsIdForTest),
+      });
+      const test = await json.json();
+      testIdAndEmail.testId = test._id;
+      setTestNameField("");
+    } catch (err) {
+      console.log("error", err);
+    }
 
     testIdAndEmail.email = email;
 
@@ -73,14 +74,12 @@ export default function CreateTests() {
   function handleFieldTestName() {
     questionsIdForTest.label = event.target.value;
     setTestNameField(event.target.value);
-    console.log("questionsIdForTest", questionsIdForTest);
   }
   return (
     <div className={styles.content}>
       <div className={styles.title}>Create Tests</div>
       <TextField
         value={testNameField}
-        testName
         className={styles.testName}
         id="Test-name-field"
         label="Test name"

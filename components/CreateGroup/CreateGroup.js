@@ -4,10 +4,10 @@ import styles from "./CreateGroup.module.css";
 import { useSession } from "next-auth/react";
 import messageContext from "../../Context/messageContext";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { v4 as uuidv4 } from "uuid";
 
 const fieldsValue = {
   students: [],
-  tests: [],
   label: "",
 };
 
@@ -15,8 +15,24 @@ function isValidEmail(email) {
   return /\S+@\S+\.\S+/.test(email);
 }
 
+function fieldValidations(fieldsValue) {
+  if (fieldsValue.students[0]) {
+    for (let student of fieldsValue.students) {
+      if (!student.label || !student.email) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
 export default function CreateGroup() {
   const { setMessage, setShowMessage } = useContext(messageContext);
+  const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
+  const [valueOfGroupNameField, setValueOfGroupNameField] = useState("");
+  const [valueOfStudentsFields, setValueOfStudentsFields] = useState([
+    { fullName: "", email: "", id: uuidv4(), deleteIcon: false },
+  ]);
 
   const { data: session } = useSession();
   let email = "";
@@ -28,6 +44,7 @@ export default function CreateGroup() {
 
   const sendGroupToServer = async (fieldsValue, email, teacherName) => {
     const emails = fieldsValue.students.map((student) => student.email);
+    console.log(fieldsValue);
     function hasDuplicateEmail(emails) {
       return emails.some(function (email) {
         return emails.indexOf(email) !== emails.lastIndexOf(email);
@@ -38,7 +55,7 @@ export default function CreateGroup() {
       setMessage("You filled two students with the same email");
     } else {
       let groupIdAndEmail = {};
-      if (fieldsValue.students && fieldsValue.label) {
+      if (fieldValidations(fieldsValue) && fieldsValue.label) {
         try {
           const json = await fetch("/api/group", {
             method: "POST",
@@ -52,17 +69,22 @@ export default function CreateGroup() {
 
         groupIdAndEmail.email = email;
         groupIdAndEmail.teacherName = teacherName;
-
-        fetch("/api/teacher", {
-          method: "PATCH",
-          body: JSON.stringify(groupIdAndEmail),
-        })
-          .then((res) => res.json())
-          .then(() => {
-            setShowMessage(true);
-            setMessage("Your group has been save successfully");
-          })
-          .catch(() => console.log("error"));
+        try {
+          const json = await fetch("/api/teacher", {
+            method: "PATCH",
+            body: JSON.stringify(groupIdAndEmail),
+          });
+          await json.json();
+          setShowMessage(true);
+          setMessage("Your group has been save successfully");
+        } catch (err) {
+          console.log("error", err);
+        }
+        fieldsValue.students = [];
+        fieldsValue.label = "";
+        setValueOfGroupNameField("");
+        setValueOfStudentsFields([{ fullName: "", email: "", id: uuidv4() }]);
+        setDisabledSubmitButton(true);
       } else {
         setShowMessage(true);
         setMessage("Please fill all fields");
@@ -72,6 +94,7 @@ export default function CreateGroup() {
 
   function handleGroupNameField(event) {
     fieldsValue.label = event.target.value;
+    setValueOfGroupNameField(event.target.value);
   }
   return (
     <div className={styles.content}>
@@ -83,6 +106,7 @@ export default function CreateGroup() {
         variant="outlined"
         key="groupName"
         required
+        value={valueOfGroupNameField}
         onChange={handleGroupNameField}
         autoFocus
       />
@@ -90,9 +114,15 @@ export default function CreateGroup() {
       <div className={styles.subTitle}>
         Please write a name and email for each student
       </div>
-      <StudentsFields fieldsValue={fieldsValue} />
+      <StudentsFields
+        fieldsValue={fieldsValue}
+        setDisabledSubmitButton={setDisabledSubmitButton}
+        valueOfStudentsFields={valueOfStudentsFields}
+        setValueOfStudentsFields={setValueOfStudentsFields}
+      />
       <div className={styles.submitDiv}>
         <Button
+          disabled={disabledSubmitButton}
           className={styles.submitButton}
           variant="contained"
           sx={{ margin: "15px", width: "150px" }}
@@ -107,62 +137,86 @@ export default function CreateGroup() {
   );
 }
 
-function StudentsFields({ fieldsValue }) {
-  let [newStudentsField, setNewStudentsField] = useState([1]);
+function StudentsFields({
+  fieldsValue,
+  setDisabledSubmitButton,
+  valueOfStudentsFields,
+  setValueOfStudentsFields,
+}) {
   const [disabledEmailField, setDisabledEmailField] = useState(true);
   const [errors, setErrors] = useState([]);
 
-  const handleStudentNameChange = (studentField, index) => {
+  const handleStudentNameChange = (event, studentField, index) => {
     fieldsValue.students[index] = { ...fieldsValue.students[index], label: "" };
     fieldsValue.students[index].label = event.target.value;
+    const _valueOfStudentsFields = [...valueOfStudentsFields];
+    _valueOfStudentsFields[index].fullName = event.target.value;
+    setValueOfStudentsFields([..._valueOfStudentsFields]);
     setDisabledEmailField(false);
+    console.log(valueOfStudentsFields);
   };
-  const handleStudentEmailChange = (studentField, index) => {
+  const handleStudentEmailChange = (event, studentField, index) => {
     fieldsValue.students[index] = { ...fieldsValue.students[index], email: "" };
     fieldsValue.students[index].email = event.target.value;
+    const _valueOfStudentsFields = [...valueOfStudentsFields];
+    _valueOfStudentsFields[index].email = event.target.value;
+    setValueOfStudentsFields([..._valueOfStudentsFields]);
+    console.log(valueOfStudentsFields);
+
     if (!isValidEmail(event.target.value)) {
       const _errors = [...errors];
       _errors[index] = true;
       setErrors(_errors);
+      setDisabledSubmitButton(true);
     } else {
       const _errors = [...errors];
       _errors[index] = false;
       setErrors(_errors);
+      setDisabledSubmitButton(false);
     }
   };
 
   function addStudentField() {
-    newStudentsField = [...newStudentsField, newStudentsField.length + 1];
-    setNewStudentsField([...newStudentsField]);
+    setDisabledSubmitButton(true);
+    const _valueOfStudentsFields = [...valueOfStudentsFields];
+    _valueOfStudentsFields[0].deleteIcon = true;
+    setValueOfStudentsFields([
+      ..._valueOfStudentsFields,
+      { fullName: "", email: "", id: uuidv4(), deleteIcon: true },
+    ]);
   }
 
   function removeStudentField(studentFieldId, index) {
-    if (newStudentsField.length > 1) {
-      newStudentsField = newStudentsField.filter(
-        (studentField) => studentField !== studentFieldId
-      );
-      fieldsValue.students.splice(index, 1);
+    let _valueOfStudentsFields = valueOfStudentsFields.filter(
+      (studentField) => studentField !== studentFieldId
+    );
+    fieldsValue.students.splice(index, 1);
+    if (_valueOfStudentsFields.length === 1) {
+      _valueOfStudentsFields[0].deleteIcon = false;
     }
-    setNewStudentsField([...newStudentsField]);
+    setValueOfStudentsFields([..._valueOfStudentsFields]);
   }
   return (
     <>
       <div>
-        {newStudentsField.map((studentField, index) => (
-          <>
-            {" "}
-            <div className={styles.studentFieldDiv} key="studentField">
+        {valueOfStudentsFields.map((studentField, index) => (
+          <div key={studentField.id}>
+            <div className={styles.studentFieldDiv}>
               <div className={styles.studentFieldNum}>{index + 1}</div>
               <TextField
+                value={valueOfStudentsFields[index].fullName}
                 className={styles.textField}
                 sx={{ width: "300px", margin: "10px" }}
                 type="text"
                 label="Student full name"
                 variant="outlined"
-                onChange={() => handleStudentNameChange(studentField, index)}
+                onChange={(e) =>
+                  handleStudentNameChange(e, studentField, index)
+                }
                 required
               />
               <TextField
+                value={valueOfStudentsFields[index].email}
                 className={styles.textField}
                 sx={{ width: "300px", margin: "10px" }}
                 type="email"
@@ -171,19 +225,26 @@ function StudentsFields({ fieldsValue }) {
                 variant="outlined"
                 error={errors[index]}
                 disabled={disabledEmailField}
-                onChange={() => handleStudentEmailChange(studentField, index)}
+                onChange={(e) =>
+                  handleStudentEmailChange(e, studentField, index)
+                }
               />
-              <DeleteIcon
-                onClick={() => removeStudentField(studentField, index)}
-              />
+              {valueOfStudentsFields[index].deleteIcon && (
+                <DeleteIcon
+                  style={{ width: "25px" }}
+                  onClick={() => removeStudentField(studentField, index)}
+                />
+              )}
+              {!valueOfStudentsFields[index].deleteIcon && (
+                <div style={{ width: "25px" }}></div>
+              )}
             </div>
             <Divider className={styles.divider} />
-          </>
+          </div>
         ))}
       </div>
       <div
         className={styles.addBtn}
-        // disabled={disabledAddButton}
         key="addStudentField"
         onClick={addStudentField}
       >

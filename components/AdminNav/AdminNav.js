@@ -21,7 +21,6 @@ export default function AdminNav() {
           <ArchiveIcon className={styles.iconsAdminNav} />
           <div
             className={styles.linksAdminNav}
-            key="Tests"
             title="Sending a test to students"
           >
             {" "}
@@ -34,7 +33,6 @@ export default function AdminNav() {
           <PlaylistAddCheckCircleIcon className={styles.iconsAdminNav} />
           <div
             className={styles.linksAdminNav}
-            key="Tests"
             title="Sending a test to students"
           >
             {" "}
@@ -47,7 +45,6 @@ export default function AdminNav() {
           <PersonAddIcon className={styles.iconsAdminNav} />
           <div
             className={styles.linksAdminNav}
-            key="Tests"
             title="Sending a test to students"
           >
             {" "}
@@ -60,7 +57,6 @@ export default function AdminNav() {
           <AssessmentIcon className={styles.iconsAdminNav} />
           <div
             className={styles.linksAdminNav}
-            key="Tests"
             title="Sending a test to students"
           >
             {" "}
@@ -73,7 +69,6 @@ export default function AdminNav() {
           <SystemUpdateAltIcon className={styles.iconsAdminNav} />
           <div
             className={styles.linksAdminNav}
-            key="Tests"
             title="Sending a test to students"
           >
             {" "}
@@ -88,7 +83,6 @@ export default function AdminNav() {
           </Badge>
           <div
             className={styles.linksAdminNav}
-            key="Tests"
             title="Sending a test to students"
           >
             {" "}

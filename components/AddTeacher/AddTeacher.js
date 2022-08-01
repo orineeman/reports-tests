@@ -4,9 +4,9 @@ import styles from "./AddTeacher.module.css";
 import messageContext from "../../Context/messageContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function filedValidations(filedsValue) {
-  if (filedsValue.teachers[0]) {
-    for (let teacher of filedsValue.teachers) {
+function fieldValidations(fieldsValue) {
+  if (fieldsValue.teachers[0]) {
+    for (let teacher of fieldsValue.teachers) {
       if (!teacher.fullName || !teacher.email) {
         return false;
       }
@@ -15,11 +15,11 @@ function filedValidations(filedsValue) {
   }
 }
 
-function sendTeachersToServer(filedsValue, setMessage, setShowMessage) {
-  if (filedValidations(filedsValue)) {
+function sendTeachersToServer(fieldsValue, setMessage, setShowMessage) {
+  if (fieldValidations(fieldsValue)) {
     fetch("/api/admin", {
       method: "POST",
-      body: JSON.stringify(filedsValue.teachers),
+      body: JSON.stringify(fieldsValue.teachers),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -43,7 +43,7 @@ function sendTeachersToServer(filedsValue, setMessage, setShowMessage) {
   }
 }
 
-const filedsValue = {
+const fieldsValue = {
   teachers: [],
 };
 
@@ -55,34 +55,38 @@ export default function AddTeacher() {
   const { setMessage, setShowMessage } = useContext(messageContext);
   let [newTeacherField, setNewTeacherField] = useState([1]);
   // const [disabledAddButton, setDisabledAddButton] = useState(true);
+  const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
   const [disabledEmailField, setDisabledEmailField] = useState(true);
   const [errors, setErrors] = useState([]);
   const handleTeacherNameChange = (teacherField, index) => {
-    filedsValue.teachers[index] = {
-      ...filedsValue.teachers[index],
+    fieldsValue.teachers[index] = {
+      ...fieldsValue.teachers[index],
       fullName: "",
     };
-    filedsValue.teachers[index].fullName = event.target.value;
+    fieldsValue.teachers[index].fullName = event.target.value;
     // setDisabledAddButton(false);
     setDisabledEmailField(false);
   };
   const handleTeacherEmailChange = (event, teacherField, index) => {
-    filedsValue.teachers[index] = { ...filedsValue.teachers[index], email: "" };
-    filedsValue.teachers[index].email = event.target.value;
+    fieldsValue.teachers[index] = { ...fieldsValue.teachers[index], email: "" };
+    fieldsValue.teachers[index].email = event.target.value;
     if (!isValidEmail(event.target.value)) {
       const _errors = [...errors];
       _errors[index] = true;
       setErrors(_errors);
+      setDisabledSubmitButton(true);
     } else {
       const _errors = [...errors];
       _errors[index] = false;
       setErrors(_errors);
+      setDisabledSubmitButton(false);
     }
   };
 
   function addTeacherField() {
     newTeacherField = [...newTeacherField, newTeacherField.length + 1];
     setNewTeacherField([...newTeacherField]);
+    setDisabledSubmitButton(true);
   }
 
   function removeTeacherField(teacherFieldId, index) {
@@ -90,7 +94,7 @@ export default function AddTeacher() {
       newTeacherField = newTeacherField.filter(
         (teacherField) => teacherField !== teacherFieldId
       );
-      filedsValue.teachers.splice(index, 1);
+      fieldsValue.teachers.splice(index, 1);
     }
     setNewTeacherField([...newTeacherField]);
   }
@@ -99,8 +103,8 @@ export default function AddTeacher() {
       <div className={styles.title}>Add teacher permission</div>
 
       {newTeacherField.map((teacherField, index) => (
-        <>
-          <div className={styles.studentFieldDiv} key={teacherField}>
+        <div key={teacherField}>
+          <div className={styles.studentFieldDiv}>
             <div className={styles.studentFieldNum}>{index + 1}</div>
 
             <TextField
@@ -109,7 +113,6 @@ export default function AddTeacher() {
               autoFocus
               type="text"
               label="Teacher full name"
-              key="Teacher full name"
               variant="outlined"
               onChange={() => handleTeacherNameChange(teacherField, index)}
               required
@@ -119,7 +122,6 @@ export default function AddTeacher() {
               sx={{ width: "300px", margin: "10px" }}
               type="email"
               label="Teacher email"
-              key="Teacher email"
               variant="outlined"
               required
               error={errors[index]}
@@ -133,7 +135,7 @@ export default function AddTeacher() {
             />
           </div>
           <Divider className={styles.divider} />
-        </>
+        </div>
       ))}
       <div
         className={styles.addBtn}
@@ -146,12 +148,13 @@ export default function AddTeacher() {
 
       <div className={styles.submitDiv}>
         <Button
+          disabled={disabledSubmitButton}
           variant="contained"
           className={styles.submitButton}
           key="submit"
           type="submit"
           onClick={() =>
-            sendTeachersToServer(filedsValue, setMessage, setShowMessage)
+            sendTeachersToServer(fieldsValue, setMessage, setShowMessage)
           }
         >
           Submit
