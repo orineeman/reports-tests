@@ -81,6 +81,9 @@ export default function SendingTest() {
           setShowLoding(false);
           setShowMessage(true);
           setMessage("Your test is sent to students");
+          fieldsValue.testId = "";
+          fieldsValue.groupId = "";
+          fieldsValue.message = "";
         })
         .catch(() => console.log("error"));
     } else {

@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import styles from "./AddTeacher.module.css";
 import messageContext from "../../Context/messageContext";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { v4 as uuidv4 } from "uuid";
 
 function fieldValidations(fieldsValue) {
   if (fieldsValue.teachers[0]) {
@@ -19,7 +20,9 @@ function sendTeachersToServer(
   fieldsValue,
   setMessage,
   setShowMessage,
-  setShowLoding
+  setShowLoding,
+  setValueOfTeachersFields,
+  setDisabledSubmitButton
 ) {
   if (fieldValidations(fieldsValue)) {
     setShowLoding(true);
@@ -35,6 +38,9 @@ function sendTeachersToServer(
             "All teachers received permission, and an email was sent to the permissions holders"
           );
           setShowLoding(false);
+          fieldsValue.teachers = [];
+          setDisabledSubmitButton(true);
+          setValueOfTeachersFields([{ fullName: "", email: "", id: uuidv4() }]);
         } else {
           setShowMessage(true);
           setMessage(
@@ -62,9 +68,11 @@ export default function AddTeacher() {
   const [showLoding, setShowLoding] = useState(false);
 
   const { setMessage, setShowMessage } = useContext(messageContext);
-  let [newTeacherField, setNewTeacherField] = useState([1]);
   const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
   const [disabledEmailField, setDisabledEmailField] = useState(true);
+  const [valueOfTeachersFields, setValueOfTeachersFields] = useState([
+    { fullName: "", email: "", id: uuidv4(), deleteIcon: false },
+  ]);
   const [errors, setErrors] = useState([]);
   const handleTeacherNameChange = (teacherField, index) => {
     fieldsValue.teachers[index] = {
@@ -72,11 +80,17 @@ export default function AddTeacher() {
       fullName: "",
     };
     fieldsValue.teachers[index].fullName = event.target.value;
+    const _valueOfTeachersFields = [...valueOfTeachersFields];
+    _valueOfTeachersFields[index].fullName = event.target.value;
+    setValueOfTeachersFields([..._valueOfTeachersFields]);
     setDisabledEmailField(false);
   };
   const handleTeacherEmailChange = (event, teacherField, index) => {
     fieldsValue.teachers[index] = { ...fieldsValue.teachers[index], email: "" };
     fieldsValue.teachers[index].email = event.target.value;
+    const _valueOfTeachersFields = [...valueOfTeachersFields];
+    _valueOfTeachersFields[index].email = event.target.value;
+    setValueOfTeachersFields([..._valueOfTeachersFields]);
     if (!isValidEmail(event.target.value)) {
       const _errors = [...errors];
       _errors[index] = true;
@@ -91,19 +105,24 @@ export default function AddTeacher() {
   };
 
   function addTeacherField() {
-    newTeacherField = [...newTeacherField, newTeacherField.length + 1];
-    setNewTeacherField([...newTeacherField]);
     setDisabledSubmitButton(true);
+    const _valueOfTeachersFields = [...valueOfTeachersFields];
+    _valueOfTeachersFields[0].deleteIcon = true;
+    setValueOfTeachersFields([
+      ..._valueOfTeachersFields,
+      { fullName: "", email: "", id: uuidv4(), deleteIcon: true },
+    ]);
   }
 
   function removeTeacherField(teacherFieldId, index) {
-    if (newTeacherField.length > 1) {
-      newTeacherField = newTeacherField.filter(
-        (teacherField) => teacherField !== teacherFieldId
-      );
-      fieldsValue.teachers.splice(index, 1);
+    let _valueOfTeachersFields = valueOfTeachersFields.filter(
+      (teacherField) => teacherField !== teacherFieldId
+    );
+    fieldsValue.teachers.splice(index, 1);
+    if (_valueOfTeachersFields.length === 1) {
+      _valueOfTeachersFields[0].deleteIcon = false;
     }
-    setNewTeacherField([...newTeacherField]);
+    setValueOfTeachersFields([..._valueOfTeachersFields]);
   }
   return (
     <div className={styles.content}>
@@ -113,12 +132,13 @@ export default function AddTeacher() {
       )}
       {!showLoding && (
         <>
-          {newTeacherField.map((teacherField, index) => (
+          {valueOfTeachersFields.map((teacherField, index) => (
             <div key={teacherField}>
               <div className={styles.studentFieldDiv}>
                 <div className={styles.studentFieldNum}>{index + 1}</div>
 
                 <TextField
+                  value={valueOfTeachersFields[index].fullName}
                   className={styles.textField}
                   sx={{ width: "300px", margin: "10px" }}
                   autoFocus
@@ -129,6 +149,7 @@ export default function AddTeacher() {
                   required
                 />
                 <TextField
+                  value={valueOfTeachersFields[index].email}
                   className={styles.textField}
                   sx={{ width: "300px", margin: "10px" }}
                   type="email"
@@ -141,9 +162,15 @@ export default function AddTeacher() {
                     handleTeacherEmailChange(event, teacherField, index)
                   }
                 />
-                <DeleteIcon
-                  onClick={() => removeTeacherField(teacherField, index)}
-                />
+                {valueOfTeachersFields[index].deleteIcon && (
+                  <DeleteIcon
+                    style={{ width: "25px" }}
+                    onClick={() => removeTeacherField(teacherField, index)}
+                  />
+                )}
+                {!valueOfTeachersFields[index].deleteIcon && (
+                  <div style={{ width: "25px" }}></div>
+                )}
               </div>
               <Divider className={styles.divider} />
             </div>
@@ -168,7 +195,9 @@ export default function AddTeacher() {
                   fieldsValue,
                   setMessage,
                   setShowMessage,
-                  setShowLoding
+                  setShowLoding,
+                  setValueOfTeachersFields,
+                  setDisabledSubmitButton
                 )
               }
             >

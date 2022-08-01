@@ -109,6 +109,7 @@ function TestQuestions({ testId, setDoneTest }) {
   const [intervalId, setIntervalId] = useState(0);
   const [checked, setChecked] = useState([]);
   const { setMessage, setShowMessage } = useContext(messageContext);
+  const [showLoding, setShowLoding] = useState(false);
 
   const router = useRouter();
   const dataToServer = {
@@ -143,12 +144,14 @@ function TestQuestions({ testId, setDoneTest }) {
 
   async function goOn(test, intervalId, setIntervalId) {
     if (questionNum <= test.length) {
+      setShowLoding(true);
       await sendDataToServer(dataToServer, nextQuestion, answerTime);
       setNextQuestion(test[questionNum]);
       setQuestionNum(questionNum + 1);
       answerTime = 0;
       answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer);
       setChecked([]);
+      setShowLoding(false);
       if (questionNum === test.length) {
         setShowMessage(true);
         setMessage("Well done");
@@ -200,35 +203,42 @@ function TestQuestions({ testId, setDoneTest }) {
         <div className={styles.content}>
           <div className={styles.subTitle2}>Question: {questionNum}</div>
           <Divider className={styles.divider} />
-          <div className={styles.question}>{nextQuestion?.content} = ?</div>
-          {nextQuestion?.answers.map((answer, index) => (
-            <div className={styles.answer} key={answer.answerId}>
-              <Checkbox
-                sx={{
-                  "&.Mui-checked": {
-                    color: "#472CC0",
-                  },
-                }}
-                checked={checked[index]}
-                value={answer}
-                onChange={() => handleChange(event, answer)}
-                inputProps={{ "aria-label": "controlled" }}
-              />
-              <div className={styles.answerContent}>{answer.content}</div>
-            </div>
-          ))}
-          <div>
-            <Button
-              className={styles.submitButton}
-              sx={{ marginTop: "25px" }}
-              key="goOn"
-              title="Go to the next question"
-              variant="contained"
-              onClick={() => goOn(test, intervalId, setIntervalId)}
-            >
-              Go on!
-            </Button>
-          </div>
+          {showLoding && (
+            <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+          )}
+          {!showLoding && (
+            <>
+              <div className={styles.question}>{nextQuestion?.content} = ?</div>
+              {nextQuestion?.answers.map((answer, index) => (
+                <div className={styles.answer} key={answer.answerId}>
+                  <Checkbox
+                    sx={{
+                      "&.Mui-checked": {
+                        color: "#472CC0",
+                      },
+                    }}
+                    checked={checked[index]}
+                    value={answer}
+                    onChange={() => handleChange(event, answer)}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                  <div className={styles.answerContent}>{answer.content}</div>
+                </div>
+              ))}
+              <div>
+                <Button
+                  className={styles.submitButton}
+                  sx={{ marginTop: "25px" }}
+                  key="goOn"
+                  title="Go to the next question"
+                  variant="contained"
+                  onClick={() => goOn(test, intervalId, setIntervalId)}
+                >
+                  Go on!
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       )}
     </>
