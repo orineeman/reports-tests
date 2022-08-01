@@ -47,11 +47,15 @@ const CheckAuth = ({ children, authAdmin, authStudents, authTeachers }) => {
     if (isLoading) {
       return (
         <div
-          style={{ height: "100vh", width: "100vw", border: "1px solid red" }}
+          style={{
+            height: "100vh",
+            width: "100vw",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <CircularProgress
-            style={{ margin: "auto", color: "rgba(133, 64, 245, 0.97)" }}
-          />
+          <CircularProgress style={{ color: "rgba(133, 64, 245, 0.97)" }} />
         </div>
       );
     } else {
