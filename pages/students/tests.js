@@ -54,7 +54,7 @@ export default function TestsOfStudents() {
           <Button
             className={styles.submitButton}
             variant="contained"
-            sx={{ margin: "15px" }}
+            sx={{ margin: "15px", background: "rgba(133, 64, 245, 0.97)" }}
             key="submit"
             type="submit"
             disabled={disabled}

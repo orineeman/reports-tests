@@ -188,6 +188,10 @@ function TestQuestions({ testId, setDoneTest }) {
           <div className={styles.submitDiv}>
             <Button
               className={styles.submitButton}
+              sx={{
+                marginTop: "25px",
+                background: "rgba(133, 64, 245, 0.97)",
+              }}
               title="click to start the test"
               variant="contained"
               onClick={() =>
@@ -228,7 +232,10 @@ function TestQuestions({ testId, setDoneTest }) {
               <div>
                 <Button
                   className={styles.submitButton}
-                  sx={{ marginTop: "25px" }}
+                  sx={{
+                    marginTop: "25px",
+                    background: "rgba(133, 64, 245, 0.97)",
+                  }}
                   key="goOn"
                   title="Go to the next question"
                   variant="contained"
