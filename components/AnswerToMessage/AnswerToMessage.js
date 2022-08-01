@@ -178,6 +178,9 @@ export default function AnswerToMessage({
             <DialogActions>
               <Button
                 className={styles.btn}
+                sx={{
+                  color: "#140b53",
+                }}
                 onClick={() =>
                   updateMassege(
                     changesToUpdate,
@@ -195,6 +198,9 @@ export default function AnswerToMessage({
               </Button>
               <Button
                 className={styles.btn}
+                sx={{
+                  color: "#140b53",
+                }}
                 onClick={() =>
                   deleteMassege(
                     messageIdToUpdate,
@@ -210,6 +216,9 @@ export default function AnswerToMessage({
               </Button>
               <Button
                 className={styles.btn}
+                sx={{
+                  color: "#140b53",
+                }}
                 onClick={() =>
                   updateMassege(
                     changesToUpdate,

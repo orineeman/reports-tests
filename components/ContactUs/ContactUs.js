@@ -92,6 +92,7 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
         </div>
         <Button
           disabled={disabled}
+          sx={{ background: "rgba(133, 64, 245, 0.97)" }}
           className={styles.sendButton}
           variant="outlined"
           key="send message"
@@ -109,6 +110,7 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
         </Button>
         <Button
           className={styles.closeBtn}
+          sx={{ color: "#140b53" }}
           onClick={() => close(setOpenDrawer)}
         >
           close

@@ -1,5 +1,7 @@
 .footerdDiv {
-  justify-content: center;
+  margin: auto;
+  width: 50vw;
+  justify-content: space-evenly;
 }
 .footer {
   margin-left: -8px;

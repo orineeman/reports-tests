@@ -166,10 +166,15 @@ export default function UpdateQuestion({
               </div>
             </DialogContent>
             <DialogActions>
-              <Button className={styles.btn} onClick={handleCloseDialog}>
+              <Button
+                className={styles.btn}
+                onClick={handleCloseDialog}
+                sx={{ color: "#140b53" }}
+              >
                 Cancel
               </Button>
               <Button
+                sx={{ color: "#140b53" }}
                 className={styles.btn}
                 onClick={() =>
                   deleteQuestion(
@@ -185,6 +190,7 @@ export default function UpdateQuestion({
                 Delete question
               </Button>
               <Button
+                sx={{ color: "#140b53" }}
                 className={styles.btn}
                 onClick={() =>
                   updateQuestion(

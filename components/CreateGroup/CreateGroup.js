@@ -133,7 +133,11 @@ export default function CreateGroup() {
               disabled={disabledSubmitButton}
               className={styles.submitButton}
               variant="contained"
-              sx={{ margin: "15px", width: "150px" }}
+              sx={{
+                margin: "15px",
+                width: "150px",
+                background: "rgba(133, 64, 245, 0.97)",
+              }}
               key="submit"
               type="submit"
               onClick={() => sendGroupToServer(fieldsValue, email, teacherName)}

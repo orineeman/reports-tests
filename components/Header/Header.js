@@ -58,6 +58,7 @@ export default function Header() {
         {!signIn && (
           <Button
             className={styles.signIn}
+            sx={{ color: "#140b53" }}
             onClick={() => logIn(setSignIn, session)}
           >
             <p className={styles.signInText} style={{ marginRight: 4 }}>
@@ -69,6 +70,7 @@ export default function Header() {
         {signIn && (
           <Button
             className={styles.signIn}
+            sx={{ color: "#140b53" }}
             style={{}}
             onClick={() => {
               logOut(setSignIn);

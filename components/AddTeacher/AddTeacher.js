@@ -186,6 +186,9 @@ export default function AddTeacher() {
           <div className={styles.submitDiv}>
             <Button
               disabled={disabledSubmitButton}
+              sx={{
+                background: "rgba(136, 67, 248, 0.97)",
+              }}
               variant="contained"
               className={styles.submitButton}
               key="submit"

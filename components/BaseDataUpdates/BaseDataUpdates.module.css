@@ -30,17 +30,11 @@
   display: flex;
   justify-content: space-evenly;
 }
-.updateBtns {
-  width: 150px;
-  color: rgba(138, 70, 246, 0.97);
-  border-color: rgba(136, 67, 248, 0.97);
-}
 .addButton {
   padding: 6px 32px;
   gap: 8px;
   width: 15vw;
   height: 7vh;
-  background-color: rgba(133, 64, 245, 0.97);
   border-radius: 4px;
 }
 .addButton:hover {
@@ -53,7 +47,7 @@
   gap: 8px;
   width: 10vw;
   height: 7vh;
-  background: rgba(133, 64, 245, 0.97);
+  /* background: rgba(133, 64, 245, 0.97); */
   border-radius: 4px;
 }
 .saveButton:hover {

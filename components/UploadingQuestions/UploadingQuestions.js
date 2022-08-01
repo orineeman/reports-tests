@@ -134,6 +134,7 @@ export default function UploadingQuestions() {
           />
           <div className={styles.submitDiv}>
             <Button
+              sx={{ background: "rgba(133, 64, 245, 0.97)" }}
               className={styles.submitButton}
               variant="contained"
               key="submit"

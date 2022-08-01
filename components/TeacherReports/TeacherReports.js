@@ -158,6 +158,7 @@ export default function TeacherReports() {
         <Button
           variant="contained"
           className={styles.submitButton}
+          sx={{ background: "rgba(133, 64, 245, 0.97)" }}
           key="Search"
           type="Search"
           onClick={() =>

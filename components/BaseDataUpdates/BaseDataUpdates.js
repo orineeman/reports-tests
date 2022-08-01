@@ -89,7 +89,11 @@ export default function BaseDataUpdates() {
       <div className={styles.updateBtnsDiv}>
         <Button
           className={styles.updateBtns}
-          sx={{ borderColor: "rgba(136, 67, 248, 0.97)" }}
+          sx={{
+            borderColor: "rgba(136, 67, 248, 0.97)",
+            width: "11vw",
+            color: "rgba(138, 70, 246, 0.97)",
+          }}
           variant="outlined"
           key="permissions"
           type="permissions"
@@ -107,7 +111,11 @@ export default function BaseDataUpdates() {
           Permissions
         </Button>
         <Button
-          style={{ borderColor: "rgba(136, 67, 248, 0.97)" }}
+          sx={{
+            borderColor: "rgba(136, 67, 248, 0.97)",
+            width: "11vw",
+            color: "rgba(138, 70, 246, 0.97)",
+          }}
           className={styles.updateBtns}
           variant="outlined"
           key="ages"
@@ -127,6 +135,11 @@ export default function BaseDataUpdates() {
         </Button>
         <Button
           className={styles.updateBtns}
+          sx={{
+            borderColor: "rgba(136, 67, 248, 0.97)",
+            width: "11vw",
+            color: "rgba(138, 70, 246, 0.97)",
+          }}
           variant="outlined"
           key="subjects"
           type="subjects"
@@ -145,6 +158,11 @@ export default function BaseDataUpdates() {
         </Button>
         <Button
           className={styles.updateBtns}
+          sx={{
+            borderColor: "rgba(136, 67, 248, 0.97)",
+            width: "11vw",
+            color: "rgba(138, 70, 246, 0.97)",
+          }}
           variant="outlined"
           key="difficulties"
           type="difficulties"
@@ -173,8 +191,12 @@ export default function BaseDataUpdates() {
       <div>
         <Button
           className={styles.addButton}
+          sx={{
+            background: "rgba(136, 67, 248, 0.97)",
+            width: "11vw",
+            margin: "15px",
+          }}
           variant="contained"
-          sx={{ margin: "15px" }}
           key="AddButton"
           type="AddButton"
           disabled={disabledAddButton}
@@ -204,7 +226,11 @@ export default function BaseDataUpdates() {
         <Button
           className={styles.saveButton}
           variant="contained"
-          sx={{ margin: "15px" }}
+          sx={{
+            background: "rgba(136, 67, 248, 0.97)",
+            width: "11vw",
+            margin: "15px",
+          }}
           key="save"
           type="save"
           disabled={disabledSaveButton}

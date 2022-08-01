@@ -69,6 +69,7 @@ export default function CheckNewQuestions() {
           <div className={styles.submitDiv}>
             <Button
               className={styles.submitButton}
+              sx={{ background: "rgba(133, 64, 245, 0.97)" }}
               variant="contained"
               key="confirm"
               type="confirm"
