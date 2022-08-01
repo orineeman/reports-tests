@@ -208,7 +208,9 @@ function TestQuestions({ testId, setDoneTest }) {
           <div className={styles.subTitle2}>Question: {questionNum}</div>
           <Divider className={styles.divider} />
           {showLoading && (
-            <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+            <CircularProgress
+              sx={{ color: "rgba(133, 64, 245, 0.97)", margin: "7vw" }}
+            />
           )}
           {!showLoading && (
             <>
