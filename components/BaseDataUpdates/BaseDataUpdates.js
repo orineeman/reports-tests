@@ -86,9 +86,10 @@ export default function BaseDataUpdates() {
         Select the data you want to update, and click the field you want to
         update or delete
       </div>
-      <div>
+      <div className={styles.updateBtnsDiv}>
         <Button
           className={styles.updateBtns}
+          sx={{ borderColor: "rgba(136, 67, 248, 0.97)" }}
           variant="outlined"
           key="permissions"
           type="permissions"
@@ -106,6 +107,7 @@ export default function BaseDataUpdates() {
           Permissions
         </Button>
         <Button
+          style={{ borderColor: "rgba(136, 67, 248, 0.97)" }}
           className={styles.updateBtns}
           variant="outlined"
           key="ages"
