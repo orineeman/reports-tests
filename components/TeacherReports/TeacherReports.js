@@ -149,7 +149,7 @@ export default function TeacherReports() {
           disablePortal
           id="test-name-field"
           options={testsList}
-          sx={{ width: "23vw", marginTop: "20px" }}
+          sx={{ width: "23vw", marginTop: "20px", marginBottom: "20px" }}
           renderInput={(params) => (
             <TextField {...params} label="Search by test name" />
           )}

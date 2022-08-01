@@ -18,9 +18,9 @@
 }
 
 .sendButton {
+  align-self: center;
   margin-top: 4vh;
   margin-bottom: 4vh;
-  margin-left: 4vh;
   padding: 6px 32px;
   color: #ffffff;
   gap: 8px;
@@ -35,6 +35,8 @@
   cursor: pointer;
 }
 .closeBtn {
+  align-self: flex-end;
+  margin-top: 4vh;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 500;

@@ -32,6 +32,7 @@
   color: #140b53;
   font-weight: 700;
   text-transform: capitalize;
+  cursor: pointer;
 }
 .hello {
   font-family: Roboto;

@@ -48,7 +48,7 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
   }
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Drawer
         anchor={anchor}
         open={openDrawer}
@@ -81,7 +81,12 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
         />
         <div
           className={styles.drowerTitle}
-          style={{ width: 200, marginTop: 50, marginLeft: 30 }}
+          style={{
+            width: 200,
+            marginTop: 50,
+            marginLeft: 30,
+            marginBottom: 50,
+          }}
         >
           We appreciate it
         </div>
