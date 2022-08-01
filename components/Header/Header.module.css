@@ -22,6 +22,7 @@
 }
 .logoText {
   text-decoration: none;
+  cursor: pointer;
 }
 .logo {
   font-family: Roboto;
