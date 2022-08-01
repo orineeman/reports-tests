@@ -20,12 +20,12 @@ function sendTeachersToServer(
   fieldsValue,
   setMessage,
   setShowMessage,
-  setShowLoding,
+  setShowLoading,
   setValueOfTeachersFields,
   setDisabledSubmitButton
 ) {
   if (fieldValidations(fieldsValue)) {
-    setShowLoding(true);
+    setShowLoading(true);
     fetch("/api/admin", {
       method: "POST",
       body: JSON.stringify(fieldsValue.teachers),
@@ -37,7 +37,7 @@ function sendTeachersToServer(
           setMessage(
             "All teachers received permission, and an email was sent to the permissions holders"
           );
-          setShowLoding(false);
+          setShowLoading(false);
           fieldsValue.teachers = [];
           setDisabledSubmitButton(true);
           setValueOfTeachersFields([{ fullName: "", email: "", id: uuidv4() }]);
@@ -65,7 +65,7 @@ function isValidEmail(email) {
 }
 
 export default function AddTeacher() {
-  const [showLoding, setShowLoding] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const { setMessage, setShowMessage } = useContext(messageContext);
   const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
@@ -127,10 +127,10 @@ export default function AddTeacher() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Add teacher permission</div>
-      {showLoding && (
+      {showLoading && (
         <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
       )}
-      {!showLoding && (
+      {!showLoading && (
         <>
           {valueOfTeachersFields.map((teacherField, index) => (
             <div key={teacherField}>
@@ -195,7 +195,7 @@ export default function AddTeacher() {
                   fieldsValue,
                   setMessage,
                   setShowMessage,
-                  setShowLoding,
+                  setShowLoading,
                   setValueOfTeachersFields,
                   setDisabledSubmitButton
                 )

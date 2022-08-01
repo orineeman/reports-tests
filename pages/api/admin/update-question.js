@@ -6,27 +6,31 @@ import Student from "../../../models/student";
 const handler = async (req, res) => {
   if (req.method === "GET") {
     const questionId = req.headers.questionid;
-
+    let resData = {};
     const question = await Question.findById(questionId).populate([
       "age",
       "subject",
       "difficulty",
       "answers",
     ]);
+    console.log("question", question);
+    const numberOfResponses = question.answers[0].statistics.numberOfResponses;
     const responsesTime = await Student.find({
       "tests.questions.questionId": questionId,
     }).select("tests.questions.responseTime");
 
-    const allResponsesTimes = [];
-    for (let question of responsesTime[0].tests) {
-      for (let responses of question.questions) {
-        allResponsesTimes.push(responses.responseTime);
+    let averageResponsesTime = 0;
+    if (numberOfResponses > 0) {
+      const allResponsesTimes = [];
+      for (let question of responsesTime[0].tests) {
+        for (let responses of question.questions) {
+          allResponsesTimes.push(responses.responseTime);
+        }
       }
+      averageResponsesTime =
+        allResponsesTimes.reduce((a, b) => a + b, 0) / allResponsesTimes.length;
     }
-    const averageResponsesTime =
-      allResponsesTimes.reduce((a, b) => a + b, 0) / allResponsesTimes.length;
-    const numberOfResponses = question.answers[0].statistics.numberOfResponses;
-    const resData = {
+    resData = {
       question,
       answers: question.answers,
       averageResponsesTime,
@@ -36,6 +40,7 @@ const handler = async (req, res) => {
     res.send(resData);
   } else if (req.method === "PATCH") {
     const dataToUpdate = JSON.parse(req.body);
+    console.log("dataToUpdate", dataToUpdate);
     const {
       questionId,
       answerContent,
@@ -60,9 +65,11 @@ const handler = async (req, res) => {
     }
     if (answerContent) {
       const answersId = Object.keys(answerContent);
+      console.log("answersId", answersId);
       for (let answerId of answersId) {
+        console.log("answerContent.answersId");
         await Answer.findByIdAndUpdate(answerId, {
-          content: answerContent.answerId,
+          content: answerContent[answersId],
         });
       }
     }

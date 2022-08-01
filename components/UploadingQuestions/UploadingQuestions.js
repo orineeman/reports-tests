@@ -42,14 +42,14 @@ export default function UploadingQuestions() {
     { content: "", id: uuidv4(), deleteIcon: false },
   ]);
   const { setMessage, setShowMessage } = useContext(messageContext);
-  const [showLoding, setShowLoding] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     getDataFromServer(
       setAgesArr,
       setSubjectsArr,
       setDifficultiesArr,
-      setShowLoding
+      setShowLoading
     );
   }, []);
 
@@ -69,7 +69,7 @@ export default function UploadingQuestions() {
       fieldsValue.answers[0] &&
       checkboxValidation(fieldsValue.answers)
     ) {
-      setShowLoding(true);
+      setShowLoading(true);
       fetch("/api/question", {
         method: "POST",
         body: JSON.stringify(fieldsValue),
@@ -85,7 +85,7 @@ export default function UploadingQuestions() {
           setMessage(
             "Your question has been sent successfully, It will be checked soon by the webmaster, and then uploaded to the database"
           );
-          setShowLoding(false);
+          setShowLoading(false);
         })
         .catch(() => console.log("error"));
     } else {
@@ -100,10 +100,10 @@ export default function UploadingQuestions() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Add questions</div>
-      {showLoding && (
+      {showLoading && (
         <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
       )}
-      {!showLoding && (
+      {!showLoading && (
         <>
           <div className={styles.selectsDiv}>
             <div>

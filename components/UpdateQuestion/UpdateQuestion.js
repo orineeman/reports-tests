@@ -15,7 +15,7 @@ import messageContext from "../../Context/messageContext";
 function getQuesionFromServer(
   questionIdToUpdate,
   setQuestionData,
-  setShowLoding
+  setShowLoading2
 ) {
   fetch("/api/admin/update-question", {
     method: "GET",
@@ -24,7 +24,7 @@ function getQuesionFromServer(
     .then((res) => res.json())
     .then((questionAndAnswers) => {
       setQuestionData(questionAndAnswers);
-      setShowLoding(false);
+      setShowLoading2(false);
     })
     .catch(() => console.log("error"));
 }
@@ -42,7 +42,9 @@ function updateQuestion(
   changesToUpdate,
   handleCloseDialog,
   setMessage,
-  setShowMessage
+  setShowMessage,
+  getQuestionDataFromServer,
+  setShowLoading
 ) {
   fetch("/api/admin/update-question", {
     method: "PATCH",
@@ -51,16 +53,20 @@ function updateQuestion(
     .then(() => {
       setShowMessage(true);
       setMessage("The question has been successfully updated");
-      getDataFromServer();
+      getQuestionDataFromServer();
+      handleCloseDialog();
+      setShowLoading(true);
     })
     .catch(() => console.log("error"));
-  handleCloseDialog();
 }
+
 function deleteQuestion(
   questionIdToUpdate,
   handleCloseDialog,
   setMessage,
-  setShowMessage
+  setShowMessage,
+  getQuestionDataFromServer,
+  setShowLoading
 ) {
   fetch("/api/admin/update-question", {
     method: "DELETE",
@@ -69,34 +75,42 @@ function deleteQuestion(
     .then(() => {
       setShowMessage(true);
       setMessage("The question has been successfully deleted");
+      getQuestionDataFromServer();
+      handleCloseDialog();
+      setShowLoading(true);
     })
     .catch(() => console.log("error"));
-  handleCloseDialog();
 }
-export default function UploadingQuestions({
+export default function UpdateQuestion({
   openUpdateQuestionDialog,
   setOpenUpdateQuestionDialog,
   questionIdToUpdate,
+  getQuestionDataFromServer,
+  setShowLoading,
 }) {
   const [agesArr, setAgesArr] = useState([]);
   const [subjectsArr, setSubjectsArr] = useState([]);
   const [difficultiesArr, setDifficultiesArr] = useState([]);
   const [questionData, setQuestionData] = useState({});
   const { setMessage, setShowMessage } = useContext(messageContext);
-  const [showLoding, setShowLoding] = useState(true);
+  const [showLoading2, setShowLoading2] = useState(true);
 
   changesToUpdate.questionId = questionIdToUpdate;
 
   useEffect(() => {
     if (questionIdToUpdate) {
-      getQuesionFromServer(questionIdToUpdate, setQuestionData, setShowLoding);
+      getQuesionFromServer(
+        questionIdToUpdate,
+        setQuestionData,
+        setShowLoading2
+      );
       getDataFromServer(setAgesArr, setSubjectsArr, setDifficultiesArr);
     }
   }, [questionIdToUpdate]);
 
   const handleCloseDialog = () => {
     setOpenUpdateQuestionDialog(false);
-    setShowLoding(true);
+    setShowLoading2(true);
   };
 
   return (
@@ -107,12 +121,12 @@ export default function UploadingQuestions({
         open={openUpdateQuestionDialog}
         onClose={handleCloseDialog}
       >
-        {showLoding && (
+        {showLoading2 && (
           <CircularProgress
             style={{ margin: "auto", color: "rgba(133, 64, 245, 0.97)" }}
           />
         )}
-        {!showLoding && (
+        {!showLoading2 && (
           <>
             <DialogTitle className={styles.title}>Question update</DialogTitle>
             <DialogContent>
@@ -162,7 +176,9 @@ export default function UploadingQuestions({
                     questionIdToUpdate,
                     handleCloseDialog,
                     setMessage,
-                    setShowMessage
+                    setShowMessage,
+                    getQuestionDataFromServer,
+                    setShowLoading
                   )
                 }
               >
@@ -175,7 +191,9 @@ export default function UploadingQuestions({
                     changesToUpdate,
                     handleCloseDialog,
                     setMessage,
-                    setShowMessage
+                    setShowMessage,
+                    getQuestionDataFromServer,
+                    setShowLoading
                   )
                 }
               >

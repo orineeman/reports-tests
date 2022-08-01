@@ -10,7 +10,7 @@ export default function MessageBox() {
   const [openAnswerToMessageDialog, setOpenAnswerToMessageDialog] =
     useState(false);
   const [messageIdToUpdate, setMessageIdToUpdate] = useState("");
-  const [showLoding, setShowLoding] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
   const [allMessages, setAllMessages] = useState([]);
 
   const handleClickAnswerToMessageDialog = (messageId) => {
@@ -26,7 +26,7 @@ export default function MessageBox() {
       .then((res) => res.json())
       .then((allMessages) => {
         setAllMessages(allMessages);
-        setShowLoding(false);
+        setShowLoading(false);
       })
       .catch(() => console.log("error"));
   }
@@ -35,10 +35,10 @@ export default function MessageBox() {
     <div className={styles.content}>
       <div className={styles.title}>Message box</div>
 
-      {showLoding && (
+      {showLoading && (
         <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
       )}
-      {!showLoding && (
+      {!showLoading && (
         <>
           <div className={styles.subTitle}>
             Click on a message to read & answer:

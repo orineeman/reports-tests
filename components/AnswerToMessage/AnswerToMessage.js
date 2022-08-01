@@ -11,7 +11,7 @@ import styles from "./AnswerToMessage.module.css";
 
 function getMessageFromServer(
   messageIdToUpdate,
-  setShowLoding,
+  setShowLoading,
   setTeacherMessage
 ) {
   fetch("/api/contact-us", {
@@ -21,7 +21,7 @@ function getMessageFromServer(
     .then((res) => res.json())
     .then((teacherMessage) => {
       setTeacherMessage(teacherMessage);
-      setShowLoding(false);
+      setShowLoading(false);
     })
     .catch(() => console.log("error"));
 }
@@ -91,20 +91,24 @@ export default function AnswerToMessage({
 }) {
   const { setMessage, setShowMessage } = useContext(messageContext);
   const { getNumOfNewMessages, setNumOfMessages } = useContext(adminContext);
-  const [showLoding, setShowLoding] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
   const [teacherMessage, setTeacherMessage] = useState();
 
   changesToUpdate.messageId = messageIdToUpdate;
 
   useEffect(() => {
     if (messageIdToUpdate) {
-      getMessageFromServer(messageIdToUpdate, setShowLoding, setTeacherMessage);
+      getMessageFromServer(
+        messageIdToUpdate,
+        setShowLoading,
+        setTeacherMessage
+      );
     }
   }, [messageIdToUpdate]);
 
   const handleCloseDialog = () => {
     setOpenAnswerToMessageDialog(false);
-    setShowLoding(true);
+    setShowLoading(true);
   };
 
   return (
@@ -126,12 +130,12 @@ export default function AnswerToMessage({
           )
         }
       >
-        {showLoding && (
+        {showLoading && (
           <CircularProgress
             style={{ margin: "auto", color: "rgba(133, 64, 245, 0.97)" }}
           />
         )}
-        {!showLoding && (
+        {!showLoading && (
           <>
             <DialogTitle className={styles.title}>
               Sending a reply to the teacher

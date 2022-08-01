@@ -1,28 +1,17 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import UploadingQuestions from "../UpdateQuestion/UpdateQuestion";
+import UpdateQuestion from "../UpdateQuestion/UpdateQuestion";
 import { CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import clsx from "clsx";
 import styles from "./AdminReports.module.css";
 
-function getDataFromServer(setAllQuestions, setShowLoding) {
-  fetch(`/api/admin/admin-reports`)
-    .then((res) => res.json())
-    .then((allQuestions) => {
-      console.log("allQuestions", allQuestions);
-      setAllQuestions(allQuestions);
-      setShowLoding(false);
-    })
-    .catch(() => console.log("error"));
-}
-
 export default function AdminReports() {
   const [openUpdateQuestionDialog, setOpenUpdateQuestionDialog] =
     useState(false);
   const [questionIdToUpdate, setQuestionIdToUpdate] = useState("");
-  const [showLoding, setShowLoding] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
   const handleClickUpdateQuestionDialog = (questionId) => {
     console.log("questionId", questionId);
@@ -38,18 +27,28 @@ export default function AdminReports() {
   }
   useEffect(() => {
     if (email) {
-      getDataFromServer(setAllQuestions, setShowLoding);
+      getQuestionDataFromServer();
     }
   }, [email]);
+
+  function getQuestionDataFromServer() {
+    fetch(`/api/admin/admin-reports`)
+      .then((res) => res.json())
+      .then((allQuestions) => {
+        setAllQuestions(allQuestions);
+        setShowLoading(false);
+      })
+      .catch(() => console.log("error"));
+  }
 
   return (
     <div className={styles.content}>
       <div className={styles.title}>Question & answers reports</div>
 
-      {showLoding && (
+      {showLoading && (
         <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
       )}
-      {!showLoding && (
+      {!showLoading && (
         <>
           <div className={styles.subTitle}>
             Click on a question to update its data:
@@ -61,6 +60,8 @@ export default function AdminReports() {
               openUpdateQuestionDialog={openUpdateQuestionDialog}
               setOpenUpdateQuestionDialog={setOpenUpdateQuestionDialog}
               questionIdToUpdate={questionIdToUpdate}
+              getQuestionDataFromServer={getQuestionDataFromServer}
+              setShowLoading={setShowLoading}
             />
           </div>
         </>
@@ -75,6 +76,8 @@ function DataTable({
   setOpenUpdateQuestionDialog,
   allQuestions,
   questionIdToUpdate,
+  getQuestionDataFromServer,
+  setShowLoading,
 }) {
   const columns = [
     {
@@ -180,10 +183,12 @@ function DataTable({
           />
         </Box>
       </div>
-      <UploadingQuestions
+      <UpdateQuestion
         openUpdateQuestionDialog={openUpdateQuestionDialog}
         setOpenUpdateQuestionDialog={setOpenUpdateQuestionDialog}
         questionIdToUpdate={questionIdToUpdate}
+        getQuestionDataFromServer={getQuestionDataFromServer}
+        setShowLoading={setShowLoading}
       />
     </>
   );

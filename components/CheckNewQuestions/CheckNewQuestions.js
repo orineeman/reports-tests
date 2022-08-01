@@ -20,11 +20,11 @@ const confirmQuestions = (
   QuestionsIdForUpdate,
   setMessage,
   setShowMessage,
-  setShowLoding,
+  setShowLoading,
   setShowQuestions
 ) => {
   if (QuestionsIdForUpdate.questions[0]) {
-    setShowLoding(true);
+    setShowLoading(true);
     fetch("/api/question", {
       method: "PATCH",
       headers: { pleaseGet: "newQuestions" },
@@ -35,7 +35,7 @@ const confirmQuestions = (
         setShowMessage(true);
         setMessage("The questions moved to the repository successfully");
         getDataFromServer(setShowQuestions);
-        setShowLoding(false);
+        setShowLoading(false);
       })
       .catch(() => console.log("error"));
   } else {
@@ -48,7 +48,7 @@ export default function CheckNewQuestions() {
   const QuestionsIdForUpdate = { questions: [] };
   const [showQuestions, setShowQuestions] = useState([]);
   const { setMessage, setShowMessage } = useContext(messageContext);
-  const [showLoding, setShowLoding] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     getDataFromServer(setShowQuestions);
@@ -57,10 +57,10 @@ export default function CheckNewQuestions() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Check new questions</div>
-      {showLoding && (
+      {showLoading && (
         <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
       )}
-      {!showLoding && (
+      {!showLoading && (
         <>
           <DataTable
             questions={showQuestions}
@@ -77,7 +77,7 @@ export default function CheckNewQuestions() {
                   QuestionsIdForUpdate,
                   setMessage,
                   setShowMessage,
-                  setShowLoding,
+                  setShowLoading,
                   setShowQuestions
                 )
               }

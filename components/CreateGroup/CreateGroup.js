@@ -28,7 +28,7 @@ function fieldValidations(fieldsValue) {
 
 export default function CreateGroup() {
   const { setMessage, setShowMessage } = useContext(messageContext);
-  const [showLoding, setShowLoding] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
   const [valueOfGroupNameField, setValueOfGroupNameField] = useState("");
   const [valueOfStudentsFields, setValueOfStudentsFields] = useState([
@@ -57,7 +57,7 @@ export default function CreateGroup() {
     } else {
       let groupIdAndEmail = {};
       if (fieldValidations(fieldsValue) && fieldsValue.label) {
-        setShowLoding(true);
+        setShowLoading(true);
         try {
           const json = await fetch("/api/group", {
             method: "POST",
@@ -82,7 +82,7 @@ export default function CreateGroup() {
         } catch (err) {
           console.log("error", err);
         }
-        setShowLoding(false);
+        setShowLoading(false);
         fieldsValue.students = [];
         fieldsValue.label = "";
         setValueOfGroupNameField("");
@@ -102,10 +102,10 @@ export default function CreateGroup() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Create group</div>
-      {showLoding && (
+      {showLoading && (
         <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
       )}
-      {!showLoding && (
+      {!showLoading && (
         <>
           <TextField
             className={styles.groupName}

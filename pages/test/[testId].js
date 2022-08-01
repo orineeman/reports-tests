@@ -109,7 +109,7 @@ function TestQuestions({ testId, setDoneTest }) {
   const [intervalId, setIntervalId] = useState(0);
   const [checked, setChecked] = useState([]);
   const { setMessage, setShowMessage } = useContext(messageContext);
-  const [showLoding, setShowLoding] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const router = useRouter();
   const dataToServer = {
@@ -144,14 +144,14 @@ function TestQuestions({ testId, setDoneTest }) {
 
   async function goOn(test, intervalId, setIntervalId) {
     if (questionNum <= test.length) {
-      setShowLoding(true);
+      setShowLoading(true);
       await sendDataToServer(dataToServer, nextQuestion, answerTime);
       setNextQuestion(test[questionNum]);
       setQuestionNum(questionNum + 1);
       answerTime = 0;
       answerTimeCount(intervalId, setIntervalId, answerTime, dataToServer);
       setChecked([]);
-      setShowLoding(false);
+      setShowLoading(false);
       if (questionNum === test.length) {
         setShowMessage(true);
         setMessage("Well done");
@@ -203,10 +203,10 @@ function TestQuestions({ testId, setDoneTest }) {
         <div className={styles.content}>
           <div className={styles.subTitle2}>Question: {questionNum}</div>
           <Divider className={styles.divider} />
-          {showLoding && (
+          {showLoading && (
             <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
           )}
-          {!showLoding && (
+          {!showLoading && (
             <>
               <div className={styles.question}>{nextQuestion?.content} = ?</div>
               {nextQuestion?.answers.map((answer, index) => (

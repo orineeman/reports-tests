@@ -22,12 +22,12 @@ const submitTest = async (
   setMessage,
   setShowMessage,
   setTestNameField,
-  setShowLoding
+  setShowLoading
 ) => {
   let testIdAndEmail = {};
   console.log(QuestionsIdForTest);
   if (QuestionsIdForTest.questions && QuestionsIdForTest.label) {
-    setShowLoding(true);
+    setShowLoading(true);
     try {
       const json = await fetch("/api/test", {
         method: "POST",
@@ -49,7 +49,7 @@ const submitTest = async (
       await json2.json();
       setShowMessage(true);
       setMessage("The test was saved successfully");
-      setShowLoding(false);
+      setShowLoading(false);
     } catch (err) {
       console.log("error", err);
     }
@@ -63,7 +63,7 @@ const questionsIdForTest = { questions: [], label: "" };
 export default function CreateTests() {
   const { setMessage, setShowMessage } = useContext(messageContext);
   const [testNameField, setTestNameField] = useState("");
-  const [showLoding, setShowLoding] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const { data: session } = useSession();
   let email = "";
@@ -82,10 +82,10 @@ export default function CreateTests() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Create Tests</div>
-      {showLoding && (
+      {showLoading && (
         <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
       )}
-      {!showLoding && (
+      {!showLoading && (
         <>
           <TextField
             value={testNameField}
@@ -116,7 +116,7 @@ export default function CreateTests() {
                   setMessage,
                   setShowMessage,
                   setTestNameField,
-                  setShowLoding
+                  setShowLoading
                 )
               }
             >

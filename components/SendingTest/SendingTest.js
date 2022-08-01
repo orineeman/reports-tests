@@ -40,7 +40,7 @@ const fieldsValue = {
 export default function SendingTest() {
   const { setMessage, setShowMessage } = useContext(messageContext);
 
-  const [showLoding, setShowLoding] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const [testsArr, setTestsArr] = useState([]);
   const [groupsArr, setGroupsArr] = useState([]);
   const { data: session } = useSession();
@@ -71,14 +71,14 @@ export default function SendingTest() {
       fieldsValue.email &&
       fieldsValue.teacherName
     ) {
-      setShowLoding(true);
+      setShowLoading(true);
       fetch("/api/sendtest", {
         method: "POST",
         body: JSON.stringify(fieldsValue),
       })
         .then((res) => res.json())
         .then(() => {
-          setShowLoding(false);
+          setShowLoading(false);
           setShowMessage(true);
           setMessage("Your test is sent to students");
           fieldsValue.testId = "";
@@ -87,7 +87,7 @@ export default function SendingTest() {
         })
         .catch(() => console.log("error"));
     } else {
-      setShowLoding(false);
+      setShowLoading(false);
       setShowMessage(true);
       setMessage("Please select group and test");
     }
@@ -96,10 +96,10 @@ export default function SendingTest() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Sending a test to students</div>
-      {showLoding && (
+      {showLoading && (
         <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
       )}
-      {!showLoding && (
+      {!showLoading && (
         <>
           <div className={styles.subTitle}>
             Select a test and group and click Submit
