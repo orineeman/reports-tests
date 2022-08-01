@@ -1,8 +1,9 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
-import { Button, Grid, Link } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import Link from "next/link";
 async function userConnection(user) {
   user ? true : false;
 }
