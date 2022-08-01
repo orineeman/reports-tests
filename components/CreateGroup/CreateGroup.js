@@ -1,10 +1,10 @@
-import { Button, Divider, TextField } from "@mui/material";
-import { useContext, useState } from "react";
-import styles from "./CreateGroup.module.css";
-import { useSession } from "next-auth/react";
-import messageContext from "../../Context/messageContext";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Button, CircularProgress, Divider, TextField } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import messageContext from "../../Context/messageContext";
+import styles from "./CreateGroup.module.css";
 
 const fieldsValue = {
   students: [],
@@ -28,6 +28,7 @@ function fieldValidations(fieldsValue) {
 
 export default function CreateGroup() {
   const { setMessage, setShowMessage } = useContext(messageContext);
+  const [showLoding, setShowLoding] = useState(false);
   const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
   const [valueOfGroupNameField, setValueOfGroupNameField] = useState("");
   const [valueOfStudentsFields, setValueOfStudentsFields] = useState([
@@ -56,6 +57,7 @@ export default function CreateGroup() {
     } else {
       let groupIdAndEmail = {};
       if (fieldValidations(fieldsValue) && fieldsValue.label) {
+        setShowLoding(true);
         try {
           const json = await fetch("/api/group", {
             method: "POST",
@@ -80,6 +82,7 @@ export default function CreateGroup() {
         } catch (err) {
           console.log("error", err);
         }
+        setShowLoding(false);
         fieldsValue.students = [];
         fieldsValue.label = "";
         setValueOfGroupNameField("");
@@ -99,40 +102,47 @@ export default function CreateGroup() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Create group</div>
-      <TextField
-        className={styles.groupName}
-        id="groupNameField"
-        label="Write here the group name"
-        variant="outlined"
-        key="groupName"
-        required
-        value={valueOfGroupNameField}
-        onChange={handleGroupNameField}
-        autoFocus
-      />
+      {showLoding && (
+        <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+      )}
+      {!showLoding && (
+        <>
+          <TextField
+            className={styles.groupName}
+            id="groupNameField"
+            label="Write here the group name"
+            variant="outlined"
+            key="groupName"
+            required
+            value={valueOfGroupNameField}
+            onChange={handleGroupNameField}
+            autoFocus
+          />
 
-      <div className={styles.subTitle}>
-        Please write a name and email for each student
-      </div>
-      <StudentsFields
-        fieldsValue={fieldsValue}
-        setDisabledSubmitButton={setDisabledSubmitButton}
-        valueOfStudentsFields={valueOfStudentsFields}
-        setValueOfStudentsFields={setValueOfStudentsFields}
-      />
-      <div className={styles.submitDiv}>
-        <Button
-          disabled={disabledSubmitButton}
-          className={styles.submitButton}
-          variant="contained"
-          sx={{ margin: "15px", width: "150px" }}
-          key="submit"
-          type="submit"
-          onClick={() => sendGroupToServer(fieldsValue, email, teacherName)}
-        >
-          Submit
-        </Button>
-      </div>
+          <div className={styles.subTitle}>
+            Please write a name and email for each student
+          </div>
+          <StudentsFields
+            fieldsValue={fieldsValue}
+            setDisabledSubmitButton={setDisabledSubmitButton}
+            valueOfStudentsFields={valueOfStudentsFields}
+            setValueOfStudentsFields={setValueOfStudentsFields}
+          />
+          <div className={styles.submitDiv}>
+            <Button
+              disabled={disabledSubmitButton}
+              className={styles.submitButton}
+              variant="contained"
+              sx={{ margin: "15px", width: "150px" }}
+              key="submit"
+              type="submit"
+              onClick={() => sendGroupToServer(fieldsValue, email, teacherName)}
+            >
+              Submit
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -153,7 +163,6 @@ function StudentsFields({
     _valueOfStudentsFields[index].fullName = event.target.value;
     setValueOfStudentsFields([..._valueOfStudentsFields]);
     setDisabledEmailField(false);
-    console.log(valueOfStudentsFields);
   };
   const handleStudentEmailChange = (event, studentField, index) => {
     fieldsValue.students[index] = { ...fieldsValue.students[index], email: "" };
@@ -161,7 +170,6 @@ function StudentsFields({
     const _valueOfStudentsFields = [...valueOfStudentsFields];
     _valueOfStudentsFields[index].email = event.target.value;
     setValueOfStudentsFields([..._valueOfStudentsFields]);
-    console.log(valueOfStudentsFields);
 
     if (!isValidEmail(event.target.value)) {
       const _errors = [...errors];

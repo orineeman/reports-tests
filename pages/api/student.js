@@ -20,7 +20,6 @@ const handler = async (req, res) => {
     }
   } else if (req.method === "PATCH" && req.headers.answer === "answer") {
     const data = JSON.parse(req.body);
-    // const teacher = req.body; //postman
     const {
       markedAnswersId,
       time,
@@ -43,7 +42,6 @@ const handler = async (req, res) => {
       const test = await Test.findById(testId);
       if (currentQuestion >= test.questions.length) {
         done = true;
-        // gradeCalculation(email, testId, numOfQuestions);
       }
       const answers = [];
       let answerCorrectly = null;

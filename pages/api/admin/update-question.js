@@ -13,11 +13,6 @@ const handler = async (req, res) => {
       "difficulty",
       "answers",
     ]);
-    // const answers = [];
-    // for (let answer of question.answers) {
-    //   const ans = await Answer.findById(answer._id);
-    //   answers.push(ans);
-    // }
     const responsesTime = await Student.find({
       "tests.questions.questionId": questionId,
     }).select("tests.questions.responseTime");
@@ -66,14 +61,6 @@ const handler = async (req, res) => {
     if (answerContent) {
       const answersId = Object.keys(answerContent);
       for (let answerId of answersId) {
-        // await Question.findByIdAndUpdate(
-        //   { questionId, "answers._id": answerId },
-        //   {
-        //     $set: {
-        //       "answers.$.content": answerContent.answerId,
-        //     },
-        //   }
-        // );
         await Answer.findByIdAndUpdate(answerId, {
           content: answerContent.answerId,
         });

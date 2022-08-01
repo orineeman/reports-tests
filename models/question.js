@@ -11,7 +11,6 @@ const question = new Schema({
   difficulty: { type: Schema.Types.ObjectId, ref: Difficulty },
   content: String,
   answers: [{ type: Schema.Types.ObjectId, ref: Answer }],
-  // answers: [{ content: String, isCorrect: Boolean }],
   confirmed: Boolean,
 });
 

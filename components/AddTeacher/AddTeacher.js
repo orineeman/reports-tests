@@ -1,4 +1,4 @@
-import { Button, Divider, TextField } from "@mui/material";
+import { Button, CircularProgress, Divider, TextField } from "@mui/material";
 import { useContext, useState } from "react";
 import styles from "./AddTeacher.module.css";
 import messageContext from "../../Context/messageContext";
@@ -15,8 +15,14 @@ function fieldValidations(fieldsValue) {
   }
 }
 
-function sendTeachersToServer(fieldsValue, setMessage, setShowMessage) {
+function sendTeachersToServer(
+  fieldsValue,
+  setMessage,
+  setShowMessage,
+  setShowLoding
+) {
   if (fieldValidations(fieldsValue)) {
+    setShowLoding(true);
     fetch("/api/admin", {
       method: "POST",
       body: JSON.stringify(fieldsValue.teachers),
@@ -28,6 +34,7 @@ function sendTeachersToServer(fieldsValue, setMessage, setShowMessage) {
           setMessage(
             "All teachers received permission, and an email was sent to the permissions holders"
           );
+          setShowLoding(false);
         } else {
           setShowMessage(true);
           setMessage(
@@ -52,9 +59,10 @@ function isValidEmail(email) {
 }
 
 export default function AddTeacher() {
+  const [showLoding, setShowLoding] = useState(false);
+
   const { setMessage, setShowMessage } = useContext(messageContext);
   let [newTeacherField, setNewTeacherField] = useState([1]);
-  // const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
   const [disabledEmailField, setDisabledEmailField] = useState(true);
   const [errors, setErrors] = useState([]);
@@ -64,7 +72,6 @@ export default function AddTeacher() {
       fullName: "",
     };
     fieldsValue.teachers[index].fullName = event.target.value;
-    // setDisabledAddButton(false);
     setDisabledEmailField(false);
   };
   const handleTeacherEmailChange = (event, teacherField, index) => {
@@ -101,65 +108,75 @@ export default function AddTeacher() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Add teacher permission</div>
+      {showLoding && (
+        <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+      )}
+      {!showLoding && (
+        <>
+          {newTeacherField.map((teacherField, index) => (
+            <div key={teacherField}>
+              <div className={styles.studentFieldDiv}>
+                <div className={styles.studentFieldNum}>{index + 1}</div>
 
-      {newTeacherField.map((teacherField, index) => (
-        <div key={teacherField}>
-          <div className={styles.studentFieldDiv}>
-            <div className={styles.studentFieldNum}>{index + 1}</div>
-
-            <TextField
-              className={styles.textField}
-              sx={{ width: "300px", margin: "10px" }}
-              autoFocus
-              type="text"
-              label="Teacher full name"
-              variant="outlined"
-              onChange={() => handleTeacherNameChange(teacherField, index)}
-              required
-            />
-            <TextField
-              className={styles.textField}
-              sx={{ width: "300px", margin: "10px" }}
-              type="email"
-              label="Teacher email"
-              variant="outlined"
-              required
-              error={errors[index]}
-              disabled={disabledEmailField}
-              onChange={() =>
-                handleTeacherEmailChange(event, teacherField, index)
-              }
-            />
-            <DeleteIcon
-              onClick={() => removeTeacherField(teacherField, index)}
-            />
+                <TextField
+                  className={styles.textField}
+                  sx={{ width: "300px", margin: "10px" }}
+                  autoFocus
+                  type="text"
+                  label="Teacher full name"
+                  variant="outlined"
+                  onChange={() => handleTeacherNameChange(teacherField, index)}
+                  required
+                />
+                <TextField
+                  className={styles.textField}
+                  sx={{ width: "300px", margin: "10px" }}
+                  type="email"
+                  label="Teacher email"
+                  variant="outlined"
+                  required
+                  error={errors[index]}
+                  disabled={disabledEmailField}
+                  onChange={() =>
+                    handleTeacherEmailChange(event, teacherField, index)
+                  }
+                />
+                <DeleteIcon
+                  onClick={() => removeTeacherField(teacherField, index)}
+                />
+              </div>
+              <Divider className={styles.divider} />
+            </div>
+          ))}
+          <div
+            className={styles.addBtn}
+            key="addStudentField"
+            onClick={addTeacherField}
+          >
+            + Add student
           </div>
-          <Divider className={styles.divider} />
-        </div>
-      ))}
-      <div
-        className={styles.addBtn}
-        // disabled={disabledAddButton}
-        key="addStudentField"
-        onClick={addTeacherField}
-      >
-        + Add student
-      </div>
 
-      <div className={styles.submitDiv}>
-        <Button
-          disabled={disabledSubmitButton}
-          variant="contained"
-          className={styles.submitButton}
-          key="submit"
-          type="submit"
-          onClick={() =>
-            sendTeachersToServer(fieldsValue, setMessage, setShowMessage)
-          }
-        >
-          Submit
-        </Button>
-      </div>
+          <div className={styles.submitDiv}>
+            <Button
+              disabled={disabledSubmitButton}
+              variant="contained"
+              className={styles.submitButton}
+              key="submit"
+              type="submit"
+              onClick={() =>
+                sendTeachersToServer(
+                  fieldsValue,
+                  setMessage,
+                  setShowMessage,
+                  setShowLoding
+                )
+              }
+            >
+              Submit
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

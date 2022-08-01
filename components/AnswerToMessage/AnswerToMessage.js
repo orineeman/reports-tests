@@ -199,7 +199,6 @@ export default function AnswerToMessage({
                     setShowMessage,
                     getNumOfNewMessages,
                     setNumOfMessages
-                    // getAllMessageFromServer,
                   )
                 }
               >

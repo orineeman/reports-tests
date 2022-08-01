@@ -7,7 +7,6 @@ import sendEmail from "../../utils/mail";
 const handler = async (req, res) => {
   if (req.method === "POST") {
     const testAndGroup = JSON.parse(req.body);
-    // const testAndGroup = req.body; //postman
     const { message, testId, groupId, email, teacherName, date } = testAndGroup;
     if (testId && groupId && email && teacherName && date) {
       try {

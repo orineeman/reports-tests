@@ -1,14 +1,15 @@
-import { Button, Checkbox, TextField } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Button, Checkbox, CircularProgress, TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { useContext, useEffect, useState } from "react";
-import styles from "./UploadingQuestions.module.css";
-import getDataFromServer from "../../utils/getAgeSubjectDif";
 import { useSession } from "next-auth/react";
+import { useContext, useEffect, useState } from "react";
 import messageContext from "../../Context/messageContext";
-import DeleteIcon from "@mui/icons-material/Delete";
+import getDataFromServer from "../../utils/getAgeSubjectDif";
+import styles from "./UploadingQuestions.module.css";
+import { v4 as uuidv4 } from "uuid";
 
 function checkboxValidation(answers) {
   let validation = false;
@@ -37,11 +38,19 @@ export default function UploadingQuestions() {
   const [subjectsArr, setSubjectsArr] = useState([]);
   const [difficultiesArr, setDifficultiesArr] = useState([]);
   const [valueOfQuestionField, setValueOfQuestionField] = useState("");
-  const [valueOfAnswersFields, setValueOfAnswersFields] = useState([]);
+  const [valueOfAnswersFields, setValueOfAnswersFields] = useState([
+    { content: "", id: uuidv4(), deleteIcon: false },
+  ]);
   const { setMessage, setShowMessage } = useContext(messageContext);
+  const [showLoding, setShowLoding] = useState(false);
 
   useEffect(() => {
-    getDataFromServer(setAgesArr, setSubjectsArr, setDifficultiesArr);
+    getDataFromServer(
+      setAgesArr,
+      setSubjectsArr,
+      setDifficultiesArr,
+      setShowLoding
+    );
   }, []);
 
   const { data: session } = useSession();
@@ -51,8 +60,6 @@ export default function UploadingQuestions() {
   }
 
   function sendQuestionToServer(fieldsValue) {
-    console.log(fieldsValue);
-    console.log(checkboxValidation(fieldsValue.answers));
     fieldsValue.email = email;
     if (
       fieldsValue.difficulty &&
@@ -62,19 +69,23 @@ export default function UploadingQuestions() {
       fieldsValue.answers[0] &&
       checkboxValidation(fieldsValue.answers)
     ) {
+      setShowLoding(true);
       fetch("/api/question", {
         method: "POST",
         body: JSON.stringify(fieldsValue),
       })
         .then((res) => res.json())
         .then((question) => {
-          console.log("the client side", question);
+          console.log(question);
           setValueOfQuestionField("");
-          setValueOfAnswersFields([...[]]);
+          setValueOfAnswersFields([
+            { content: "", id: uuidv4(), deleteIcon: false },
+          ]);
           setShowMessage(true);
           setMessage(
             "Your question has been sent successfully, It will be checked soon by the webmaster, and then uploaded to the database"
           );
+          setShowLoding(false);
         })
         .catch(() => console.log("error"));
     } else {
@@ -89,44 +100,51 @@ export default function UploadingQuestions() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Add questions</div>
-      <div className={styles.selectsDiv}>
-        <div>
-          <SelectAge agesArr={agesArr} />
-        </div>
-        <div>
-          <SelectSubject subjectsArr={subjectsArr} />
-        </div>
-        <div>
-          <SelectDifficulty difficultiesArr={difficultiesArr} />
-        </div>
-      </div>
-      <TextField
-        className={styles.questionField}
-        value={valueOfQuestionField}
-        id="field-question"
-        label="Write here the question"
-        variant="outlined"
-        name="content"
-        required
-        onChange={handleFieldContent}
-      />
+      {showLoding && (
+        <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+      )}
+      {!showLoding && (
+        <>
+          <div className={styles.selectsDiv}>
+            <div>
+              <SelectAge agesArr={agesArr} />
+            </div>
+            <div>
+              <SelectSubject subjectsArr={subjectsArr} />
+            </div>
+            <div>
+              <SelectDifficulty difficultiesArr={difficultiesArr} />
+            </div>
+          </div>
+          <TextField
+            className={styles.questionField}
+            value={valueOfQuestionField}
+            id="field-question"
+            label="Write here the question"
+            variant="outlined"
+            name="content"
+            required
+            onChange={handleFieldContent}
+          />
 
-      <div className={styles.subTitle}>Please mark the correct answer</div>
-      <AnswersFields
-        valueOfAnswersFields={valueOfAnswersFields}
-        setValueOfAnswersFields={setValueOfAnswersFields}
-      />
-      <div className={styles.submitDiv}>
-        <Button
-          className={styles.submitButton}
-          variant="contained"
-          key="submit"
-          type="submit"
-          onClick={() => sendQuestionToServer(fieldsValue)}
-        >
-          Submit
-        </Button>
-      </div>
+          <div className={styles.subTitle}>Please mark the correct answer</div>
+          <AnswersFields
+            valueOfAnswersFields={valueOfAnswersFields}
+            setValueOfAnswersFields={setValueOfAnswersFields}
+          />
+          <div className={styles.submitDiv}>
+            <Button
+              className={styles.submitButton}
+              variant="contained"
+              key="submit"
+              type="submit"
+              onClick={() => sendQuestionToServer(fieldsValue)}
+            >
+              Submit
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -221,8 +239,6 @@ function SelectDifficulty({ difficultiesArr }) {
 }
 
 function AnswersFields({ valueOfAnswersFields, setValueOfAnswersFields }) {
-  let [newAnswerField, setNewAnswerField] = useState([1]);
-  const [disabledAddButton, setDisabledAddButton] = useState(true);
   const [checked, setChecked] = useState([]);
 
   const handleChange = (event, answerField, index) => {
@@ -238,38 +254,39 @@ function AnswersFields({ valueOfAnswersFields, setValueOfAnswersFields }) {
       ...fieldsValue.answers[index],
       content: event.target.value,
     };
-    let _valueOfAnswersFields = [...valueOfAnswersFields];
-    _valueOfAnswersFields[index] = event.target.value;
+    const _valueOfAnswersFields = [...valueOfAnswersFields];
+    _valueOfAnswersFields[index].content = event.target.value;
     setValueOfAnswersFields(_valueOfAnswersFields);
-    // setValueOfAnswersFields[index] = event.target.value;
-    setDisabledAddButton(false);
-    console.log(valueOfAnswersFields[index]);
   };
 
   function addAnswerField() {
-    newAnswerField = [...newAnswerField, newAnswerField.length + 1];
-    setNewAnswerField([...newAnswerField]);
+    const _valueOfAnswersFields = [...valueOfAnswersFields];
+    _valueOfAnswersFields[0].deleteIcon = true;
+    setValueOfAnswersFields([
+      ..._valueOfAnswersFields,
+      { content: "", id: uuidv4(), deleteIcon: true },
+    ]);
   }
 
   function removeAnswerField(answerFieldId, index) {
-    if (newAnswerField.length > 1) {
-      newAnswerField = newAnswerField.filter(
-        (answerField) => answerField !== answerFieldId
-      );
-      fieldsValue.answers.splice(index, 1);
+    let _valueOfAnswersFields = valueOfAnswersFields.filter(
+      (answerField) => answerField !== answerFieldId
+    );
+    fieldsValue.answers.splice(index, 1);
+    if (_valueOfAnswersFields.length === 1) {
+      _valueOfAnswersFields[0].deleteIcon = false;
     }
-    setNewAnswerField([...newAnswerField]);
-    console.log("newAnswerField", newAnswerField, "fieldsValue", fieldsValue);
+    setValueOfAnswersFields([..._valueOfAnswersFields]);
   }
 
   return (
     <>
       <div>
-        {newAnswerField.map((answerField, index) => (
-          <div key={index} className={styles.answerFieldDiv}>
+        {valueOfAnswersFields.map((answerField, index) => (
+          <div key={answerField.id} className={styles.answerFieldDiv}>
             <div className={styles.answerFieldNum}>{index + 1}</div>
             <TextField
-              value={valueOfAnswersFields[index]}
+              value={valueOfAnswersFields[index].content}
               sx={{ width: "300px" }}
               label="answer"
               variant="outlined"
@@ -287,14 +304,21 @@ function AnswersFields({ valueOfAnswersFields, setValueOfAnswersFields }) {
               onChange={() => handleChange(event, answerField, index)}
               inputProps={{ "aria-label": "controlled" }}
             />
-            <DeleteIcon onClick={() => removeAnswerField(answerField, index)} />
+            {valueOfAnswersFields[index].deleteIcon && (
+              <DeleteIcon
+                style={{ width: "25px" }}
+                onClick={() => removeAnswerField(answerField, index)}
+              />
+            )}
+            {!valueOfAnswersFields[index].deleteIcon && (
+              <div style={{ width: "25px" }}></div>
+            )}
           </div>
         ))}
       </div>
       <div
         className={styles.addBtn}
         variant="outlined"
-        disabled={disabledAddButton}
         key="addAnswerField"
         onClick={addAnswerField}
       >

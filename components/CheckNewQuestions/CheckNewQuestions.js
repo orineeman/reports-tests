@@ -1,5 +1,5 @@
 import { DataGrid } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import messageContext from "../../Context/messageContext";
 import styles from "./CheckNewQuestions.module.css";
@@ -16,8 +16,15 @@ function getDataFromServer(setShowQuestions) {
     .catch(() => console.log("error"));
 }
 
-const confirmQuestions = (QuestionsIdForUpdate, setMessage, setShowMessage) => {
+const confirmQuestions = (
+  QuestionsIdForUpdate,
+  setMessage,
+  setShowMessage,
+  setShowLoding,
+  setShowQuestions
+) => {
   if (QuestionsIdForUpdate.questions[0]) {
+    setShowLoding(true);
     fetch("/api/question", {
       method: "PATCH",
       headers: { pleaseGet: "newQuestions" },
@@ -27,7 +34,8 @@ const confirmQuestions = (QuestionsIdForUpdate, setMessage, setShowMessage) => {
         console.log("the client side give-questions update:", update);
         setShowMessage(true);
         setMessage("The questions moved to the repository successfully");
-        getDataFromServer();
+        getDataFromServer(setShowQuestions);
+        setShowLoding(false);
       })
       .catch(() => console.log("error"));
   } else {
@@ -40,6 +48,7 @@ export default function CheckNewQuestions() {
   const QuestionsIdForUpdate = { questions: [] };
   const [showQuestions, setShowQuestions] = useState([]);
   const { setMessage, setShowMessage } = useContext(messageContext);
+  const [showLoding, setShowLoding] = useState(false);
 
   useEffect(() => {
     getDataFromServer(setShowQuestions);
@@ -48,24 +57,36 @@ export default function CheckNewQuestions() {
   return (
     <div className={styles.content}>
       <div className={styles.title}>Check new questions</div>
-
-      <DataTable
-        questions={showQuestions}
-        QuestionsIdForUpdate={QuestionsIdForUpdate}
-      />
-      <div className={styles.submitDiv}>
-        <Button
-          className={styles.submitButton}
-          variant="contained"
-          key="confirm"
-          type="confirm"
-          onClick={() =>
-            confirmQuestions(QuestionsIdForUpdate, setMessage, setShowMessage)
-          }
-        >
-          confirm
-        </Button>
-      </div>
+      {showLoding && (
+        <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
+      )}
+      {!showLoding && (
+        <>
+          <DataTable
+            questions={showQuestions}
+            QuestionsIdForUpdate={QuestionsIdForUpdate}
+          />
+          <div className={styles.submitDiv}>
+            <Button
+              className={styles.submitButton}
+              variant="contained"
+              key="confirm"
+              type="confirm"
+              onClick={() =>
+                confirmQuestions(
+                  QuestionsIdForUpdate,
+                  setMessage,
+                  setShowMessage,
+                  setShowLoding,
+                  setShowQuestions
+                )
+              }
+            >
+              confirm
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -7,7 +7,6 @@ const handler = async (req, res) => {
     const groups = await Group.find().populate("tests");
     res.send(groups);
   } else if (req.method === "POST") {
-    // const group = req.body; // to postman
     const studentsId = [];
     const group = JSON.parse(req.body);
     const { students, tests, label } = group;
