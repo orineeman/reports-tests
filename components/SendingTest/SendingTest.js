@@ -7,15 +7,10 @@ import { useSession } from "next-auth/react";
 import { useContext, useEffect, useState } from "react";
 import messageContext from "../../Context/messageContext";
 import getDate from "../../utils/getDate";
+import PrintTest from "../PrintTest/PrintTest";
 import styles from "./SendingTest.module.css";
 
-function getDataFromServer(
-  groupsArr,
-  setGroupsArr,
-  testsArr,
-  setTestsArr,
-  email
-) {
+function getDataFromServer(setGroupsArr, setTestsArr, email) {
   fetch("/api/teacher", {
     method: "GET",
     headers: { pleaseGet: "groups and tests", email },
@@ -25,7 +20,7 @@ function getDataFromServer(
       setGroupsArr(teacherDetails.groups);
       setTestsArr(teacherDetails.tests);
     })
-    .catch(() => setGroupsArr(["error"]));
+    .catch(() => console.log("err"));
 }
 
 const fieldsValue = {
@@ -37,9 +32,24 @@ const fieldsValue = {
   date: "",
 };
 
+function getTestToPrint(setTestToPrint) {
+  if (fieldsValue.testId) {
+    fetch(`/api/print-test/${fieldsValue.testId}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((test) => {
+        setTestToPrint(test);
+      })
+      .catch(() => console.log("error"));
+  }
+}
+
 export default function SendingTest() {
   const { setMessage, setShowMessage } = useContext(messageContext);
 
+  const [testToPrint, setTestToPrint] = useState({});
+  const [displayPrint, setDisplayPrint] = useState("none");
   const [showLoading, setShowLoading] = useState(false);
   const [testsArr, setTestsArr] = useState([]);
   const [groupsArr, setGroupsArr] = useState([]);
@@ -52,13 +62,12 @@ export default function SendingTest() {
   }
   useEffect(() => {
     if (email) {
-      getDataFromServer(groupsArr, setGroupsArr, testsArr, setTestsArr, email);
+      getDataFromServer(setGroupsArr, setTestsArr, email);
       fieldsValue.email = email;
       fieldsValue.teacherName = teacherName;
-
       fieldsValue.date = getDate();
     }
-  }, [email, groupsArr, teacherName, testsArr]);
+  }, [email, teacherName]);
 
   function handleFieldMessage() {
     fieldsValue.message = event.target.value;
@@ -104,9 +113,14 @@ export default function SendingTest() {
           <div className={styles.subTitle}>
             Select a test and group and click Submit
           </div>
+
           <div className={styles.selectsDiv}>
             <div>
-              <SelectTest testsArr={testsArr} />
+              <SelectTest
+                testsArr={testsArr}
+                setDisplayPrint={setDisplayPrint}
+                setTestToPrint={setTestToPrint}
+              />
             </div>
             <div>
               <SelectGroup groupsArr={groupsArr} />
@@ -122,19 +136,24 @@ export default function SendingTest() {
             onChange={handleFieldMessage}
           />
           <div className={styles.submitDiv}>
+            <PrintTest
+              fieldsValue={fieldsValue}
+              displayPrint={displayPrint}
+              testToPrint={testToPrint}
+            />
             <Button
               className={styles.submitButton}
               variant="contained"
               sx={{
                 margin: "15px",
-                width: "150px",
+                width: "7.5vw",
                 background: "rgba(133, 64, 245, 0.97)",
               }}
-              key="submit"
+              key="Save"
               type="submit"
               onClick={() => sendDataToServer(fieldsValue)}
             >
-              Submit
+              Save
             </Button>
           </div>
         </>
@@ -143,11 +162,13 @@ export default function SendingTest() {
   );
 }
 
-function SelectTest({ testsArr }) {
+function SelectTest({ testsArr, setDisplayPrint, setTestToPrint }) {
   const [test, setTest] = useState("");
   const handleSelectTest = (event) => {
     setTest(event.target.value);
     fieldsValue.testId = event.target.value;
+    getTestToPrint(setTestToPrint);
+    setDisplayPrint("block");
   };
   return (
     <FormControl fullWidth>
