@@ -83,10 +83,12 @@
   }
   .linksTeacherNavContactUs {
     font-size: 0px;
+    display: none;
   }
 
   .iconsTeacherNav {
     font-size: 0px;
+    display: none;
   }
   .divider {
     width: 0vw;
