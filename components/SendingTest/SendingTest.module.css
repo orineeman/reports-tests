@@ -32,6 +32,10 @@
   display: flex;
   justify-content: space-between;
 }
+.textField {
+  width: 650px;
+  margin-top: 20px;
+}
 .submitDiv {
   display: flex;
   justify-content: flex-end;
@@ -48,4 +52,41 @@
   opacity: 0.9;
   background: rgba(133, 64, 245, 0.97);
   cursor: pointer;
+}
+@media screen and (max-width: 450px) {
+  .content {
+    /* margin-top: 1vh; */
+    padding-top: 5vh;
+  }
+  .title {
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 1vh;
+  }
+
+  .subTitle {
+    margin-bottom: 2vh;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .textField {
+    width: 90vw;
+    margin-top: 5vh;
+  }
+  .selectField {
+    width: 42vw;
+    /* border: 1px solid red; */
+  }
+
+  .submitDiv {
+    justify-content: center;
+    margin-top: 5vh;
+  }
+  .submitButton {
+    height: 5vh;
+    width: 30vw;
+  }
 }

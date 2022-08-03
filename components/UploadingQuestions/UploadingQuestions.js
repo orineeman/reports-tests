@@ -159,10 +159,10 @@ function SelectAge({ agesArr }) {
   };
 
   return (
-    <FormControl sx={{ width: "80px" }}>
+    <FormControl>
       <InputLabel id="age-select">Age</InputLabel>
       <Select
-        sx={{ width: "8vw" }}
+        className={styles.selectAge}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={age}
@@ -188,10 +188,10 @@ function SelectSubject({ subjectsArr }) {
   };
 
   return (
-    <FormControl fullWidth>
+    <FormControl>
       <InputLabel id="subject-select">Subject</InputLabel>
       <Select
-        sx={{ width: "18vw" }}
+        className={styles.selectSubject}
         labelId="subject_select_label"
         id="subject_select"
         value={subject}
@@ -218,10 +218,10 @@ function SelectDifficulty({ difficultiesArr }) {
   };
 
   return (
-    <FormControl fullWidth>
+    <FormControl>
       <InputLabel id="difficulty-select">Difficulty</InputLabel>
       <Select
-        sx={{ width: "10vw" }}
+        className={styles.selectDifficulty}
         labelId="subject_select_label"
         id="difficulty_select"
         value={difficulty}
@@ -287,8 +287,8 @@ function AnswersFields({ valueOfAnswersFields, setValueOfAnswersFields }) {
           <div key={answerField.id} className={styles.answerFieldDiv}>
             <div className={styles.answerFieldNum}>{index + 1}</div>
             <TextField
+              className={styles.answerField}
               value={valueOfAnswersFields[index].content}
-              sx={{ width: "300px" }}
               label="answer"
               variant="outlined"
               onChange={() => handleAnswerChange(answerField, index)}

@@ -1,45 +1,11 @@
 import { Button, Checkbox, Divider } from "@mui/material";
-import React, { useRef } from "react";
+import { forwardRef, useRef } from "react";
 import ReactToPrint from "react-to-print";
+import styles from "./PrintTest.module.css";
 
-export default function PrintTest({ testToPrint, displayPrint }) {
-  let componentRef = useRef();
+const TestToPrintComponent = ({ testToPrint }, ref) => {
   return (
-    <>
-      <div>
-        <div style={{ display: displayPrint }}>
-          <ReactToPrint
-            trigger={() => (
-              <Button
-                variant="contained"
-                sx={{
-                  margin: "15px",
-                  width: "7.5vw",
-                  background: "rgba(133, 64, 245, 0.97)",
-                }}
-                key="print"
-              >
-                Print
-              </Button>
-            )}
-            content={() => componentRef}
-          />
-        </div>
-
-        <div style={{ display: "none" }}>
-          <TestToPrint
-            ref={(el) => (componentRef = el)}
-            testToPrint={testToPrint}
-          />
-        </div>
-      </div>
-    </>
-  );
-}
-
-class TestToPrint extends React.Component {
-  render() {
-    return (
+    <div ref={ref}>
       <div style={{ padding: "40px" }}>
         <div
           style={{
@@ -50,10 +16,10 @@ class TestToPrint extends React.Component {
             marginBottom: "30px",
           }}
         >
-          test &quot;{this?.props?.testToPrint?.label}&quot;
+          {testToPrint?.label}
         </div>
         <div>
-          {this?.props?.testToPrint?.questions?.map((question, index) => (
+          {testToPrint?.questions?.map((question, index) => (
             <div key={question._id}>
               <div
                 style={{
@@ -106,6 +72,42 @@ class TestToPrint extends React.Component {
           Goodluck!
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+};
+
+const TestToPrint = forwardRef(TestToPrintComponent);
+
+export default function PrintTest({ testToPrint, displayPrint }) {
+  let componentRef = useRef();
+  return (
+    <>
+      <div>
+        <div style={{ display: displayPrint }}>
+          <ReactToPrint
+            trigger={() => (
+              <Button
+                className={styles.printButton}
+                variant="contained"
+                sx={{
+                  background: "rgba(133, 64, 245, 0.97)",
+                }}
+                key="print"
+              >
+                Print
+              </Button>
+            )}
+            content={() => componentRef}
+          />
+        </div>
+
+        <div style={{ display: "none" }}>
+          <TestToPrint
+            ref={(el) => (componentRef = el)}
+            testToPrint={testToPrint}
+          />
+        </div>
+      </div>
+    </>
+  );
 }

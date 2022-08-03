@@ -50,3 +50,38 @@
   background: rgba(133, 64, 245, 0.97);
   cursor: pointer;
 }
+@media screen and (max-width: 450px) {
+  .content {
+    padding-top: 5px;
+  }
+  .title {
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 1vh;
+  }
+  .testName {
+    width: 70vw;
+    margin: 0 auto;
+  }
+  .subTitle {
+    margin-top: 4vh;
+    margin-bottom: 2vh;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #040330;
+  }
+  .submitDiv {
+    /* border: 1px solid red; */
+    justify-content: center;
+    margin-top: 2vh;
+    margin-bottom: 5vh;
+  }
+
+  .submitButton {
+    height: 5vh;
+    width: 40vw;
+  }
+}

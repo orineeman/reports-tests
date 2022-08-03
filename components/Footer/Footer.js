@@ -12,7 +12,7 @@ import styles from "./Footer.module.css";
 
 export default function Footer() {
   return (
-    <Grid container className={styles.footerdDiv}>
+    <Grid container className={styles.footerDiv}>
       <Navigation />
     </Grid>
   );

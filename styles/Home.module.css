@@ -72,3 +72,48 @@
   background: rgba(133, 64, 245, 0.97);
   cursor: pointer;
 }
+.notPermissionDiv {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  margin-top: 200px;
+  margin-left: 300px;
+  margin-bottom: 200px;
+}
+@media screen and (max-width: 450px) {
+  .titlesDiv {
+    margin: 30px auto;
+    text-align: center;
+    width: 80vw;
+  }
+  .title2 {
+    justify-content: center;
+  }
+  .lobby {
+    margin: 10px auto;
+    width: 80vw;
+  }
+  .innerTitle {
+    margin: 0px auto;
+    width: 80vw;
+    font-size: 24px;
+  }
+  .submitButton {
+    padding: 6px 32px;
+    gap: 8px;
+    width: 50vw;
+    height: 7vh;
+    background: rgba(133, 64, 245, 0.97);
+    border-radius: 4px;
+  }
+  .notPermissionDiv {
+    width: 50vw;
+    height: 100px;
+    margin: 10vh auto 30vh;
+    display: flex;
+    text-align: center;
+    font-size: 20px;
+  }
+}

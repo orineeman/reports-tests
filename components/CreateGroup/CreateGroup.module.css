@@ -98,3 +98,32 @@
 .addBtn:hover {
   cursor: pointer;
 }
+@media screen and (max-width: 450px) {
+  .content {
+    padding-top: 5px;
+  }
+  .title {
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 1vh;
+  }
+  .groupName {
+    width: 70vw;
+    margin: 0vh auto;
+  }
+  .textField {
+    width: 37vw;
+    margin-right: 0vw;
+  }
+  .addBtn {
+    width: 35vw;
+  }
+  .submitDiv {
+    justify-content: center;
+    margin-top: 2vh;
+  }
+  .submitButton {
+    height: 5vh;
+    width: 40vw;
+  }
+}

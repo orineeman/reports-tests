@@ -50,3 +50,30 @@
   align-self: stretch;
   flex-grow: 0;
 }
+@media screen and (max-width: 450px) {
+  .studentNav {
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    padding: 10px 3px 5px 3px;
+    width: 100vw;
+  }
+  .linksStudentNav {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-left: 20vw;
+    border-radius: 20%;
+    box-shadow: 0px 2px 4px rgba(42, 40, 138, 0.05),
+      0px 16px 32px rgba(4, 48, 160, 0.09);
+    padding: 5px;
+    font-size: 10px;
+  }
+  .iconsStudentNav {
+    font-size: 0px;
+  }
+  .divider {
+    width: 0vw;
+  }
+}

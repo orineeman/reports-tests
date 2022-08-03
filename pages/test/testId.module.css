@@ -156,11 +156,7 @@
     margin-top: 5vh;
   }
   .divider {
-    width: 50vw;
-    position: absolute;
-    top: 230px;
-    left: 50px;
-    border: 1px solid #dfd8ff;
+    border: 0px solid #dfd8ff;
   }
   .question {
     width: 50vw;

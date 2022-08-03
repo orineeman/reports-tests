@@ -1,4 +1,4 @@
-.footerdDiv {
+.footerDiv {
   margin: auto;
   width: 50vw;
   justify-content: space-evenly;
@@ -9,4 +9,18 @@
 }
 .footerIcon {
   margin-left: 4vw;
+}
+@media screen and (max-width: 450px) {
+  .footerDiv {
+    width: 100vw;
+    background: #ffffff;
+    position: fixed;
+    bottom: 0;
+  }
+  .footer {
+    width: 100vw;
+    position: fixed;
+    left: 50%;
+    margin: 0;
+  }
 }

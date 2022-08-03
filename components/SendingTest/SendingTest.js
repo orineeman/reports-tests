@@ -47,7 +47,6 @@ function getTestToPrint(setTestToPrint) {
 
 export default function SendingTest() {
   const { setMessage, setShowMessage } = useContext(messageContext);
-
   const [testToPrint, setTestToPrint] = useState({});
   const [displayPrint, setDisplayPrint] = useState("none");
   const [showLoading, setShowLoading] = useState(false);
@@ -127,7 +126,7 @@ export default function SendingTest() {
             </div>
           </div>
           <TextField
-            sx={{ width: "650px", marginTop: "20px" }}
+            className={styles.textField}
             id="field-question"
             label="Write here a message to the group"
             variant="outlined"
@@ -171,9 +170,10 @@ function SelectTest({ testsArr, setDisplayPrint, setTestToPrint }) {
     setDisplayPrint("block");
   };
   return (
-    <FormControl fullWidth>
+    <FormControl>
       <InputLabel id="test-select">Test</InputLabel>
       <Select
+        className={styles.selectField}
         sx={{ width: "300px" }}
         labelId="test_select_label"
         id="test_select"
@@ -202,9 +202,10 @@ function SelectGroup({ groupsArr }) {
   };
 
   return (
-    <FormControl fullWidth>
+    <FormControl>
       <InputLabel id="group-select">Group</InputLabel>
       <Select
+        className={styles.selectField}
         sx={{ width: "300px" }}
         labelId="group_select_label"
         id="group_select"

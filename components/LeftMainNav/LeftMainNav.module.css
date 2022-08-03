@@ -50,3 +50,16 @@
   align-self: stretch;
   flex-grow: 0;
 }
+
+@media screen and (max-width: 450px) {
+  .leftMainNav {
+    flex-direction: row;
+    height: 50px;
+    padding: 10px 0px 5px 50px;
+    width: 100vw;
+  }
+
+  .divider {
+    width: 0vw;
+  }
+}

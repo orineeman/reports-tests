@@ -7,6 +7,7 @@ import Header from "../components/Header/Header";
 import Message from "../components/Message/Message";
 import adminContext from "../Context/adminContext";
 import messageContext from "../Context/messageContext";
+import styles from "../styles/Home.module.css";
 
 const { NEXT_PABLIC_ADMIN_PASS } = process.env;
 
@@ -161,18 +162,7 @@ function AuthAdmin({ children, status }) {
 
 function Authorized() {
   return (
-    <div
-      style={{
-        fontFamily: "Roboto",
-        fontStyle: "normal",
-        fontWeight: 400,
-        fontsize: "16px",
-        lineHeight: "24px",
-        marginTop: "200px",
-        marginLeft: "300px",
-        marginBottom: "200px",
-      }}
-    >
+    <div className={styles.notPermissionDiv}>
       You do not have permission for this page,
       <br /> please sign in with google or contact the management.
     </div>

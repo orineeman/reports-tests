@@ -66,7 +66,6 @@ function isValidEmail(email) {
 
 export default function AddTeacher() {
   const [showLoading, setShowLoading] = useState(false);
-
   const { setMessage, setShowMessage } = useContext(messageContext);
   const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
   const [disabledEmailField, setDisabledEmailField] = useState(true);

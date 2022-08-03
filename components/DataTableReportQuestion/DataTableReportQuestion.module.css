@@ -1,0 +1,11 @@
+.questionDataGrid {
+  height: 400px;
+  margin-top: 20px;
+  margin-bottom: 5vh;
+}
+@media screen and (max-width: 450px) {
+  .questionDataGrid {
+    height: 300px;
+    margin-bottom: 15vh;
+  }
+}

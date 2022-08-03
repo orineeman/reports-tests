@@ -136,20 +136,21 @@ export default function TeacherReports() {
       </div>
       <div className={styles.selectFlex}>
         <Autocomplete
+          className={styles.selectField}
           disablePortal
           id="group-name-field"
           options={groupsList}
-          sx={{ width: "23vw" }}
           renderInput={(params) => (
             <TextField {...params} label="Search by group name" />
           )}
           onChange={(event, value) => handleFieldGroupName(event, value)}
         />
         <Autocomplete
+          className={styles.selectField}
           disablePortal
           id="test-name-field"
           options={testsList}
-          sx={{ width: "23vw", marginTop: "20px", marginBottom: "20px" }}
+          sx={{ marginTop: "20px", marginBottom: "20px" }}
           renderInput={(params) => (
             <TextField {...params} label="Search by test name" />
           )}
@@ -237,7 +238,7 @@ function DataTable({ showValueSearched }) {
   });
   return (
     <>
-      <div style={{ height: 500, marginTop: "20px" }}>
+      <div className={styles.dataGridDiv}>
         <DataGrid
           sx={{
             "& .header": {
@@ -287,11 +288,11 @@ function SelectQuestion({
   };
   return (
     <div className={styles._content}>
-      <div className={styles.flexDiv}>
+      <div className={styles.flexDiv2}>
         <div className={styles.subTitle}>
           Select a question to view its report
         </div>
-        <div className={styles.note}>
+        <div className={styles.note2}>
           <InfoOutlinedIcon sx={{ fontSize: 18, px: 0.5 }} />
           <div>
             Students who did not answer the question are not presented in its
@@ -300,8 +301,8 @@ function SelectQuestion({
         </div>
       </div>
       <Select
+        className={styles.selectQuestion}
         disabled={disabledReportQuestions}
-        sx={{ width: "23vw" }}
         id="Select-quetion"
         value={question}
         name="question"

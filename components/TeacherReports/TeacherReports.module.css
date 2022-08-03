@@ -34,11 +34,33 @@
   font-style: normal;
   font-weight: 700;
 }
+.note2 {
+  width: 18vw;
+  padding: 2vh;
+  background: rgb(235, 235, 235);
+  border-radius: 15px;
+  display: flex;
+  font-size: 12px;
+  align-self: flex-end;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+}
 .selectFlex {
   display: flex;
   flex-direction: column;
 }
+.selectField {
+  width: 23vw;
+}
 .flexDiv {
+  display: flex;
+  justify-content: space-between;
+  width: 55vw;
+  margin-bottom: 2vh;
+  align-items: center;
+}
+.flexDiv2 {
   display: flex;
   justify-content: space-between;
   width: 55vw;
@@ -69,8 +91,76 @@
   border-radius: 4px;
   margin-bottom: 2vh;
 }
+.dataGridDiv {
+  height: 500px;
+  margin-top: 20px;
+}
 .submitButton:hover {
   opacity: 0.9;
   background: rgba(133, 64, 245, 0.97);
   cursor: pointer;
+}
+.selectQuestion {
+  width: 23vw;
+}
+
+@media screen and (max-width: 450px) {
+  .content {
+    padding-top: 4vh;
+    width: 100vw;
+  }
+  ._content {
+    padding-top: 5vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .flexDiv {
+    width: 90vw;
+    margin-bottom: 2vh;
+    align-items: flex-start;
+  }
+  .title {
+    font-size: 24px;
+    margin-left: 3vw;
+  }
+  .note {
+    width: 35vw;
+    padding: 1.3vh;
+  }
+  .selectFlex {
+    align-items: center;
+    margin-top: 2vh;
+  }
+  .selectField {
+    width: 90vw;
+  }
+
+  .subTitle {
+    margin-bottom: 2vh;
+  }
+  .dataGridDiv {
+    height: 350px;
+    margin-top: 20px;
+  }
+  .tableDiv {
+    width: 90vw;
+  }
+  .submitButton {
+    height: 5vh;
+    width: 50vw;
+  }
+  .flexDiv2 {
+    width: 90vw;
+    margin-bottom: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .note2 {
+    width: 60vw;
+    padding: 1.3vh;
+  }
+  .selectQuestion {
+    width: 90vw;
+  }
 }

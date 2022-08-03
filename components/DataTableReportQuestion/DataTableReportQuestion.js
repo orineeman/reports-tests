@@ -1,4 +1,5 @@
 import { DataGrid } from "@mui/x-data-grid";
+import styles from "./DataTableReportQuestion.module.css";
 
 export default function DataTableReportQuestion({ showReportQuestion }) {
   const columns = [
@@ -36,7 +37,7 @@ export default function DataTableReportQuestion({ showReportQuestion }) {
   });
   return (
     <>
-      <div style={{ height: 400, marginTop: "20px" }}>
+      <div className={styles.questionDataGrid}>
         <DataGrid
           sx={{
             "& .header": {

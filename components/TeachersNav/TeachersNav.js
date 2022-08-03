@@ -90,7 +90,7 @@ export default function TeachersNav() {
           onClick={() => handleClickOpenContactUs(setOpenDrawer)}
         />
         <div
-          className={styles.linksTeacherNav}
+          className={styles.linksTeacherNavContactUs}
           key="Contact us"
           title="Contact us"
         >

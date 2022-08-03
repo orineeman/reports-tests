@@ -4,6 +4,7 @@ import styles from "./Header.module.css";
 import { Button, Grid } from "@mui/material";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import Link from "next/link";
+
 async function userConnection(user) {
   user ? true : false;
 }
