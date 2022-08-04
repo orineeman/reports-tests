@@ -218,7 +218,6 @@ function StudentsFields({
               <TextField
                 value={valueOfStudentsFields[index].fullName}
                 className={styles.textField}
-                sx={{ width: "300px", margin: "10px" }}
                 type="text"
                 label="Student full name"
                 variant="outlined"
@@ -230,7 +229,6 @@ function StudentsFields({
               <TextField
                 value={valueOfStudentsFields[index].email}
                 className={styles.textField}
-                sx={{ width: "300px", margin: "10px" }}
                 type="email"
                 required
                 label="Student email"
