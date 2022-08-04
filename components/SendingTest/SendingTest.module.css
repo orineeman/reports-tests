@@ -34,7 +34,7 @@
 }
 .textField {
   width: 650px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 .submitDiv {
   display: flex;

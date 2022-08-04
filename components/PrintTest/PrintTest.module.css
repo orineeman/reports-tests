@@ -1,5 +1,4 @@
 .printButton {
-  margin: 15px;
   width: 7.5vw;
 }
 @media screen and (max-width: 450px) {

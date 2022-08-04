@@ -1,4 +1,9 @@
-import { BottomNavigationAction, Divider } from "@mui/material";
+import {
+  BottomNavigationAction,
+  Divider,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import styles from "./TeachersNav.module.css";
@@ -17,7 +22,8 @@ function handleClickOpenContactUs(setOpenDrawer) {
 
 export default function TeachersNav() {
   const [openDrawer, setOpenDrawer] = useState(false);
-
+  const theme = useTheme();
+  const showIcon = useMediaQuery(theme.breakpoints.up("sm"));
   const { data: session } = useSession();
   let email = "";
   if (session) {
@@ -27,18 +33,22 @@ export default function TeachersNav() {
     <div className={styles.teacherNav}>
       <Link href="/teachers/sending-test">
         <div className={styles.btnTeacherNav}>
-          <SendIcon className={styles.iconsTeacherNav} />
-          <div
-            className={styles.linksTeacherNav}
-            title="Sending a test to students"
-          >
-            Sending test
+          <div className={styles.iconDiv}>
+            {showIcon && <SendIcon className={styles.iconsTeacherNav} />}
           </div>
+        </div>
+        <div
+          className={styles.linksTeacherNav}
+          title="Sending a test to students"
+        >
+          Sending test
         </div>
       </Link>
       <Link href="/teachers/create-tests">
         <div className={styles.btnTeacherNav}>
-          <CreateIcon className={styles.iconsTeacherNav} />
+          <div className={styles.iconDiv}>
+            {showIcon && <CreateIcon className={styles.iconsTeacherNav} />}
+          </div>
           <div className={styles.linksTeacherNav} title="Create, Edit ,Delete">
             Create tests
           </div>
@@ -46,7 +56,9 @@ export default function TeachersNav() {
       </Link>
       <Link href="/teachers/create-group">
         <div className={styles.btnTeacherNav}>
-          <GroupAddIcon className={styles.iconsTeacherNav} />
+          <div className={styles.iconDiv}>
+            {showIcon && <GroupAddIcon className={styles.iconsTeacherNav} />}
+          </div>
           <div
             className={styles.linksTeacherNav}
             key="classes"
@@ -58,7 +70,9 @@ export default function TeachersNav() {
       </Link>
       <Link href={`/teachers/reports/${email}`}>
         <div className={styles.btnTeacherNav}>
-          <TextSnippetIcon className={styles.iconsTeacherNav} />
+          <div className={styles.iconDiv}>
+            {showIcon && <TextSnippetIcon className={styles.iconsTeacherNav} />}
+          </div>
           <div className={styles.linksTeacherNav} key="Reports" title="Reports">
             Reports
           </div>
@@ -66,7 +80,9 @@ export default function TeachersNav() {
       </Link>
       <Link href="/teachers/uploading-questions">
         <div className={styles.btnTeacherNav}>
-          <ArchiveIcon className={styles.iconsTeacherNav} />
+          <div className={styles.iconDiv}>
+            {showIcon && <ArchiveIcon className={styles.iconsTeacherNav} />}
+          </div>
           <div
             className={styles.linksTeacherNav}
             key="Uploading questions"
@@ -81,7 +97,7 @@ export default function TeachersNav() {
           title="Contact Us"
           icon={
             <ContactMailIcon
-              className={styles.iconsTeacherNav}
+              // className={styles.iconsTeacherNav}
               style={{
                 fontSize: 22,
               }}

@@ -34,7 +34,6 @@
   color: #140b53;
   margin-left: 1vw;
 }
-
 .btnTeacherNav {
   display: flex;
   margin-bottom: 10px;
@@ -85,7 +84,9 @@
     font-size: 0px;
     display: none;
   }
-
+  /* .iconDiv {
+    display: none;
+  } */
   .iconsTeacherNav {
     font-size: 0px;
     display: none;

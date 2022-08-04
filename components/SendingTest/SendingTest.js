@@ -127,6 +127,7 @@ export default function SendingTest() {
           </div>
           <TextField
             className={styles.textField}
+            sx={{ marginTop: "20px" }}
             id="field-question"
             label="Write here a message to the group"
             variant="outlined"
@@ -145,8 +146,8 @@ export default function SendingTest() {
               variant="contained"
               sx={{
                 margin: "15px",
-                width: "7.5vw",
-                background: "rgba(133, 64, 245, 0.97)",
+                // width: "7.5vw",
+                // background: "rgba(133, 64, 245, 0.97)",
               }}
               key="Save"
               type="submit"

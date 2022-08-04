@@ -91,6 +91,8 @@ export default function PrintTest({ testToPrint, displayPrint }) {
                 variant="contained"
                 sx={{
                   background: "rgba(133, 64, 245, 0.97)",
+
+                  margin: "15px",
                 }}
                 key="print"
               >
