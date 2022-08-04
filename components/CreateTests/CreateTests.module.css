@@ -76,11 +76,12 @@
   .submitDiv {
     justify-content: center;
     margin-top: 2vh;
+    margin-bottom: 10vh;
   }
 
   .submitButton {
     height: 5vh;
     width: 40vw;
-    margin-bottom: 10vh;
+    /* margin-bottom: 10vh; */
   }
 }

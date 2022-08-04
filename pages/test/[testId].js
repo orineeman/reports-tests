@@ -184,7 +184,7 @@ function TestQuestions({ testId, setDoneTest }) {
               answered.
             </div>
           )}
-          <div className={styles.subTitle2}>Good luck on the test!</div>
+          <div className={styles.subTitle3}>Good luck on the test!</div>
           <div className={styles.submitDiv}>
             <Button
               className={styles.submitButton}

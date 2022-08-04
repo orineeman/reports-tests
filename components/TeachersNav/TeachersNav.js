@@ -82,33 +82,32 @@ export default function TeachersNav() {
           </div>
         </div>
       </Link>
-      <div className={styles.btnTeacherNav}>
+      <div className={styles.btnTeacherNav1}>
         <BottomNavigationAction
           title="Contact Us"
           icon={
             <ContactMailIcon
-              // className={styles.iconsTeacherNav}
               style={{
+                color: "#323232",
                 fontSize: 22,
               }}
             />
           }
           onClick={() => handleClickOpenContactUs(setOpenDrawer)}
         />
-        <div
+        {/* <div
           className={styles.linksTeacherNavContactUs}
           key="Contact us"
           title="Contact us"
-        >
+          >
           Contact us
-        </div>
+        </div> */}
         <ContactUs
           email={email}
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
         />
       </div>
-
       <Divider className={styles.divider} />
     </div>
   );

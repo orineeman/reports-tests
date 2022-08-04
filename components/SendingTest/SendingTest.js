@@ -145,10 +145,10 @@ export default function SendingTest() {
               className={styles.submitButton}
               variant="contained"
               sx={{
-                borderColor: "rgba(136, 67, 248, 0.97)",
+                background: "rgba(136, 67, 248, 0.97)",
                 margin: "15px",
               }}
-              key="Save"
+              key="save"
               type="submit"
               onClick={() => sendDataToServer(fieldsValue)}
             >

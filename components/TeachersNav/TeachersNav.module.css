@@ -41,6 +41,14 @@
   padding-bottom: 0.5vw;
   width: 96%;
 }
+.btnTeacherNav1 {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding-top: 0.5vw;
+  padding-bottom: 0.5vw;
+  width: 96%;
+}
 .btnTeacherNav:hover {
   margin-bottom: 10px;
   background: rgba(3, 9, 168, 0.12);
