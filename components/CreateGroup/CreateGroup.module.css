@@ -53,6 +53,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* border: 1px solid red; */
 }
 .studentFieldNum {
   font-family: "Roboto";
@@ -111,6 +112,9 @@
   .groupName {
     width: 90vw;
     margin: 0vh auto;
+  }
+  .studentFieldDiv {
+    margin-bottom: 2vh;
   }
   .textField {
     width: 37vw;
