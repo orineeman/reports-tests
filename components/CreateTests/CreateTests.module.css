@@ -60,7 +60,7 @@
     margin-bottom: 1vh;
   }
   .testName {
-    width: 70vw;
+    width: 90vw;
     margin: 0 auto;
   }
   .subTitle {
@@ -74,14 +74,13 @@
     color: #040330;
   }
   .submitDiv {
-    /* border: 1px solid red; */
     justify-content: center;
     margin-top: 2vh;
-    margin-bottom: 5vh;
   }
 
   .submitButton {
     height: 5vh;
     width: 40vw;
+    margin-bottom: 10vh;
   }
 }

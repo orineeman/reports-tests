@@ -145,9 +145,8 @@ export default function SendingTest() {
               className={styles.submitButton}
               variant="contained"
               sx={{
+                borderColor: "rgba(136, 67, 248, 0.97)",
                 margin: "15px",
-                // width: "7.5vw",
-                // background: "rgba(133, 64, 245, 0.97)",
               }}
               key="Save"
               type="submit"
@@ -175,7 +174,6 @@ function SelectTest({ testsArr, setDisplayPrint, setTestToPrint }) {
       <InputLabel id="test-select">Test</InputLabel>
       <Select
         className={styles.selectField}
-        sx={{ width: "300px" }}
         labelId="test_select_label"
         id="test_select"
         value={test}
@@ -207,7 +205,6 @@ function SelectGroup({ groupsArr }) {
       <InputLabel id="group-select">Group</InputLabel>
       <Select
         className={styles.selectField}
-        sx={{ width: "300px" }}
         labelId="group_select_label"
         id="group_select"
         label="group"

@@ -116,7 +116,6 @@ export default function CreateGroup() {
             required
             value={valueOfGroupNameField}
             onChange={handleGroupNameField}
-            autoFocus
           />
 
           <div className={styles.subTitle}>

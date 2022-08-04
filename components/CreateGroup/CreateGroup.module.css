@@ -109,12 +109,16 @@
     margin-bottom: 1vh;
   }
   .groupName {
-    width: 70vw;
+    width: 90vw;
     margin: 0vh auto;
   }
   .textField {
     width: 37vw;
     margin-right: 0vw;
+  }
+  .divider {
+    width: 80vw;
+    margin-top: 2vh;
   }
   .addBtn {
     width: 35vw;

@@ -64,7 +64,6 @@ export default function ContactUs({ email, openDrawer, setOpenDrawer }) {
           </div>
         </div>
         <TextareaAutosize
-          autoFocus
           minRows={3}
           placeholder="Write Here"
           style={{
