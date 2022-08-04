@@ -33,22 +33,18 @@ export default function TeachersNav() {
     <div className={styles.teacherNav}>
       <Link href="/teachers/sending-test">
         <div className={styles.btnTeacherNav}>
-          <div className={styles.iconDiv}>
-            {showIcon && <SendIcon className={styles.iconsTeacherNav} />}
+          {showIcon && <SendIcon className={styles.iconsTeacherNav} />}
+          <div
+            className={styles.linksTeacherNav}
+            title="Sending a test to students"
+          >
+            Sending test
           </div>
-        </div>
-        <div
-          className={styles.linksTeacherNav}
-          title="Sending a test to students"
-        >
-          Sending test
         </div>
       </Link>
       <Link href="/teachers/create-tests">
         <div className={styles.btnTeacherNav}>
-          <div className={styles.iconDiv}>
-            {showIcon && <CreateIcon className={styles.iconsTeacherNav} />}
-          </div>
+          {showIcon && <CreateIcon className={styles.iconsTeacherNav} />}
           <div className={styles.linksTeacherNav} title="Create, Edit ,Delete">
             Create tests
           </div>
@@ -56,9 +52,7 @@ export default function TeachersNav() {
       </Link>
       <Link href="/teachers/create-group">
         <div className={styles.btnTeacherNav}>
-          <div className={styles.iconDiv}>
-            {showIcon && <GroupAddIcon className={styles.iconsTeacherNav} />}
-          </div>
+          {showIcon && <GroupAddIcon className={styles.iconsTeacherNav} />}
           <div
             className={styles.linksTeacherNav}
             key="classes"
@@ -70,9 +64,7 @@ export default function TeachersNav() {
       </Link>
       <Link href={`/teachers/reports/${email}`}>
         <div className={styles.btnTeacherNav}>
-          <div className={styles.iconDiv}>
-            {showIcon && <TextSnippetIcon className={styles.iconsTeacherNav} />}
-          </div>
+          {showIcon && <TextSnippetIcon className={styles.iconsTeacherNav} />}
           <div className={styles.linksTeacherNav} key="Reports" title="Reports">
             Reports
           </div>
@@ -80,9 +72,7 @@ export default function TeachersNav() {
       </Link>
       <Link href="/teachers/uploading-questions">
         <div className={styles.btnTeacherNav}>
-          <div className={styles.iconDiv}>
-            {showIcon && <ArchiveIcon className={styles.iconsTeacherNav} />}
-          </div>
+          {showIcon && <ArchiveIcon className={styles.iconsTeacherNav} />}
           <div
             className={styles.linksTeacherNav}
             key="Uploading questions"
