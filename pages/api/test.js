@@ -24,7 +24,6 @@ async function filterOfIsCorrect(questions) {
     filteredQuestion.answers = filteredAnswers;
     filteredQuestions.push(filteredQuestion);
   }
-  console.log("q", filteredQuestions);
 
   return filteredQuestions;
 }
@@ -54,7 +53,6 @@ const handler = async (req, res) => {
       currentQuestion,
       done,
     };
-    console.log("data", data);
     res.send(data);
   } else if (req.method === "GET") {
     const tests = await Test.find().populate(["questions", "questions.age"]);

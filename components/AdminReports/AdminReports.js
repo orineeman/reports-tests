@@ -14,7 +14,6 @@ export default function AdminReports() {
   const [showLoading, setShowLoading] = useState(true);
 
   const handleClickUpdateQuestionDialog = (questionId) => {
-    console.log("questionId", questionId);
     setOpenUpdateQuestionDialog(true);
     setQuestionIdToUpdate(questionId);
   };

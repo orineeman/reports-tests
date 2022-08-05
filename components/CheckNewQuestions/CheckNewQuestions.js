@@ -31,7 +31,7 @@ const confirmQuestions = (
       body: JSON.stringify(QuestionsIdForUpdate.questions),
     })
       .then((update) => {
-        console.log("the client side give-questions update:", update);
+        console.log(update);
         setShowMessage(true);
         setMessage("The questions moved to the repository successfully");
         getDataFromServer(setShowQuestions);

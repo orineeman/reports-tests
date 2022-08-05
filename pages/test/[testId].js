@@ -32,7 +32,6 @@ async function getTestFromServer(
     setNumOfQuestion(test.length);
     setQuestionNum(currentQuestion);
     setShowLobby(true);
-    console.log("test", test);
   } catch (err) {
     console.log(err);
   }
@@ -45,7 +44,6 @@ async function sendDataToServer(dataToServer, nextQuestion, answerTime) {
   );
   dataToServer.restAnswers = restAnswers;
   dataToServer.time = answerTime;
-  console.log(dataToServer);
 
   try {
     await fetch("/api/student", {

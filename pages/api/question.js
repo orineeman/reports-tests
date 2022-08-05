@@ -48,7 +48,6 @@ const handler = async (req, res) => {
           });
           const createdAnswer = await newAnswer.save();
           answersToDB.push(createdAnswer._id);
-          console.log("answersToDB", answersToDB);
         }
 
         const newQuestion = new Question({

@@ -13,7 +13,6 @@ const handler = async (req, res) => {
       "difficulty",
       "answers",
     ]);
-    console.log("question", question);
     const numberOfResponses = question.answers[0].statistics.numberOfResponses;
     const responsesTime = await Student.find({
       "tests.questions.questionId": questionId,
@@ -40,7 +39,6 @@ const handler = async (req, res) => {
     res.send(resData);
   } else if (req.method === "PATCH") {
     const dataToUpdate = JSON.parse(req.body);
-    console.log("dataToUpdate", dataToUpdate);
     const {
       questionId,
       answerContent,
@@ -65,9 +63,7 @@ const handler = async (req, res) => {
     }
     if (answerContent) {
       const answersId = Object.keys(answerContent);
-      console.log("answersId", answersId);
       for (let answerId of answersId) {
-        console.log("answerContent.answersId");
         await Answer.findByIdAndUpdate(answerId, {
           content: answerContent[answersId],
         });

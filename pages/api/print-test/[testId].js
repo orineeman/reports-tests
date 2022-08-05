@@ -4,7 +4,6 @@ import Test from "../../../models/test";
 const handler = async (req, res) => {
   if (req.method === "GET") {
     const { testId } = req.query;
-    console.log(testId);
 
     const test = await Test.findById(testId)
       .populate("questions")

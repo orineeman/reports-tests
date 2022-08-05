@@ -25,7 +25,6 @@ const submitTest = async (
   setShowLoading
 ) => {
   let testIdAndEmail = {};
-  console.log(QuestionsIdForTest);
   if (QuestionsIdForTest.questions && QuestionsIdForTest.label) {
     setShowLoading(true);
     try {

@@ -45,7 +45,6 @@ export default function CreateGroup() {
 
   const sendGroupToServer = async (fieldsValue, email, teacherName) => {
     const emails = fieldsValue.students.map((student) => student.email);
-    console.log(fieldsValue);
     function hasDuplicateEmail(emails) {
       return emails.some(function (email) {
         return emails.indexOf(email) !== emails.lastIndexOf(email);
