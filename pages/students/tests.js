@@ -7,10 +7,10 @@ import {
   Select,
 } from "@mui/material";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import StudentNav from "../../components/StudentsNav/StudentsNav";
 import styles from "../../styles/Home.module.css";
-import { useRouter } from "next/router";
 
 function getDataFromServer(setTestsArr, email) {
   fetch("/api/student", {
@@ -30,9 +30,9 @@ const fieldsValue = {
 };
 
 export default function TestsOfStudents() {
-  const router = useRouter();
   const [testsArr, setTestsArr] = useState([]);
   const [disabled, setDisabled] = useState(true);
+  const router = useRouter();
   const { data: session } = useSession();
   let email = "";
   if (session?.user?.email) {

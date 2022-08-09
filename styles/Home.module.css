@@ -1,5 +1,4 @@
 .titlesDiv {
-  /* border: 1px solid red; */
   width: 70vw;
   padding-top: 3%;
   padding-left: 3%;
@@ -38,9 +37,20 @@
   text-transform: capitalize;
   color: #040330;
 }
+.subTitle2 {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28.5522px;
+  line-height: 43px;
+  text-transform: capitalize;
+  color: #040330;
+  margin-bottom: 2vh;
+}
 ._subTitle {
   color: #5d46c8;
 }
+
 .lobby {
   font-family: "Roboto";
   font-style: normal;

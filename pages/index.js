@@ -1,6 +1,8 @@
 import { Grid } from "@mui/material";
 import Head from "next/head";
+import Image from "next/image";
 import LeftMainNav from "../components/LeftMainNav/LeftMainNav";
+import img from "../img/students.png";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -21,9 +23,19 @@ export default function Home() {
             Want to hear more?{" "}
             <span className={styles._subTitle}>Enter the About tab</span>
           </div>
-          <div className={styles.subTitle}>
+          <div className={styles.subTitle2}>
             Do you have permission?{" "}
             <span className={styles._subTitle}>start working!</span>
+          </div>
+          <div>
+            <Image
+              src={img}
+              alt="students"
+              layout="responsive"
+              style={{
+                borderRadius: 20,
+              }}
+            />
           </div>
         </div>
       </Grid>

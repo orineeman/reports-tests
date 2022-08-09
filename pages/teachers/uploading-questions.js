@@ -1,6 +1,6 @@
-import UploadingQuestions from "../../components/UploadingQuestions/UploadingQuestions";
-import TeachersNav from "../../components/TeachersNav/TeachersNav";
 import { Grid } from "@mui/material";
+import TeachersNav from "../../components/TeachersNav/TeachersNav";
+import UploadingQuestions from "../../components/UploadingQuestions/UploadingQuestions";
 
 export default function Teachers() {
   return (

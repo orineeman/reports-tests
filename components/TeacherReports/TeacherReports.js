@@ -15,7 +15,11 @@ import messageContext from "../../Context/messageContext";
 
 const valueToSearch = {};
 function dataProcessing(data, setTestsList, setGroupsList) {
-  setGroupsList(data.groups);
+  const groupsHaveTests = [];
+  for (let group of data.groups) {
+    if (group.haveTest) groupsHaveTests.push(group);
+  }
+  setGroupsList(groupsHaveTests);
 }
 
 function getDataFromServer(email, setData, setTestsList, setGroupsList) {
@@ -25,6 +29,7 @@ function getDataFromServer(email, setData, setTestsList, setGroupsList) {
     .then((res) => res.json())
     .then((data) => {
       setData(data);
+      console.log("data", data);
       dataProcessing(data, setTestsList, setGroupsList);
     })
     .catch(() => console.log("error"));
@@ -43,6 +48,7 @@ const search = async (
 ) => {
   if (valueToSearch.test && valueToSearch.group) {
     const { test, group } = valueToSearch;
+    console.log("valueToSearch", valueToSearch);
     const students = [];
     const questions = [];
     for (let student of group.students) {

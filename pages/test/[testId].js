@@ -1,10 +1,10 @@
-import Checkbox from "@mui/material/Checkbox";
-import styles from "./testId.module.css";
 import { Button, CircularProgress, Divider, Grid } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import Checkbox from "@mui/material/Checkbox";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 import messageContext from "../../Context/messageContext";
+import styles from "./testId.module.css";
 
 let answerTime = 0;
 
@@ -16,7 +16,8 @@ async function getTestFromServer(
   setTest,
   email,
   setDoneTest,
-  setShowLobby
+  setShowLobby,
+  setTestLabel
 ) {
   try {
     const json = await fetch("/api/test", {
@@ -24,13 +25,14 @@ async function getTestFromServer(
       headers: { pleaseGetTestId: testId, email },
     });
     const data = await json.json();
-    const test = data.filterdData;
+    const test = data.filterdData.questions;
     const currentQuestion = data.currentQuestion;
     setDoneTest(data.done);
     setTest(test);
     setNextQuestion(test[currentQuestion - 1]);
     setNumOfQuestion(test.length);
     setQuestionNum(currentQuestion);
+    setTestLabel(data.filterdData.label);
     setShowLobby(true);
   } catch (err) {
     console.log(err);
@@ -38,13 +40,13 @@ async function getTestFromServer(
 }
 
 async function sendDataToServer(dataToServer, nextQuestion, answerTime) {
-  dataToServer.questionId = nextQuestion.questionId;
+  dataToServer.questionId = nextQuestion._id;
   const restAnswers = nextQuestion.answers.filter(
-    (answer) => !dataToServer.markedAnswersId.includes(answer.answerId)
+    (answer) => !dataToServer.markedAnswersId.includes(answer._id)
   );
   dataToServer.restAnswers = restAnswers;
   dataToServer.time = answerTime;
-
+  console.log("dataToServer", dataToServer);
   try {
     await fetch("/api/student", {
       method: "PATCH",
@@ -99,6 +101,7 @@ export default function TestLobby() {
 function TestQuestions({ testId, setDoneTest }) {
   let email = "";
   const [showQuestions, setShowQuestions] = useState(false);
+  const [testLabel, setTestLabel] = useState("");
   const [showLobby, setShowLobby] = useState(false);
   const [nextQuestion, setNextQuestion] = useState({});
   const [test, setTest] = useState();
@@ -106,8 +109,8 @@ function TestQuestions({ testId, setDoneTest }) {
   const [questionNum, setQuestionNum] = useState(0);
   const [intervalId, setIntervalId] = useState(0);
   const [checked, setChecked] = useState([]);
-  const { setMessage, setShowMessage } = useContext(messageContext);
   const [showLoading, setShowLoading] = useState(false);
+  const { setMessage, setShowMessage } = useContext(messageContext);
 
   const router = useRouter();
   const dataToServer = {
@@ -135,7 +138,8 @@ function TestQuestions({ testId, setDoneTest }) {
         setTest,
         email,
         setDoneTest,
-        setShowLobby
+        setShowLobby,
+        setTestLabel
       );
     }
   }, [email, setDoneTest, testId]);
@@ -159,10 +163,10 @@ function TestQuestions({ testId, setDoneTest }) {
   }
   const handleChange = (event, answerId) => {
     if (event.target.checked) {
-      dataToServer.markedAnswersId.push(answerId.answerId);
+      dataToServer.markedAnswersId.push(answerId._id);
     } else {
       dataToServer.markedAnswersId = dataToServer.markedAnswersId.filter(
-        (answer) => answer != answerId.answerId
+        (answer) => answer != answerId._id
       );
     }
   };
@@ -171,6 +175,7 @@ function TestQuestions({ testId, setDoneTest }) {
       {!showQuestions && (
         <div className={styles.content}>
           <div className={styles.title}>Instructions</div>
+          <div className={styles.title}>{testLabel}</div>
           {!showLobby && (
             <CircularProgress sx={{ color: "rgba(133, 64, 245, 0.97)" }} />
           )}
@@ -214,7 +219,7 @@ function TestQuestions({ testId, setDoneTest }) {
             <>
               <div className={styles.question}>{nextQuestion?.content} = ?</div>
               {nextQuestion?.answers.map((answer, index) => (
-                <div className={styles.answer} key={answer.answerId}>
+                <div className={styles.answer} key={answer._id}>
                   <Checkbox
                     sx={{
                       "&.Mui-checked": {

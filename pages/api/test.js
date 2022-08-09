@@ -1,40 +1,21 @@
 import connectDB from "../../middleware/mongodb";
-import Test from "../../models/test";
 import Student from "../../models/student";
-import Question from "../../models/question";
+import Test from "../../models/test";
 
-async function filterOfIsCorrect(questions) {
-  const filteredQuestions = [];
-  for (let question of questions) {
-    const filteredQuestion = { questionId: "", content: "", answers: [] };
-    filteredQuestion.content = question.content;
-    filteredQuestion.questionId = question._id;
-
-    const filteredAnswers = [];
-    const q = await Question.findById(filteredQuestion.questionId).populate(
-      "answers"
-    );
-
-    for (let answer of q.answers) {
-      const filteredAnswer = {};
-      filteredAnswer.content = answer.content;
-      filteredAnswer.answerId = answer._id;
-      filteredAnswers.push(filteredAnswer);
-    }
-    filteredQuestion.answers = filteredAnswers;
-    filteredQuestions.push(filteredQuestion);
-  }
-
-  return filteredQuestions;
+async function filterOfIsCorrect2(testId) {
+  const test = await Test.findById(testId)
+    .populate("questions")
+    .populate({
+      path: "questions",
+      select: "content",
+      populate: { path: "answers", select: "content" },
+    });
+  return test;
 }
 
 const handler = async (req, res) => {
   if (req.method === "GET" && req.headers.pleasegettestid) {
     const testId = req.headers.pleasegettestid;
-    const { questions } = await Test.findById(testId).populate([
-      "questions",
-      "questions.answers",
-    ]);
     const student = await Student.findOne({ email: req.headers.email });
     let currentQuestion = 1;
     let done = false;
@@ -49,7 +30,7 @@ const handler = async (req, res) => {
       }
     }
     const data = {
-      filterdData: await filterOfIsCorrect(questions),
+      filterdData: await filterOfIsCorrect2(testId),
       currentQuestion,
       done,
     };

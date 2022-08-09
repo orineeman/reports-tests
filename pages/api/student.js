@@ -78,7 +78,7 @@ const handler = async (req, res) => {
 
       for (let answer of restAnswers) {
         const restAnswerToDB = {
-          answer: answer.answerId,
+          answer: answer._id,
           markAsCorrectAnswer: false,
         };
         answers.push(restAnswerToDB);
@@ -107,7 +107,7 @@ const handler = async (req, res) => {
       }
       // Update the rest of the answers in a database
       for (let answer of restAnswers) {
-        const ans = await Answer.findById(answer.answerId);
+        const ans = await Answer.findById(answer._id);
         if (ans.isCorrect) {
           await Answer.findByIdAndUpdate(ans._id, {
             $inc: {
@@ -150,7 +150,9 @@ async function gradeCalculation(email, testId, numOfQuestions) {
       }
     }
     const percentage = numOfQuestions / numOfCorrectAnswers;
-    const grade = 100 / percentage;
+    const grade = Math.round((100 / percentage) * 10) / 10;
+    console.log("grade", grade);
+
     await Student.findOneAndUpdate(
       { email, "tests.test": testId },
       {
